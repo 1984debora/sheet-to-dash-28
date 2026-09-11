@@ -55,7 +55,7 @@ function contar(campo: keyof Chamado, lista: Chamado[]) {
 }
 
 function parseData(s: string) {
-  const [d, m, y] = s.split("/").map(Number);
+  const [d = 1, m = 1, y = 1970] = s.split("/").map(Number);
   return new Date(y, m - 1, d);
 }
 
