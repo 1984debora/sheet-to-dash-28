@@ -1,0 +1,1523 @@
+[
+{
+"chamado": 48146,
+"abertura": "17/08/2026",
+"tipo": "Instalação/configuração de Celular",
+"solicitante": "São Bernardo do Campo",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "17/08/2026"
+},
+{
+"chamado": 48401,
+"abertura": "20/08/2026",
+"tipo": "Instalação/configuração de Celular",
+"solicitante": "Aricanduva",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "24/08/2026"
+},
+{
+"chamado": 48682,
+"abertura": "25/08/2026",
+"tipo": "Visita Preventiva",
+"solicitante": "Santo Amaro",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48862,
+"abertura": "28/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Contoladoria",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48928,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48929,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48930,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48935,
+"abertura": "31/08/2026",
+"tipo": "Assinatura Eletrônica",
+"solicitante": "Gerencia de Área",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48936,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48974,
+"abertura": "01/09/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Expansão Arquitetura",
+"responsavel": "Gabriel Pereira",
+"andamento": "Enviado",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48144,
+"abertura": "17/08/2026",
+"tipo": "Instalação/configuração de Celular",
+"solicitante": "Centro RJ",
+"responsavel": "Gabriel Pereira",
+"andamento": "Em Analise",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48777,
+"abertura": "27/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "São Bernardo do Campo",
+"responsavel": "Gabriel Pereira",
+"andamento": "Em Analise",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48815,
+"abertura": "28/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Marginal Tietê",
+"responsavel": "Gabriel Pereira",
+"andamento": "Em Analise",
+"atualizacao": "28/08/2026"
+},
+{
+"chamado": 48924,
+"abertura": "31/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Gabriel Pereira",
+"andamento": "Em Analise",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48966,
+"abertura": "01/09/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Auditoria Financeira",
+"responsavel": "Gabriel Pereira",
+"andamento": "Em Analise",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 47700,
+"abertura": "11/08/2026",
+"tipo": "Visita Preventiva",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Fila de Espera",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48049,
+"abertura": "15/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Marketing",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Fila de Espera",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48143,
+"abertura": "17/08/2026",
+"tipo": "Instalação/configuração de Celular",
+"solicitante": "Marginal Tietê",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Fila de Espera",
+"atualizacao": "18/08/2026"
+},
+{
+"chamado": 48368,
+"abertura": "20/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Fila de Espera",
+"atualizacao": "26/08/2026"
+},
+{
+"chamado": 48484,
+"abertura": "21/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Fila de Espera",
+"atualizacao": "26/08/2026"
+},
+{
+"chamado": 48728,
+"abertura": "26/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Teotônio Vilela",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Fila de Espera",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48834,
+"abertura": "28/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Gestão Logística",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Fila de Espera",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48927,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Fila de Espera",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48198,
+"abertura": "18/08/2026",
+"tipo": "Instalação/Manutenção Aplicativos",
+"solicitante": "Franquias",
+"responsavel": "Debora Andrade",
+"andamento": "Em Andamento",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48201,
+"abertura": "18/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Em Andamento",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48256,
+"abertura": "18/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Teotônio Vilela",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Em Andamento",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48428,
+"abertura": "20/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Em Andamento",
+"atualizacao": "26/08/2026"
+},
+{
+"chamado": 48733,
+"abertura": "26/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Marketing",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Em Andamento",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48823,
+"abertura": "28/08/2026",
+"tipo": "Redefinição de Senha/Reconectar Senha",
+"solicitante": "Compliance / Aud. Interna",
+"responsavel": "Debora Andrade",
+"andamento": "Em Andamento",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48921,
+"abertura": "31/08/2026",
+"tipo": "Assinatura Eletrônica",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Debora Andrade",
+"andamento": "Em Andamento",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48931,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Em Andamento",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48932,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Em Andamento",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48933,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Em Andamento",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48934,
+"abertura": "31/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Em Andamento",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48962,
+"abertura": "01/09/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Est. Armações",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Em Andamento",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 47125,
+"abertura": "03/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Franquias",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47130,
+"abertura": "03/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Franquias",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "03/08/2026"
+},
+{
+"chamado": 47131,
+"abertura": "03/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Franquias",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "03/08/2026"
+},
+{
+"chamado": 47132,
+"abertura": "03/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Franquias",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "03/08/2026"
+},
+{
+"chamado": 47133,
+"abertura": "03/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Franquias",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "03/08/2026"
+},
+{
+"chamado": 47149,
+"abertura": "03/08/2026",
+"tipo": "Instalação/Manutenção Aplicativos",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "03/08/2026"
+},
+{
+"chamado": 47151,
+"abertura": "03/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Jurídico",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "05/08/2026"
+},
+{
+"chamado": 47152,
+"abertura": "03/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Franquias",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "03/08/2026"
+},
+{
+"chamado": 47168,
+"abertura": "03/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Centro RJ",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "03/08/2026"
+},
+{
+"chamado": 47179,
+"abertura": "03/08/2026",
+"tipo": "Instalação/Manutenção Aplicativos",
+"solicitante": "Franquias",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "03/08/2026"
+},
+{
+"chamado": 47198,
+"abertura": "03/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Aricanduva",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47211,
+"abertura": "04/08/2026",
+"tipo": "Substituição de Toner/Cartuchos de Tintas",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47216,
+"abertura": "04/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Marketing",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47241,
+"abertura": "04/08/2026",
+"tipo": "Envio de equipamento para o TI",
+"solicitante": "Suporte TI",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47242,
+"abertura": "04/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Suporte TI",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47257,
+"abertura": "04/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47325,
+"abertura": "05/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Fiscal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47341,
+"abertura": "05/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Aricanduva",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47370,
+"abertura": "06/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Contoladoria",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47380,
+"abertura": "06/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47391,
+"abertura": "06/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Fiscal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47394,
+"abertura": "06/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Jurídico",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47409,
+"abertura": "06/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Campinas",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47414,
+"abertura": "06/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Mauá",
+"responsavel": "Josué Nascimento",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47436,
+"abertura": "07/08/2026",
+"tipo": "Instalação/Manutenção Aplicativos",
+"solicitante": "Santo André",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47443,
+"abertura": "07/08/2026",
+"tipo": "Instalação/Manutenção Aplicativos",
+"solicitante": "São Bernardo do Campo",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47444,
+"abertura": "07/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Compliance / Aud. Interna",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47445,
+"abertura": "07/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Compliance / Aud. Interna",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 47455,
+"abertura": "07/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Congonhas",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47515,
+"abertura": "08/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Aricanduva",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47592,
+"abertura": "10/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Marketing",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 47593,
+"abertura": "10/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Marketing",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47594,
+"abertura": "10/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Marketing",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "13/08/2026"
+},
+{
+"chamado": 47601,
+"abertura": "10/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Santo Amaro",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47617,
+"abertura": "10/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Franquias",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47624,
+"abertura": "10/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Franquias",
+"responsavel": "Gleyson Miller",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47632,
+"abertura": "10/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Guarapiranga",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47643,
+"abertura": "10/08/2026",
+"tipo": "Redefinição de Senha/Reconectar Senha",
+"solicitante": "Jurídico",
+"responsavel": "Gleyson Miller",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47650,
+"abertura": "10/08/2026",
+"tipo": "Instalação/Manutenção Aplicativos",
+"solicitante": "Regularização",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47669,
+"abertura": "10/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Campinas",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47678,
+"abertura": "11/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Auditoria Loja",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47686,
+"abertura": "11/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Franquias",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47687,
+"abertura": "11/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Jurídico",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47739,
+"abertura": "11/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Franquias",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 47745,
+"abertura": "11/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Suporte TI",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47750,
+"abertura": "11/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Marketing",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47759,
+"abertura": "11/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Marketing",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47789,
+"abertura": "12/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Sorocaba",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "13/08/2026"
+},
+{
+"chamado": 47793,
+"abertura": "12/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Contoladoria",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "18/08/2026"
+},
+{
+"chamado": 47801,
+"abertura": "12/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Guarapiranga",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47806,
+"abertura": "12/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Canc. Vendas",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47814,
+"abertura": "12/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Suporte TI",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "13/08/2026"
+},
+{
+"chamado": 47815,
+"abertura": "12/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "12/08/2026"
+},
+{
+"chamado": 47817,
+"abertura": "12/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Suporte TI",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "14/08/2026"
+},
+{
+"chamado": 47822,
+"abertura": "12/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Guarapiranga",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "24/08/2026"
+},
+{
+"chamado": 47823,
+"abertura": "12/08/2026",
+"tipo": "Visita Preventiva",
+"solicitante": "ZIGGS - B. Funda",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "18/08/2026"
+},
+{
+"chamado": 47879,
+"abertura": "13/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Contoladoria",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "17/08/2026"
+},
+{
+"chamado": 47880,
+"abertura": "13/08/2026",
+"tipo": "Instalação/Manutenção Aplicativos",
+"solicitante": "Auditoria Financeira",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "13/08/2026"
+},
+{
+"chamado": 47883,
+"abertura": "13/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Jurídico",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 47884,
+"abertura": "13/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Mooca",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "13/08/2026"
+},
+{
+"chamado": 47889,
+"abertura": "13/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Niterói RJ",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 47906,
+"abertura": "13/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Lapa",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "13/08/2026"
+},
+{
+"chamado": 47937,
+"abertura": "13/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Financeiro",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "14/08/2026"
+},
+{
+"chamado": 47991,
+"abertura": "14/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Marketing",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "14/08/2026"
+},
+{
+"chamado": 47997,
+"abertura": "14/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Taboão",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "17/08/2026"
+},
+{
+"chamado": 48015,
+"abertura": "14/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Compras",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "17/08/2026"
+},
+{
+"chamado": 48016,
+"abertura": "14/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Compras",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "17/08/2026"
+},
+{
+"chamado": 48063,
+"abertura": "15/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "ZIGGS - B. Funda",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "17/08/2026"
+},
+{
+"chamado": 48066,
+"abertura": "15/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Santo Amaro",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "17/08/2026"
+},
+{
+"chamado": 48069,
+"abertura": "15/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Mauá",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48087,
+"abertura": "17/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Marketing",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "17/08/2026"
+},
+{
+"chamado": 48101,
+"abertura": "17/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Santo Amaro",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 48111,
+"abertura": "17/08/2026",
+"tipo": "Envio de equipamento para o TI",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48121,
+"abertura": "17/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Santo Amaro",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 48140,
+"abertura": "17/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Auditoria Loja",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 48145,
+"abertura": "17/08/2026",
+"tipo": "Instalação/configuração de Celular",
+"solicitante": "ZIGGS - B. Funda",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 48153,
+"abertura": "17/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "26/08/2026"
+},
+{
+"chamado": 48165,
+"abertura": "17/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Regularização",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "18/08/2026"
+},
+{
+"chamado": 48176,
+"abertura": "17/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Regularização",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "18/08/2026"
+},
+{
+"chamado": 48179,
+"abertura": "17/08/2026",
+"tipo": "Assinatura Eletrônica",
+"solicitante": "Regularização",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "18/08/2026"
+},
+{
+"chamado": 48181,
+"abertura": "17/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Regularização",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 48184,
+"abertura": "17/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Contoladoria",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 48185,
+"abertura": "17/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Contoladoria",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 48204,
+"abertura": "18/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Auditoria Loja",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "26/08/2026"
+},
+{
+"chamado": 48255,
+"abertura": "18/08/2026",
+"tipo": "Substituição de Toner/Cartuchos de Tintas",
+"solicitante": "Contoladoria",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "19/08/2026"
+},
+{
+"chamado": 48276,
+"abertura": "19/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Contoladoria",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "21/08/2026"
+},
+{
+"chamado": 48281,
+"abertura": "19/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Regularização",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48282,
+"abertura": "19/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Auditoria Financeira",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "26/08/2026"
+},
+{
+"chamado": 48289,
+"abertura": "19/08/2026",
+"tipo": "Assinatura Eletrônica",
+"solicitante": "Contoladoria",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "21/08/2026"
+},
+{
+"chamado": 48310,
+"abertura": "19/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Contoladoria",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "21/08/2026"
+},
+{
+"chamado": 48321,
+"abertura": "19/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "21/08/2026"
+},
+{
+"chamado": 48363,
+"abertura": "20/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Contoladoria",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "21/08/2026"
+},
+{
+"chamado": 48366,
+"abertura": "20/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "21/08/2026"
+},
+{
+"chamado": 48367,
+"abertura": "20/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Contoladoria",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "21/08/2026"
+},
+{
+"chamado": 48404,
+"abertura": "20/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Bandeirantes",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "24/08/2026"
+},
+{
+"chamado": 48422,
+"abertura": "20/08/2026",
+"tipo": "Substituição de Toner/Cartuchos de Tintas",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "24/08/2026"
+},
+{
+"chamado": 48426,
+"abertura": "20/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "21/08/2026"
+},
+{
+"chamado": 48454,
+"abertura": "21/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "24/08/2026"
+},
+{
+"chamado": 48463,
+"abertura": "21/08/2026",
+"tipo": "Pedidos de Equipamentos",
+"solicitante": "Freguesia do Ó",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48464,
+"abertura": "21/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Diretoria",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48471,
+"abertura": "21/08/2026",
+"tipo": "Envio de equipamento para o TI",
+"solicitante": "Suporte TI",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48488,
+"abertura": "21/08/2026",
+"tipo": "Instalação/configuração de Celular",
+"solicitante": "Curitiba",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48555,
+"abertura": "24/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48556,
+"abertura": "24/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48557,
+"abertura": "24/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48558,
+"abertura": "24/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48559,
+"abertura": "24/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48560,
+"abertura": "24/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48570,
+"abertura": "24/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48574,
+"abertura": "24/08/2026",
+"tipo": "Redefinição de Senha/Reconectar Senha",
+"solicitante": "Marketing",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48581,
+"abertura": "24/08/2026",
+"tipo": "Assinatura Eletrônica",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48586,
+"abertura": "24/08/2026",
+"tipo": "Instalação/Manutenção em impressoras",
+"solicitante": "Centro RJ",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48602,
+"abertura": "24/08/2026",
+"tipo": "Redefinição de Senha/Reconectar Senha",
+"solicitante": "Auditoria Financeira",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48614,
+"abertura": "24/08/2026",
+"tipo": "Instalação/configuração de Tablet",
+"solicitante": "Santo Amaro",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48641,
+"abertura": "24/08/2026",
+"tipo": "Instalação/Manutenção Aplicativos",
+"solicitante": "Goiânia",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48642,
+"abertura": "25/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48663,
+"abertura": "25/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Goiânia",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48676,
+"abertura": "25/08/2026",
+"tipo": "Assinatura Eletrônica",
+"solicitante": "Auditoria Financeira",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48677,
+"abertura": "25/08/2026",
+"tipo": "Assinatura Eletrônica",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48678,
+"abertura": "25/08/2026",
+"tipo": "Assinatura Eletrônica",
+"solicitante": "Gerencia de Área",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "25/08/2026"
+},
+{
+"chamado": 48688,
+"abertura": "25/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Santo Amaro",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48730,
+"abertura": "26/08/2026",
+"tipo": "Substituição de Toner/Cartuchos de Tintas",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "26/08/2026"
+},
+{
+"chamado": 48732,
+"abertura": "26/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Sorocaba",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48749,
+"abertura": "26/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Curitiba",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "27/08/2026"
+},
+{
+"chamado": 48757,
+"abertura": "27/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Regularização",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "28/08/2026"
+},
+{
+"chamado": 48808,
+"abertura": "28/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Est. Armações",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48809,
+"abertura": "28/08/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48822,
+"abertura": "28/08/2026",
+"tipo": "Configuração de perfil de usuário",
+"solicitante": "Compliance / Aud. Interna",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "31/08/2026"
+},
+{
+"chamado": 48827,
+"abertura": "28/08/2026",
+"tipo": "Instalação/configuração de Celular",
+"solicitante": "Suporte TI",
+"responsavel": "Brenda Ines Melo",
+"andamento": "Finalizado",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48920,
+"abertura": "31/08/2026",
+"tipo": "Criação/Mudança de e-mails",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48923,
+"abertura": "31/08/2026",
+"tipo": "Instalação/Manutenção em computadores",
+"solicitante": "Dep. Pessoal",
+"responsavel": "Debora Andrade",
+"andamento": "Finalizado",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48965,
+"abertura": "01/09/2026",
+"tipo": "Atualização de Aplicativo/programa",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Finalizado",
+"atualizacao": "01/09/2026"
+},
+{
+"chamado": 48072,
+"abertura": "15/08/2026",
+"tipo": "Manutenção",
+"solicitante": "Santo André",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Negado",
+"atualizacao": "18/08/2026"
+},
+{
+"chamado": 48563,
+"abertura": "24/08/2026",
+"tipo": "Instalação/Manutenção Internet",
+"solicitante": "Contoladoria",
+"responsavel": "Equipe TI Operacional",
+"andamento": "Negado",
+"atualizacao": "26/08/2026"
+}
+]
