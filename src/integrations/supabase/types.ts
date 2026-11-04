@@ -14,7 +14,252 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      equipamentos: {
+        Row: {
+          created_at: string
+          data_compra: string | null
+          garantia_ate: string | null
+          id: string
+          localizacao_id: string | null
+          marca: string | null
+          modelo: string | null
+          numero_serie: string | null
+          observacoes: string | null
+          patrimonio: string
+          status: string
+          tipo: string
+          updated_at: string
+          usuario_responsavel: string | null
+        }
+        Insert: {
+          created_at?: string
+          data_compra?: string | null
+          garantia_ate?: string | null
+          id?: string
+          localizacao_id?: string | null
+          marca?: string | null
+          modelo?: string | null
+          numero_serie?: string | null
+          observacoes?: string | null
+          patrimonio: string
+          status?: string
+          tipo: string
+          updated_at?: string
+          usuario_responsavel?: string | null
+        }
+        Update: {
+          created_at?: string
+          data_compra?: string | null
+          garantia_ate?: string | null
+          id?: string
+          localizacao_id?: string | null
+          marca?: string | null
+          modelo?: string | null
+          numero_serie?: string | null
+          observacoes?: string | null
+          patrimonio?: string
+          status?: string
+          tipo?: string
+          updated_at?: string
+          usuario_responsavel?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "equipamentos_localizacao_id_fkey"
+            columns: ["localizacao_id"]
+            isOneToOne: false
+            referencedRelation: "localizacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      historico_usuarios: {
+        Row: {
+          equipamento_id: string
+          fim: string | null
+          id: string
+          inicio: string
+          usuario: string
+        }
+        Insert: {
+          equipamento_id: string
+          fim?: string | null
+          id?: string
+          inicio?: string
+          usuario: string
+        }
+        Update: {
+          equipamento_id?: string
+          fim?: string | null
+          id?: string
+          inicio?: string
+          usuario?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "historico_usuarios_equipamento_id_fkey"
+            columns: ["equipamento_id"]
+            isOneToOne: false
+            referencedRelation: "equipamentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      localizacoes: {
+        Row: {
+          created_at: string
+          id: string
+          nome: string
+          setor_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nome: string
+          setor_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nome?: string
+          setor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "localizacoes_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      manutencoes: {
+        Row: {
+          created_at: string
+          custo: number | null
+          data: string
+          descricao: string
+          equipamento_id: string
+          id: string
+          registrado_por: string | null
+          status: string
+          tecnico: string | null
+          tipo: string
+        }
+        Insert: {
+          created_at?: string
+          custo?: number | null
+          data?: string
+          descricao: string
+          equipamento_id: string
+          id?: string
+          registrado_por?: string | null
+          status?: string
+          tecnico?: string | null
+          tipo?: string
+        }
+        Update: {
+          created_at?: string
+          custo?: number | null
+          data?: string
+          descricao?: string
+          equipamento_id?: string
+          id?: string
+          registrado_por?: string | null
+          status?: string
+          tecnico?: string | null
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "manutencoes_equipamento_id_fkey"
+            columns: ["equipamento_id"]
+            isOneToOne: false
+            referencedRelation: "equipamentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      movimentacoes: {
+        Row: {
+          created_at: string
+          data: string
+          destino_localizacao_id: string | null
+          equipamento_id: string
+          id: string
+          motivo: string | null
+          origem_localizacao_id: string | null
+          registrado_por: string | null
+          usuario_anterior: string | null
+          usuario_novo: string | null
+        }
+        Insert: {
+          created_at?: string
+          data?: string
+          destino_localizacao_id?: string | null
+          equipamento_id: string
+          id?: string
+          motivo?: string | null
+          origem_localizacao_id?: string | null
+          registrado_por?: string | null
+          usuario_anterior?: string | null
+          usuario_novo?: string | null
+        }
+        Update: {
+          created_at?: string
+          data?: string
+          destino_localizacao_id?: string | null
+          equipamento_id?: string
+          id?: string
+          motivo?: string | null
+          origem_localizacao_id?: string | null
+          registrado_por?: string | null
+          usuario_anterior?: string | null
+          usuario_novo?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "movimentacoes_destino_localizacao_id_fkey"
+            columns: ["destino_localizacao_id"]
+            isOneToOne: false
+            referencedRelation: "localizacoes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimentacoes_equipamento_id_fkey"
+            columns: ["equipamento_id"]
+            isOneToOne: false
+            referencedRelation: "equipamentos"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "movimentacoes_origem_localizacao_id_fkey"
+            columns: ["origem_localizacao_id"]
+            isOneToOne: false
+            referencedRelation: "localizacoes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      setores: {
+        Row: {
+          created_at: string
+          id: string
+          nome: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          nome: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          nome?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
