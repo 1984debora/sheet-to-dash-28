@@ -8,3 +8,7 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture
+- Data access uses the browser Supabase client with RLS (authenticated team = full access) via shared queryOptions in src/lib/inventario.ts; keeps one source for query keys.
+- User usage history (historico_usuarios) is maintained by DB triggers on equipamentos.usuario_responsavel; never write it from the app.
