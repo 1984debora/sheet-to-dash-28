@@ -28,7 +28,7 @@ export const Route = createFileRoute("/_authenticated/equipamentos/$id")({
       context.queryClient.ensureQueryData(localizacoesQuery),
     ]),
   component: Detalhe,
-  errorComponent: ({ error }) => <div className="p-6 text-sm">Erro: {error.message}</div>,
+  errorComponent: ({ error }) => <div className="p-6 text-sm">Erro: {(error as Error).message}</div>,
   notFoundComponent: () => <div className="p-6 text-sm">Equipamento não encontrado.</div>,
 });
 
@@ -46,7 +46,7 @@ function Detalhe() {
   async function excluir() {
     if (!confirm(`Excluir o equipamento ${equip.patrimonio} e todo o seu histórico?`)) return;
     const { error } = await supabase.from("equipamentos").delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries();
     navigate({ to: "/equipamentos" });
   }
@@ -151,7 +151,7 @@ function ManutTabela({ mans }: { mans: Man[] }) {
   const qc = useQueryClient();
   async function mudar(id: string, status: string) {
     const { error } = await supabase.from("manutencoes").update({ status }).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries();
   }
   if (mans.length === 0) return <Vazio texto="Nenhuma manutenção registrada." />;
@@ -214,12 +214,12 @@ function MovimentacaoDialog({
       data,
       motivo: motivo.trim().slice(0, 500) || null,
     });
-    if (r1.error) return toast.error(r1.error.message);
+    if (r1.error) { toast.error(r1.error.message); return; }
     const r2 = await supabase
       .from("equipamentos")
       .update({ localizacao_id: destino || null, usuario_responsavel: novoUsuario })
       .eq("id", equip.id);
-    if (r2.error) return toast.error(r2.error.message);
+    if (r2.error) { toast.error(r2.error.message); return; }
     toast.success("Movimentação registrada");
     qc.invalidateQueries();
     onClose();
@@ -257,9 +257,9 @@ function ManutencaoDialog({ equipId, onClose }: { equipId: string; onClose: () =
 
   async function salvar(e: React.FormEvent) {
     e.preventDefault();
-    if (!f.descricao.trim()) return toast.error("Descreva a manutenção");
+    if (!f.descricao.trim()) { toast.error("Descreva a manutenção"); return; }
     const custo = f.custo ? Number(f.custo.replace(",", ".")) : null;
-    if (custo != null && (Number.isNaN(custo) || custo < 0)) return toast.error("Custo inválido");
+    if (custo != null && (Number.isNaN(custo) || custo < 0)) { toast.error("Custo inválido"); return; }
     const { error } = await supabase.from("manutencoes").insert({
       equipamento_id: equipId,
       data: f.data,
@@ -269,7 +269,7 @@ function ManutencaoDialog({ equipId, onClose }: { equipId: string; onClose: () =
       custo,
       status: f.status,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     if (marcar && f.status !== "Concluída") {
       await supabase.from("equipamentos").update({ status: "Em manutenção" }).eq("id", equipId);
     }

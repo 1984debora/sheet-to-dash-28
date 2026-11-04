@@ -32,7 +32,7 @@ function Pagina() {
     const nome = novoSetor.trim().slice(0, 80);
     if (!nome) return;
     const { error } = await supabase.from("setores").insert({ nome });
-    if (error) return toast.error(error.message.includes("duplicate") ? "Setor já existe" : error.message);
+    if (error) { toast.error(error.message.includes("duplicate") ? "Setor já existe" : error.message); return; }
     setNovoSetor("");
     qc.invalidateQueries();
   }
@@ -41,7 +41,7 @@ function Pagina() {
     const nome = (novoLocal[setorId] ?? "").trim().slice(0, 80);
     if (!nome) return;
     const { error } = await supabase.from("localizacoes").insert({ setor_id: setorId, nome });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setNovoLocal((p) => ({ ...p, [setorId]: "" }));
     qc.invalidateQueries();
   }
@@ -49,7 +49,7 @@ function Pagina() {
   async function remover(tabela: "setores" | "localizacoes", id: string, nome: string) {
     if (!confirm(`Remover "${nome}"? Equipamentos nele ficarão sem local.`)) return;
     const { error } = await supabase.from(tabela).delete().eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     qc.invalidateQueries();
   }
 

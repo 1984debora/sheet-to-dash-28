@@ -42,7 +42,7 @@ export function EquipamentoForm({
 
   async function salvar(e: React.FormEvent) {
     e.preventDefault();
-    if (!f.patrimonio.trim() || !f.tipo.trim()) return toast.error("Informe patrimônio e tipo");
+    if (!f.patrimonio.trim() || !f.tipo.trim()) { toast.error("Informe patrimônio e tipo"); return; }
     setSalvando(true);
     const payload = {
       ...f,
@@ -61,7 +61,7 @@ export function EquipamentoForm({
       ? await supabase.from("equipamentos").update(payload).eq("id", equip.id)
       : await supabase.from("equipamentos").insert(payload);
     setSalvando(false);
-    if (error) return toast.error(error.message.includes("duplicate") ? "Patrimônio já cadastrado" : error.message);
+    if (error) { toast.error(error.message.includes("duplicate") ? "Patrimônio já cadastrado" : error.message); return; }
     toast.success(equip ? "Equipamento atualizado" : "Equipamento cadastrado");
     qc.invalidateQueries();
     onClose();
