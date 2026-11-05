@@ -15,9 +15,9 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedManutencoesRouteImport } from './routes/_authenticated/manutencoes'
 import { Route as AuthenticatedMovimentacoesRouteImport } from './routes/_authenticated/movimentacoes'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
-import { Route as AuthenticatedSetoresRouteImport } from './routes/_authenticated/setores'
 import { Route as AuthenticatedEquipamentosIndexRouteImport } from './routes/_authenticated/equipamentos.index'
 import { Route as AuthenticatedEquipamentosIdRouteImport } from './routes/_authenticated/equipamentos.$id'
+import { Route as AuthenticatedSetoresIndexRouteImport } from './routes/_authenticated/setores.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -50,11 +50,6 @@ const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
-const AuthenticatedSetoresRoute = AuthenticatedSetoresRouteImport.update({
-  id: '/setores',
-  path: '/setores',
-  getParentRoute: () => AuthenticatedRouteRoute,
-} as any)
 const AuthenticatedEquipamentosIndexRoute =
   AuthenticatedEquipamentosIndexRouteImport.update({
     id: '/equipamentos/',
@@ -67,6 +62,12 @@ const AuthenticatedEquipamentosIdRoute =
     path: '/equipamentos/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedSetoresIndexRoute =
+  AuthenticatedSetoresIndexRouteImport.update({
+    id: '/setores/',
+    path: '/setores/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -74,9 +75,9 @@ export interface FileRoutesByFullPath {
   '/manutencoes': typeof AuthenticatedManutencoesRoute
   '/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/painel': typeof AuthenticatedPainelRoute
-  '/setores': typeof AuthenticatedSetoresRoute
   '/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/equipamentos/': typeof AuthenticatedEquipamentosIndexRoute
+  '/setores/': typeof AuthenticatedSetoresIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -84,9 +85,9 @@ export interface FileRoutesByTo {
   '/manutencoes': typeof AuthenticatedManutencoesRoute
   '/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/painel': typeof AuthenticatedPainelRoute
-  '/setores': typeof AuthenticatedSetoresRoute
   '/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/equipamentos': typeof AuthenticatedEquipamentosIndexRoute
+  '/setores': typeof AuthenticatedSetoresIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -96,9 +97,9 @@ export interface FileRoutesById {
   '/_authenticated/manutencoes': typeof AuthenticatedManutencoesRoute
   '/_authenticated/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
-  '/_authenticated/setores': typeof AuthenticatedSetoresRoute
   '/_authenticated/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/_authenticated/equipamentos/': typeof AuthenticatedEquipamentosIndexRoute
+  '/_authenticated/setores/': typeof AuthenticatedSetoresIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -108,9 +109,9 @@ export interface FileRouteTypes {
     | '/manutencoes'
     | '/movimentacoes'
     | '/painel'
-    | '/setores'
     | '/equipamentos/$id'
     | '/equipamentos/'
+    | '/setores/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -118,9 +119,9 @@ export interface FileRouteTypes {
     | '/manutencoes'
     | '/movimentacoes'
     | '/painel'
-    | '/setores'
     | '/equipamentos/$id'
     | '/equipamentos'
+    | '/setores'
   id:
     | '__root__'
     | '/'
@@ -129,9 +130,9 @@ export interface FileRouteTypes {
     | '/_authenticated/manutencoes'
     | '/_authenticated/movimentacoes'
     | '/_authenticated/painel'
-    | '/_authenticated/setores'
     | '/_authenticated/equipamentos/$id'
     | '/_authenticated/equipamentos/'
+    | '/_authenticated/setores/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -184,13 +185,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/setores': {
-      id: '/_authenticated/setores'
-      path: '/setores'
-      fullPath: '/setores'
-      preLoaderRoute: typeof AuthenticatedSetoresRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/equipamentos/': {
       id: '/_authenticated/equipamentos/'
       path: '/equipamentos'
@@ -205,6 +199,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedEquipamentosIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/setores/': {
+      id: '/_authenticated/setores/'
+      path: '/setores'
+      fullPath: '/setores/'
+      preLoaderRoute: typeof AuthenticatedSetoresIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -212,18 +213,18 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedManutencoesRoute: typeof AuthenticatedManutencoesRoute
   AuthenticatedMovimentacoesRoute: typeof AuthenticatedMovimentacoesRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
-  AuthenticatedSetoresRoute: typeof AuthenticatedSetoresRoute
   AuthenticatedEquipamentosIdRoute: typeof AuthenticatedEquipamentosIdRoute
   AuthenticatedEquipamentosIndexRoute: typeof AuthenticatedEquipamentosIndexRoute
+  AuthenticatedSetoresIndexRoute: typeof AuthenticatedSetoresIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedManutencoesRoute: AuthenticatedManutencoesRoute,
   AuthenticatedMovimentacoesRoute: AuthenticatedMovimentacoesRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
-  AuthenticatedSetoresRoute: AuthenticatedSetoresRoute,
   AuthenticatedEquipamentosIdRoute: AuthenticatedEquipamentosIdRoute,
   AuthenticatedEquipamentosIndexRoute: AuthenticatedEquipamentosIndexRoute,
+  AuthenticatedSetoresIndexRoute: AuthenticatedSetoresIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

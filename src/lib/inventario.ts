@@ -26,6 +26,19 @@ export const setoresQuery = queryOptions({
   queryFn: async () => ok(await supabase.from("setores").select("id, nome").order("nome")),
 });
 
+export const setorQuery = (id: string) =>
+  queryOptions({
+    queryKey: ["setor", id],
+    queryFn: async () => {
+      const [s, us, apps] = await Promise.all([
+        supabase.from("setores").select("*").eq("id", id).single(),
+        supabase.from("setor_usuarios").select("*").eq("setor_id", id).order("nome"),
+        supabase.from("setor_aplicativos").select("*").eq("setor_id", id).order("nome"),
+      ]);
+      return { setor: ok(s), usuarios: ok(us), apps: ok(apps) };
+    },
+  });
+
 export const equipamentosQuery = queryOptions({
   queryKey: ["equipamentos"],
   queryFn: async () =>
