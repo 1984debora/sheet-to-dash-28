@@ -67,7 +67,7 @@ function Pagina() {
 
   async function salvarSetor(campos: { usa_scanner?: boolean; observacoes?: string | null }) {
     const { error } = await supabase.from("setores").update(campos).eq("id", id);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     atualizar();
   }
 
@@ -76,11 +76,11 @@ function Pagina() {
   async function addUsuario(e: React.FormEvent) {
     e.preventDefault();
     const r = usuarioSchema.safeParse(u);
-    if (!r.success) return toast.error(r.error.issues[0].message);
+    if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Dados inválidos"); return; }
     const { error } = await supabase.from("setor_usuarios").insert({
       setor_id: id, nome: r.data.nome, email: r.data.email || null, celular: r.data.celular || null,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setU({ nome: "", email: "", celular: "" });
     atualizar();
   }
@@ -89,7 +89,7 @@ function Pagina() {
   const [a, setA] = useState({ nome: "", versao: "", fornecedor: "", ultima_atualizacao: "" });
   async function addApp(e: React.FormEvent) {
     e.preventDefault();
-    if (!a.nome.trim()) return toast.error("Informe o nome do aplicativo");
+    if (!a.nome.trim()) { toast.error("Informe o nome do aplicativo"); return; }
     const { error } = await supabase.from("setor_aplicativos").insert({
       setor_id: id,
       nome: a.nome.trim().slice(0, 100),
@@ -97,21 +97,21 @@ function Pagina() {
       fornecedor: a.fornecedor.trim().slice(0, 100) || null,
       ultima_atualizacao: a.ultima_atualizacao || null,
     });
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     setA({ nome: "", versao: "", fornecedor: "", ultima_atualizacao: "" });
     atualizar();
   }
   async function marcarAtualizado(appId: string) {
     const hoje = new Date().toISOString().slice(0, 10);
     const { error } = await supabase.from("setor_aplicativos").update({ ultima_atualizacao: hoje }).eq("id", appId);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     atualizar();
   }
 
   async function remover(tabela: "setor_usuarios" | "setor_aplicativos", rid: string) {
     if (!confirm("Remover este registro?")) return;
     const { error } = await supabase.from(tabela).delete().eq("id", rid);
-    if (error) return toast.error(error.message);
+    if (error) { toast.error(error.message); return; }
     atualizar();
   }
 
