@@ -18,8 +18,10 @@ export type Database = {
         Row: {
           armazenamento_capacidade: string | null
           armazenamento_tipo: string | null
+          conexao: string | null
           created_at: string
           data_compra: string | null
+          endereco_ip: string | null
           garantia_ate: string | null
           id: string
           localizacao_id: string | null
@@ -31,6 +33,7 @@ export type Database = {
           processador: string | null
           ram_capacidade: string | null
           ram_tipo: string | null
+          segunda_tela: boolean
           sistema_operacional: string | null
           status: string
           tipo: string
@@ -40,8 +43,10 @@ export type Database = {
         Insert: {
           armazenamento_capacidade?: string | null
           armazenamento_tipo?: string | null
+          conexao?: string | null
           created_at?: string
           data_compra?: string | null
+          endereco_ip?: string | null
           garantia_ate?: string | null
           id?: string
           localizacao_id?: string | null
@@ -53,6 +58,7 @@ export type Database = {
           processador?: string | null
           ram_capacidade?: string | null
           ram_tipo?: string | null
+          segunda_tela?: boolean
           sistema_operacional?: string | null
           status?: string
           tipo: string
@@ -62,8 +68,10 @@ export type Database = {
         Update: {
           armazenamento_capacidade?: string | null
           armazenamento_tipo?: string | null
+          conexao?: string | null
           created_at?: string
           data_compra?: string | null
+          endereco_ip?: string | null
           garantia_ate?: string | null
           id?: string
           localizacao_id?: string | null
@@ -75,6 +83,7 @@ export type Database = {
           processador?: string | null
           ram_capacidade?: string | null
           ram_tipo?: string | null
+          segunda_tela?: boolean
           sistema_operacional?: string | null
           status?: string
           tipo?: string
@@ -260,21 +269,103 @@ export type Database = {
           },
         ]
       }
+      setor_aplicativos: {
+        Row: {
+          created_at: string
+          fornecedor: string | null
+          id: string
+          nome: string
+          observacoes: string | null
+          setor_id: string
+          ultima_atualizacao: string | null
+          versao: string | null
+        }
+        Insert: {
+          created_at?: string
+          fornecedor?: string | null
+          id?: string
+          nome: string
+          observacoes?: string | null
+          setor_id: string
+          ultima_atualizacao?: string | null
+          versao?: string | null
+        }
+        Update: {
+          created_at?: string
+          fornecedor?: string | null
+          id?: string
+          nome?: string
+          observacoes?: string | null
+          setor_id?: string
+          ultima_atualizacao?: string | null
+          versao?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "setor_aplicativos_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      setor_usuarios: {
+        Row: {
+          celular: string | null
+          created_at: string
+          email: string | null
+          id: string
+          nome: string
+          setor_id: string
+        }
+        Insert: {
+          celular?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          nome: string
+          setor_id: string
+        }
+        Update: {
+          celular?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          nome?: string
+          setor_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "setor_usuarios_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       setores: {
         Row: {
           created_at: string
           id: string
           nome: string
+          observacoes: string | null
+          usa_scanner: boolean
         }
         Insert: {
           created_at?: string
           id?: string
           nome: string
+          observacoes?: string | null
+          usa_scanner?: boolean
         }
         Update: {
           created_at?: string
           id?: string
           nome?: string
+          observacoes?: string | null
+          usa_scanner?: boolean
         }
         Relationships: []
       }

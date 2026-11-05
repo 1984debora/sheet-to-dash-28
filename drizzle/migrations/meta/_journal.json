@@ -15,6 +15,13 @@
       "when": 1793878671250,
       "tag": "0001_hardware_specs",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793879278660,
+      "tag": "0002_setor_detalhes",
+      "breakpoints": true
     }
   ]
 }
