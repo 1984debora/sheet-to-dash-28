@@ -16,6 +16,8 @@ export type Database = {
     Tables: {
       equipamentos: {
         Row: {
+          armazenamento_capacidade: string | null
+          armazenamento_tipo: string | null
           created_at: string
           data_compra: string | null
           garantia_ate: string | null
@@ -26,12 +28,18 @@ export type Database = {
           numero_serie: string | null
           observacoes: string | null
           patrimonio: string
+          processador: string | null
+          ram_capacidade: string | null
+          ram_tipo: string | null
+          sistema_operacional: string | null
           status: string
           tipo: string
           updated_at: string
           usuario_responsavel: string | null
         }
         Insert: {
+          armazenamento_capacidade?: string | null
+          armazenamento_tipo?: string | null
           created_at?: string
           data_compra?: string | null
           garantia_ate?: string | null
@@ -42,12 +50,18 @@ export type Database = {
           numero_serie?: string | null
           observacoes?: string | null
           patrimonio: string
+          processador?: string | null
+          ram_capacidade?: string | null
+          ram_tipo?: string | null
+          sistema_operacional?: string | null
           status?: string
           tipo: string
           updated_at?: string
           usuario_responsavel?: string | null
         }
         Update: {
+          armazenamento_capacidade?: string | null
+          armazenamento_tipo?: string | null
           created_at?: string
           data_compra?: string | null
           garantia_ate?: string | null
@@ -58,6 +72,10 @@ export type Database = {
           numero_serie?: string | null
           observacoes?: string | null
           patrimonio?: string
+          processador?: string | null
+          ram_capacidade?: string | null
+          ram_tipo?: string | null
+          sistema_operacional?: string | null
           status?: string
           tipo?: string
           updated_at?: string

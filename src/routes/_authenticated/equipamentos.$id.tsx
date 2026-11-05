@@ -59,6 +59,14 @@ function Detalhe() {
     ["Setor · Local", rotuloLocal(equip.localizacoes)],
     ["Data de compra", fmtData(equip.data_compra)],
     ["Garantia até", `${fmtData(equip.garantia_ate)}${g === "vencida" ? " (vencida)" : g === "vencendo" ? " (vence em breve)" : ""}`],
+    ...((equip.processador || equip.ram_capacidade || equip.armazenamento_capacidade || equip.sistema_operacional)
+      ? ([
+          ["Processador", equip.processador ?? "—"],
+          ["Memória RAM", [equip.ram_capacidade, equip.ram_tipo].filter(Boolean).join(" ") || "—"],
+          ["Armazenamento", [equip.armazenamento_capacidade, equip.armazenamento_tipo].filter(Boolean).join(" ") || "—"],
+          ["Sistema operacional", equip.sistema_operacional ?? "—"],
+        ] as [string, string][])
+      : []),
   ];
 
   return (
