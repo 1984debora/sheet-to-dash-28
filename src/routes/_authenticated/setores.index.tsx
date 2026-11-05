@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Cartao, Titulo } from "@/components/inventario";
 import { equipamentosQuery, localizacoesQuery, setoresQuery } from "@/lib/inventario";
 
-export const Route = createFileRoute("/_authenticated/setores")({
+export const Route = createFileRoute("/_authenticated/setores/")({
   head: () => ({ meta: [{ title: "Setores e locais | Inventário de TI" }] }),
   loader: ({ context }) =>
     Promise.all([
@@ -73,7 +73,9 @@ function Pagina() {
           return (
             <Cartao key={s.id} className="p-4">
               <div className="flex items-center justify-between">
-                <h2 className="text-[14px] font-bold">{s.nome}</h2>
+                <Link to="/setores/$id" params={{ id: s.id }} className="text-[14px] font-bold hover:text-brand">
+                  {s.nome} <span className="font-mono text-[11px] font-normal text-muted-ink">· {ls.reduce((n, l) => n + qtd(l.id), 0)} equip. · ver detalhes →</span>
+                </Link>
                 <button onClick={() => remover("setores", s.id, s.nome)} className="text-[11px] text-muted-ink hover:text-crit">
                   remover
                 </button>
