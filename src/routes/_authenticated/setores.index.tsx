@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Cartao, Titulo } from "@/components/inventario";
 import { equipamentosQuery, localizacoesQuery, setoresQuery } from "@/lib/inventario";
 
-export const Route = createFileRoute("/_authenticated/setores")({
+export const Route = createFileRoute("/_authenticated/setores/")({
   head: () => ({ meta: [{ title: "Setores e locais | Inventário de TI" }] }),
   loader: ({ context }) =>
     Promise.all([
