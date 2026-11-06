@@ -100,6 +100,47 @@ export type Database = {
           },
         ]
       }
+      estoque_movimentos: {
+        Row: {
+          created_at: string
+          equipamento_id: string
+          id: string
+          registrado_por: string | null
+          status_anterior: string | null
+          status_novo: string | null
+          tipo: string
+          usuario: string | null
+        }
+        Insert: {
+          created_at?: string
+          equipamento_id: string
+          id?: string
+          registrado_por?: string | null
+          status_anterior?: string | null
+          status_novo?: string | null
+          tipo: string
+          usuario?: string | null
+        }
+        Update: {
+          created_at?: string
+          equipamento_id?: string
+          id?: string
+          registrado_por?: string | null
+          status_anterior?: string | null
+          status_novo?: string | null
+          tipo?: string
+          usuario?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "estoque_movimentos_equipamento_id_fkey"
+            columns: ["equipamento_id"]
+            isOneToOne: false
+            referencedRelation: "equipamentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       historico_usuarios: {
         Row: {
           equipamento_id: string
