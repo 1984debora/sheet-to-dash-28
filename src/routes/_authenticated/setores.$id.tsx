@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Cartao, Campo, Titulo, Vazio, Pill } from "@/components/inventario";
 import { equipamentosQuery, fmtData, setorQuery } from "@/lib/inventario";
+import { useServerFn } from "@tanstack/react-start";
+import { analisarRiscosSetor } from "@/lib/riscos.functions";
+import { gerarRelatorioSetor } from "@/lib/relatorio-setor";
 
 export const Route = createFileRoute("/_authenticated/setores/$id")({
   head: () => ({ meta: [{ title: "Detalhes do setor | Inventário de TI" }] }),
@@ -116,6 +119,20 @@ function Pagina() {
   }
 
   const [obs, setObs] = useState(setor.observacoes ?? "");
+  const analisarFn = useServerFn(analisarRiscosSetor);
+  const [analise, setAnalise] = useState("");
+  const [analisando, setAnalisando] = useState(false);
+  async function analisar() {
+    setAnalisando(true);
+    try {
+      const r = await analisarFn({ data: { setorId: id } });
+      setAnalise(r.texto);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : "Erro na análise");
+    } finally {
+      setAnalisando(false);
+    }
+  }
   const th = "px-2 py-1.5 text-left font-mono text-[10px] uppercase text-muted-ink";
   const td = "px-2 py-1.5";
   const x = (fn: () => void) => (
@@ -126,6 +143,16 @@ function Pagina() {
     <>
       <Link to="/setores" className="font-mono text-[11px] text-muted-ink hover:text-ink">← setores</Link>
       <Titulo titulo={setor.nome} sub={`${equips.length} equipamentos · ${usuarios.length} usuários · ${apps.length} aplicativos`} />
+      <div className="mb-4 flex flex-wrap gap-2">
+        <Button variant="outline" onClick={() => gerarRelatorioSetor(setor.nome, equips, usuarios, apps).catch((e) => toast.error(String(e)))}>Baixar relatório PDF</Button>
+        <Button onClick={analisar} disabled={analisando}>{analisando ? "Analisando…" : "Analisar riscos com IA"}</Button>
+      </div>
+      {analise && (
+        <Cartao className="mb-4 p-4">
+          <h2 className="mb-2 text-[14px] font-bold">Riscos e recomendações (IA)</h2>
+          <div className="whitespace-pre-wrap text-[12.5px] leading-relaxed">{analise}</div>
+        </Cartao>
+      )}
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Secao titulo="Equipamentos do setor">

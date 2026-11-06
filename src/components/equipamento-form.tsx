@@ -53,13 +53,18 @@ export function EquipamentoForm({
     armazenamento_tipo: equip?.armazenamento_tipo ?? "",
     armazenamento_capacidade: equip?.armazenamento_capacidade ?? "",
     sistema_operacional: equip?.sistema_operacional ?? "",
+    conexao: equip?.conexao ?? "",
+    endereco_ip: equip?.endereco_ip ?? "",
   });
+  const [segundaTela, setSegundaTela] = useState(equip?.segunda_tela ?? false);
   const [salvando, setSalvando] = useState(false);
   const [novoLocal, setNovoLocal] = useState(false);
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) =>
     setF((p) => ({ ...p, [k]: e.target.value }));
 
   const hw = ehComputador(f.tipo);
+  const imp = /impressora|multifuncional/i.test(f.tipo);
+  const note = /notebook/i.test(f.tipo);
   const n = (v: string) => v.trim() || null;
 
   async function salvar(e: React.FormEvent) {
@@ -84,6 +89,9 @@ export function EquipamentoForm({
       armazenamento_tipo: hw ? n(f.armazenamento_tipo) : null,
       armazenamento_capacidade: hw ? n(f.armazenamento_capacidade) : null,
       sistema_operacional: hw ? n(f.sistema_operacional) : null,
+      conexao: imp ? n(f.conexao) : null,
+      endereco_ip: imp ? n(f.endereco_ip) : null,
+      segunda_tela: note ? segundaTela : false,
     };
     const { error } = equip
       ? await supabase.from("equipamentos").update(payload).eq("id", equip.id)
@@ -161,6 +169,26 @@ export function EquipamentoForm({
                 </Campo>
               </div>
             </fieldset>
+          )}
+
+          {imp && (
+            <fieldset className="grid gap-3 rounded-md border border-border p-3 sm:col-span-2 sm:grid-cols-2">
+              <legend className="px-1 font-mono text-[11px] uppercase tracking-wide text-muted-ink">Rede da impressora</legend>
+              <Campo label="Conexão">
+                <select className={selectCls} value={f.conexao} onChange={set("conexao")}>
+                  <option value="">—</option>
+                  {["Cabo de rede", "Wi-Fi", "USB"].map((c) => <option key={c}>{c}</option>)}
+                </select>
+              </Campo>
+              <Campo label="Endereço IP"><Input value={f.endereco_ip} onChange={set("endereco_ip")} maxLength={45} placeholder="ex: 192.168.1.150" /></Campo>
+            </fieldset>
+          )}
+
+          {note && (
+            <label className="flex items-center gap-2 text-[12.5px] sm:col-span-2">
+              <input type="checkbox" checked={segundaTela} onChange={(e) => setSegundaTela(e.target.checked)} />
+              Usa segunda tela
+            </label>
           )}
 
           <div className="sm:col-span-2">
