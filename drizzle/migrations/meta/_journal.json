@@ -22,6 +22,13 @@
       "when": 1793879278660,
       "tag": "0002_setor_detalhes",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793978325372,
+      "tag": "0003_estoque_movimentos",
+      "breakpoints": true
     }
   ]
 }
