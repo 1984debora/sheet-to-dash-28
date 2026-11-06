@@ -3,7 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const STATUS_EQUIP = ["Em uso", "Em estoque", "Em manutenção", "Descartado"] as const;
 export const STATUS_MANUT = ["Aberta", "Em andamento", "Concluída"] as const;
-export const TIPOS_MANUT = ["Corretiva", "Preventiva", "Upgrade"] as const;
+export const TIPOS_MANUT = ["Corretiva interna", "Corretiva externa", "Preventiva", "Upgrade"] as const;
 
 function ok<T>(r: { data: T | null; error: { message: string } | null }): T {
   if (r.error) throw new Error(r.error.message);

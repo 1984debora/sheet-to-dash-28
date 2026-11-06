@@ -259,7 +259,7 @@ function MovimentacaoDialog({
 
 function ManutencaoDialog({ equipId, onClose }: { equipId: string; onClose: () => void }) {
   const qc = useQueryClient();
-  const [f, setF] = useState({ data: hoje(), tipo: "Corretiva", descricao: "", tecnico: "", custo: "", status: "Aberta" });
+  const [f, setF] = useState({ data: hoje(), tipo: "Corretiva interna", descricao: "", tecnico: "", custo: "", status: "Aberta" });
   const [marcar, setMarcar] = useState(true);
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) => setF((p) => ({ ...p, [k]: e.target.value }));
 
