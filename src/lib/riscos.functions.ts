@@ -32,7 +32,7 @@ export const analisarRiscosSetor = createServerFn({ method: "POST" })
       manutencoes_recentes: manut.data ?? [],
     };
 
-    const key = process.env.LOVABLE_API_KEY;
+    const key = process.env["LOVABLE_API_KEY"];
     if (!key) throw new Error("Chave de IA não configurada");
 
     const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
