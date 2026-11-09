@@ -136,6 +136,45 @@ function Pagina() {
     atualizar();
   }
 
+  const estoqueDisp = todos.filter((e) => e.status === "Em estoque");
+  const [troca, setTroca] = useState<{ id: string; novo: string } | null>(null);
+
+  async function retirar(e: (typeof equips)[number]) {
+    if (!confirm(`Retirar ${e.patrimonio} do setor e devolver ao estoque?`)) return;
+    const { error } = await supabase.from("equipamentos")
+      .update({ status: "Em estoque", usuario_responsavel: null }).eq("id", e.id);
+    if (error) { toast.error(error.message); return; }
+    await supabase.from("movimentacoes").insert({
+      equipamento_id: e.id, origem_localizacao_id: e.localizacao_id, usuario_anterior: e.usuario_responsavel,
+      motivo: "Retirado do setor — devolvido ao estoque",
+    });
+    toast.success("Equipamento devolvido ao estoque");
+    qc.invalidateQueries();
+  }
+
+  async function substituir() {
+    if (!troca?.novo) { toast.error("Escolha o equipamento do estoque"); return; }
+    const antigo = equips.find((e) => e.id === troca.id);
+    if (!antigo) return;
+    const novo = todos.find((e) => e.id === troca.novo);
+    const r1 = await supabase.from("equipamentos")
+      .update({ status: "Em estoque", usuario_responsavel: null }).eq("id", antigo.id);
+    if (r1.error) { toast.error(r1.error.message); return; }
+    const r2 = await supabase.from("equipamentos").update({
+      status: "Em uso", usuario_responsavel: antigo.usuario_responsavel, localizacao_id: antigo.localizacao_id,
+    }).eq("id", troca.novo);
+    if (r2.error) { toast.error(r2.error.message); return; }
+    await supabase.from("movimentacoes").insert([
+      { equipamento_id: antigo.id, origem_localizacao_id: antigo.localizacao_id, usuario_anterior: antigo.usuario_responsavel,
+        motivo: `Substituído por ${novo?.patrimonio ?? ""} — devolvido ao estoque` },
+      { equipamento_id: troca.novo, origem_localizacao_id: novo?.localizacao_id ?? null, destino_localizacao_id: antigo.localizacao_id,
+        usuario_novo: antigo.usuario_responsavel, motivo: `Substitui ${antigo.patrimonio}` },
+    ]);
+    toast.success("Substituição registrada e estoque atualizado");
+    setTroca(null);
+    qc.invalidateQueries();
+  }
+
   const [obs, setObs] = useState(setor.observacoes ?? "");
   const analisarFn = useServerFn(analisarRiscosSetor);
   const [analise, setAnalise] = useState("");
@@ -173,6 +212,42 @@ function Pagina() {
           <div className="whitespace-pre-wrap text-[12.5px] leading-relaxed">{analise}</div>
         </Cartao>
       )}
+
+      <Cartao className="mb-4 p-4">
+        <h2 className="mb-2 text-[14px] font-bold">Lista de equipamentos do setor</h2>
+        {equips.length === 0 ? <Vazio texto="Nenhum equipamento neste setor." /> : (
+          <table className="w-full text-[12.5px]">
+            <thead><tr><th className={th}>Patrimônio</th><th className={th}>Tipo</th><th className={th}>Usuário</th><th className={th}>Status</th><th /></tr></thead>
+            <tbody className="divide-y divide-line">
+              {equips.map((e) => (
+                <tr key={e.id}>
+                  <td className={td}><Link to="/equipamentos/$id" params={{ id: e.id }} className="font-mono hover:text-brand">{e.patrimonio}</Link></td>
+                  <td className={td}>{e.tipo} {[e.marca, e.modelo].filter(Boolean).join(" ")}</td>
+                  <td className={td}>{e.usuario_responsavel ?? "—"}</td>
+                  <td className={td}><Pill texto={e.status} /></td>
+                  <td className={td}>
+                    {e.status === "Em estoque" ? null : troca?.id === e.id ? (
+                      <div className="flex flex-wrap gap-2">
+                        <select className="h-8 rounded-md border border-input bg-transparent px-2 text-[12px]" value={troca.novo} onChange={(ev) => setTroca({ ...troca, novo: ev.target.value })}>
+                          <option value="">Escolha do estoque…</option>
+                          {estoqueDisp.map((s) => <option key={s.id} value={s.id}>{s.patrimonio} · {s.tipo} {s.modelo ?? ""}</option>)}
+                        </select>
+                        <Button size="sm" onClick={substituir}>Confirmar</Button>
+                        <Button size="sm" variant="ghost" onClick={() => setTroca(null)}>Cancelar</Button>
+                      </div>
+                    ) : (
+                      <div className="flex justify-end gap-2">
+                        <Button size="sm" variant="outline" onClick={() => setTroca({ id: e.id, novo: "" })}>Substituir</Button>
+                        <Button size="sm" variant="outline" onClick={() => retirar(e)}>Retirar p/ estoque</Button>
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </Cartao>
 
       <div className="grid gap-4 lg:grid-cols-2">
         <Secao titulo="Equipamentos do setor">
