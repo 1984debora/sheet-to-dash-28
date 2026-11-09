@@ -33,7 +33,7 @@ export function EquipamentoForm({
   aberto: boolean;
   onClose: () => void;
   equip?: Equip;
-  localPadrao?: string;
+  localPadrao?: string | undefined;
 }) {
   const qc = useQueryClient();
   const { data: locais = [] } = useQuery(localizacoesQuery);
