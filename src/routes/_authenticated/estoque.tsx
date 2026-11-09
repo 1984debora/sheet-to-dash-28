@@ -143,7 +143,7 @@ function Pagina() {
               {movs.map((m) => (
                 <tr key={m.id}>
                   <td className={`${td} font-mono`}>{new Date(m.created_at).toLocaleString("pt-BR")}</td>
-                  <td className={td}><span className={m.tipo === "Entrada" ? "font-semibold text-ok" : "font-semibold text-warn"}>{m.tipo}</span></td>
+                  <td className={td}><span className={m.tipo === "Entrada" ? "font-semibold text-ok" : m.tipo === "Saída" ? "font-semibold text-warn" : "font-semibold text-brand"}>{m.tipo}</span></td>
                   <td className={td}>{m.equipamentos ? <Link to="/equipamentos/$id" params={{ id: m.equipamentos.id }} className="font-mono hover:text-brand">{m.equipamentos.patrimonio}</Link> : "—"} {m.equipamentos?.tipo}</td>
                   <td className={td}>{m.usuario ?? "—"}</td>
                   <td className={td}>{m.status_anterior ? <><Pill texto={m.status_anterior} /> → </> : null}{m.status_novo && <Pill texto={m.status_novo} />}</td>
