@@ -8,7 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Cartao, Campo, Titulo, Vazio, Pill } from "@/components/inventario";
-import { equipamentosQuery, fmtData, setorQuery } from "@/lib/inventario";
+import { equipamentosQuery, fmtData, localizacoesQuery, setorQuery } from "@/lib/inventario";
+import { useQuery } from "@tanstack/react-query";
+import { EquipamentoForm } from "@/components/equipamento-form";
 import { useServerFn } from "@tanstack/react-start";
 import { analisarRiscosSetor } from "@/lib/riscos.functions";
 import { gerarRelatorioSetor } from "@/lib/relatorio-setor";
@@ -118,6 +120,22 @@ function Pagina() {
     atualizar();
   }
 
+  const { data: locais = [] } = useQuery(localizacoesQuery);
+  const localSetor = locais.find((l) => l.setor_id === id)?.id;
+  const [novoEquip, setNovoEquip] = useState(false);
+  const [edit, setEdit] = useState<{ id: string; nome: string; email: string; celular: string } | null>(null);
+  async function salvarUsuario() {
+    if (!edit) return;
+    const r = usuarioSchema.safeParse(edit);
+    if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Dados inválidos"); return; }
+    const { error } = await supabase.from("setor_usuarios").update({
+      nome: r.data.nome, email: r.data.email || null, celular: r.data.celular || null,
+    }).eq("id", edit.id);
+    if (error) { toast.error(error.message); return; }
+    setEdit(null);
+    atualizar();
+  }
+
   const [obs, setObs] = useState(setor.observacoes ?? "");
   const analisarFn = useServerFn(analisarRiscosSetor);
   const [analise, setAnalise] = useState("");
@@ -145,8 +163,10 @@ function Pagina() {
       <Titulo titulo={setor.nome} sub={`${equips.length} equipamentos · ${usuarios.length} usuários · ${apps.length} aplicativos`} />
       <div className="mb-4 flex flex-wrap gap-2">
         <Button variant="outline" onClick={() => gerarRelatorioSetor(setor.nome, equips, usuarios, apps).catch((e) => toast.error(String(e)))}>Baixar relatório PDF</Button>
+        <Button variant="outline" onClick={() => setNovoEquip(true)}>+ Equipamento neste setor</Button>
         <Button onClick={analisar} disabled={analisando}>{analisando ? "Analisando…" : "Analisar riscos com IA"}</Button>
       </div>
+      {novoEquip && <EquipamentoForm aberto localPadrao={localSetor} onClose={() => setNovoEquip(false)} />}
       {analise && (
         <Cartao className="mb-4 p-4">
           <h2 className="mb-2 text-[14px] font-bold">Riscos e recomendações (IA)</h2>
@@ -209,7 +229,21 @@ function Pagina() {
               <thead><tr><th className={th}>Nome</th><th className={th}>E-mail</th><th className={th}>Celular</th><th /></tr></thead>
               <tbody className="divide-y divide-line">
                 {usuarios.map((x2) => (
-                  <tr key={x2.id}><td className={td}>{x2.nome}</td><td className={td}>{x2.email ?? "—"}</td><td className={td}>{x2.celular ?? "—"}</td><td className={td}>{x(() => remover("setor_usuarios", x2.id))}</td></tr>
+                  edit?.id === x2.id ? (
+                    <tr key={x2.id}>
+                      <td className={td}><Input value={edit.nome} onChange={(e) => setEdit({ ...edit, nome: e.target.value })} maxLength={100} /></td>
+                      <td className={td}><Input value={edit.email} onChange={(e) => setEdit({ ...edit, email: e.target.value })} maxLength={255} /></td>
+                      <td className={td}><Input value={edit.celular} onChange={(e) => setEdit({ ...edit, celular: e.target.value })} maxLength={30} /></td>
+                      <td className={`${td} whitespace-nowrap`}>
+                        <button onClick={salvarUsuario} className="text-[11px] text-brand hover:underline">salvar</button>{" "}
+                        <button onClick={() => setEdit(null)} className="text-[11px] text-muted-ink">cancelar</button>
+                      </td>
+                    </tr>
+                  ) : (
+                  <tr key={x2.id}><td className={td}>{x2.nome}</td><td className={td}>{x2.email ?? "—"}</td><td className={td}>{x2.celular ?? "—"}</td><td className={`${td} whitespace-nowrap`}>
+                    <button onClick={() => setEdit({ id: x2.id, nome: x2.nome, email: x2.email ?? "", celular: x2.celular ?? "" })} className="mr-2 text-[11px] text-brand hover:underline">editar</button>
+                    {x(() => remover("setor_usuarios", x2.id))}</td></tr>
+                  )
                 ))}
               </tbody>
             </table>

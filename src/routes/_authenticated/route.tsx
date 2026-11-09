@@ -15,6 +15,7 @@ export const Route = createFileRoute("/_authenticated")({
 const NAV = [
   { to: "/painel", label: "Painel" },
   { to: "/equipamentos", label: "Equipamentos" },
+  { to: "/estoque", label: "Estoque" },
   { to: "/movimentacoes", label: "Movimentações" },
   { to: "/manutencoes", label: "Manutenções" },
   { to: "/setores", label: "Setores e locais" },

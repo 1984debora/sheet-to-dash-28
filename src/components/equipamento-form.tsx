@@ -28,10 +28,12 @@ export function EquipamentoForm({
   aberto,
   onClose,
   equip,
+  localPadrao,
 }: {
   aberto: boolean;
   onClose: () => void;
   equip?: Equip;
+  localPadrao?: string | undefined;
 }) {
   const qc = useQueryClient();
   const { data: locais = [] } = useQuery(localizacoesQuery);
@@ -45,7 +47,7 @@ export function EquipamentoForm({
     data_compra: equip?.data_compra ?? "",
     garantia_ate: equip?.garantia_ate ?? "",
     status: equip?.status ?? "Em uso",
-    localizacao_id: equip?.localizacao_id ?? "",
+    localizacao_id: equip?.localizacao_id ?? localPadrao ?? "",
     observacoes: equip?.observacoes ?? "",
     processador: equip?.processador ?? "",
     ram_capacidade: equip?.ram_capacidade ?? "",
