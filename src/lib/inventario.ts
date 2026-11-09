@@ -128,3 +128,15 @@ export function statusGarantia(garantiaAte: string | null, hoje = new Date()) {
   const dias = (fim.getTime() - hoje.getTime()) / 86400000;
   return dias <= 30 ? "vencendo" : "vigente";
 }
+
+export const estoqueMovimentosQuery = queryOptions({
+  queryKey: ["estoque_movimentos"],
+  queryFn: async () =>
+    ok(
+      await supabase
+        .from("estoque_movimentos")
+        .select("*, equipamentos(id, patrimonio, tipo, marca, modelo)")
+        .order("created_at", { ascending: false })
+        .limit(200),
+    ),
+});
