@@ -310,6 +310,53 @@ export type Database = {
           },
         ]
       }
+      setor_acessos: {
+        Row: {
+          anydesk: string | null
+          criado_por: string
+          email: string | null
+          gerente_adm: string | null
+          hostname: string
+          id: string
+          segredos_cifrados: string
+          setor_id: string
+          ultima_alteracao: string
+          usuario: string | null
+        }
+        Insert: {
+          anydesk?: string | null
+          criado_por?: string
+          email?: string | null
+          gerente_adm?: string | null
+          hostname: string
+          id?: string
+          segredos_cifrados: string
+          setor_id: string
+          ultima_alteracao?: string
+          usuario?: string | null
+        }
+        Update: {
+          anydesk?: string | null
+          criado_por?: string
+          email?: string | null
+          gerente_adm?: string | null
+          hostname?: string
+          id?: string
+          segredos_cifrados?: string
+          setor_id?: string
+          ultima_alteracao?: string
+          usuario?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "setor_acessos_setor_id_fkey"
+            columns: ["setor_id"]
+            isOneToOne: false
+            referencedRelation: "setores"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       setor_aplicativos: {
         Row: {
           created_at: string
