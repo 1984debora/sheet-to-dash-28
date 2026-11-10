@@ -10,6 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Campo, Cartao, Pill, Vazio, selectCls } from "@/components/inventario";
 import { EquipamentoForm } from "@/components/equipamento-form";
+import { TermoDialog } from "@/components/termo-dialog";
 import {
   equipamentoQuery,
   fmtData,
@@ -39,6 +40,7 @@ function Detalhe() {
   const [editar, setEditar] = useState(false);
   const [mover, setMover] = useState(false);
   const [manut, setManut] = useState(false);
+  const [termo, setTermo] = useState(false);
   const qc = useQueryClient();
   const navigate = useNavigate();
   const g = statusGarantia(equip.garantia_ate);
@@ -79,6 +81,7 @@ function Detalhe() {
           <Button onClick={() => setMover(true)}>Registrar movimentação</Button>
           <Button variant="outline" onClick={() => setManut(true)}>Registrar manutenção</Button>
           <Button variant="outline" onClick={() => setEditar(true)}>Editar</Button>
+          <Button variant="outline" onClick={() => setTermo(true)}>Termo de responsabilidade</Button>
           <Button variant="ghost" onClick={excluir}>Excluir</Button>
         </div>
       </div>
@@ -127,6 +130,7 @@ function Detalhe() {
       </Tabs>
 
       {editar && <EquipamentoForm aberto equip={equip} onClose={() => setEditar(false)} />}
+      {termo && <TermoDialog equip={equip} setor={equip.localizacoes?.setores?.nome ?? ""} onClose={() => setTermo(false)} />}
       {mover && <MovimentacaoDialog equip={equip} onClose={() => setMover(false)} />}
       {manut && <ManutencaoDialog equipId={equip.id} onClose={() => setManut(false)} />}
     </>

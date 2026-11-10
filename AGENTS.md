@@ -12,3 +12,6 @@
 ## Architecture
 - Data access uses the browser Supabase client with RLS (authenticated team = full access) via shared queryOptions in src/lib/inventario.ts; keeps one source for query keys.
 - User usage history (historico_usuarios) is maintained by DB triggers on equipamentos.usuario_responsavel; never write it from the app.
+- Sector access credentials use owner-scoped RLS and authenticated server functions with AES-GCM encryption under a server-only key; never include credentials in reports, AI input, or list queries.
+- The TI sector embeds the same stock view as the global stock page; status remains the single source for availability and stock creation defaults to stock status.
+- Responsibility terms are generated client-side as downloadable PDFs with editable issuer and recipient details, not electronic signatures or persisted agreements.

@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Cartao, Campo, Pill, Titulo, Vazio, selectCls } from "@/components/inventario";
 import { EquipamentoForm } from "@/components/equipamento-form";
+import { TermoDialog } from "@/components/termo-dialog";
+import { disponivelNoEstoque } from "@/lib/estoque-regras";
 import { equipamentosQuery, estoqueMovimentosQuery, localizacoesQuery, rotuloLocal } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/estoque")({
@@ -20,12 +22,14 @@ export const Route = createFileRoute("/_authenticated/estoque")({
   component: Pagina,
 });
 
-function Pagina() {
+function Pagina() { return <EstoqueConteudo />; }
+
+export function EstoqueConteudo({ localPadrao }: { localPadrao?: string }) {
   const { data: equips } = useSuspenseQuery(equipamentosQuery);
   const { data: movs } = useSuspenseQuery(estoqueMovimentosQuery);
   const { data: locais } = useSuspenseQuery(localizacoesQuery);
   const qc = useQueryClient();
-  const estoque = equips.filter((e) => e.status === "Em estoque");
+  const estoque = equips.filter(disponivelNoEstoque);
   const fora = equips.filter((e) => e.status !== "Em estoque" && e.status !== "Descartado");
   const porTipo = Object.entries(
     estoque.reduce<Record<string, number>>((a, e) => ((a[e.tipo] = (a[e.tipo] ?? 0) + 1), a), {}),
@@ -34,6 +38,7 @@ function Pagina() {
   const [novo, setNovo] = useState(false);
   const [saida, setSaida] = useState<{ id: string; usuario: string; local: string } | null>(null);
   const [entradaId, setEntradaId] = useState("");
+  const [termo, setTermo] = useState<{ equip: (typeof equips)[number]; setor: string } | null>(null);
 
   async function confirmarSaida() {
     if (!saida) return;
@@ -44,6 +49,9 @@ function Pagina() {
       ...(saida.local ? { localizacao_id: saida.local } : {}),
     }).eq("id", saida.id);
     if (error) { toast.error(error.message); return; }
+    const entregue = equips.find(e => e.id === saida.id);
+    const destino = locais.find(l => l.id === saida.local);
+    if (entregue) setTermo({ equip: { ...entregue, usuario_responsavel: saida.usuario.trim() }, setor: destino?.setores?.nome ?? entregue.localizacoes?.setores?.nome ?? "" });
     toast.success("Saída registrada");
     setSaida(null);
     qc.invalidateQueries();
@@ -69,7 +77,8 @@ function Pagina() {
         sub={`${estoque.length} equipamentos disponíveis para entrega`}
         acao={<Button onClick={() => setNovo(true)}>+ Cadastrar no estoque</Button>}
       />
-      {novo && <EquipamentoForm aberto onClose={() => setNovo(false)} />}
+      {novo && <EquipamentoForm aberto statusPadrao="Em estoque" localPadrao={localPadrao} onClose={() => setNovo(false)} />}
+      {termo && <TermoDialog equip={termo.equip} setor={termo.setor} onClose={() => setTermo(null)} />}
 
       <div className="mb-4 grid gap-4 lg:grid-cols-[1fr_2fr]">
         <Cartao className="p-4">
