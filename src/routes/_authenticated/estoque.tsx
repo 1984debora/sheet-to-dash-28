@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_authenticated/estoque")({
 
 function Pagina() { return <EstoqueConteudo />; }
 
-export function EstoqueConteudo({ localPadrao }: { localPadrao?: string }) {
+export function EstoqueConteudo({ localPadrao }: { localPadrao?: string | undefined }) {
   const { data: equips } = useSuspenseQuery(equipamentosQuery);
   const { data: movs } = useSuspenseQuery(estoqueMovimentosQuery);
   const { data: locais } = useSuspenseQuery(localizacoesQuery);

@@ -18,6 +18,7 @@ export function SetorAcessos({ setorId }: { setorId: string }) {
   const [form, setForm] = useState<(typeof empty & { id?: string }) | null>(null);
   const [busy, setBusy] = useState(false);
   const [secrets, setSecrets] = useState<{ senha: string; senha_anydesk: string; senha_email: string } | null>(null);
+  const [visible, setVisible] = useState(false);
   return <section className="mb-5 border-y border-line py-5">
     <div className="mb-3 flex flex-wrap items-center justify-between gap-2"><h2 className="text-sm font-bold">Acessos do setor / loja</h2><Button variant="outline" onClick={() => setForm({ ...empty })}><Plus className="size-4" />Novo acesso</Button></div>
     <p className="mb-3 text-xs text-muted-ink">Senhas protegidas. Cada responsável acessa somente os cadastros que criou; não entram no PDF nem na análise de IA.</p>
@@ -32,6 +33,6 @@ export function SetorAcessos({ setorId }: { setorId: string }) {
         <div className="flex justify-end gap-2 sm:col-span-2"><Button type="button" variant="outline" onClick={() => setForm(null)}>Cancelar</Button><Button disabled={busy} type="submit">Salvar acesso</Button></div>
       </form>
     </DialogContent></Dialog>}
-    {secrets && <Dialog open onOpenChange={o => !o && setSecrets(null)}><DialogContent><DialogHeader><DialogTitle>Senhas do acesso</DialogTitle></DialogHeader>{([["senha", "Senha do usuário"], ["senha_anydesk", "Senha AnyDesk"], ["senha_email", "Senha do e-mail"]] as const).map(([key, label]) => <Campo key={key} label={label}><Input type="password" readOnly value={secrets[key]} /></Campo>)}<Button variant="outline" onClick={() => setSecrets(null)}>Fechar</Button></DialogContent></Dialog>}
+    {secrets && <Dialog open onOpenChange={o => { if (!o) { setSecrets(null); setVisible(false); } }}><DialogContent><DialogHeader><DialogTitle>Senhas do acesso</DialogTitle></DialogHeader>{([["senha", "Senha do usuário"], ["senha_anydesk", "Senha AnyDesk"], ["senha_email", "Senha do e-mail"]] as const).map(([key, label]) => <Campo key={key} label={label}><Input type={visible ? "text" : "password"} readOnly value={secrets[key]} /></Campo>)}<div className="flex justify-end gap-2"><Button variant="outline" onClick={() => setVisible(!visible)}>{visible ? "Ocultar" : "Mostrar senhas"}</Button><Button variant="outline" onClick={() => { setSecrets(null); setVisible(false); }}>Fechar</Button></div></DialogContent></Dialog>}
   </section>;
 }
