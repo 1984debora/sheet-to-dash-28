@@ -22,7 +22,7 @@ import {
 } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/equipamentos/$id")({
-  head: () => ({ meta: [{ title: "Equipamento | Inventário de TI" }] }),
+  head: () => ({ meta: [{ title: "Equipamento | Inventário de TI" }, { name: "description", content: "Ficha, histórico e termo de responsabilidade do equipamento." }, { property: "og:title", content: "Equipamento | Inventário de TI" }, { property: "og:description", content: "Ficha, histórico e termo de responsabilidade do equipamento." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context, params }) =>
     Promise.all([
       context.queryClient.ensureQueryData(equipamentoQuery(params.id)),

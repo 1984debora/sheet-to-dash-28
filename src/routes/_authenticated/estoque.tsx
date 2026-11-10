@@ -12,7 +12,7 @@ import { disponivelNoEstoque } from "@/lib/estoque-regras";
 import { equipamentosQuery, estoqueMovimentosQuery, localizacoesQuery, rotuloLocal } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/estoque")({
-  head: () => ({ meta: [{ title: "Estoque de TI | Inventário de TI" }] }),
+  head: () => ({ meta: [{ title: "Estoque de TI | Inventário de TI" }, { name: "description", content: "Equipamentos disponíveis, entradas, saídas e termos de entrega." }, { property: "og:title", content: "Estoque de TI | Inventário de TI" }, { property: "og:description", content: "Equipamentos disponíveis, entradas, saídas e termos de entrega." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context }) =>
     Promise.all([
       context.queryClient.ensureQueryData(equipamentosQuery),

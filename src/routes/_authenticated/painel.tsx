@@ -12,7 +12,7 @@ import {
 } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/painel")({
-  head: () => ({ meta: [{ title: "Painel | Inventário de TI" }] }),
+  head: () => ({ meta: [{ title: "Painel | Inventário de TI" }, { name: "description", content: "Visão geral dos equipamentos, garantias e manutenções da TI." }, { property: "og:title", content: "Painel | Inventário de TI" }, { property: "og:description", content: "Visão geral dos equipamentos, garantias e manutenções da TI." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context }) =>
     Promise.all([
       context.queryClient.ensureQueryData(equipamentosQuery),

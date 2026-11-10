@@ -21,7 +21,7 @@ import { EstoqueConteudo } from "./estoque";
 import { setorEhTI } from "@/lib/estoque-regras";
 
 export const Route = createFileRoute("/_authenticated/setores/$id")({
-  head: () => ({ meta: [{ title: "Detalhes do setor | Inventário de TI" }] }),
+  head: () => ({ meta: [{ title: "Detalhes do setor | Inventário de TI" }, { name: "description", content: "Equipamentos, usuários, aplicativos e acessos protegidos do setor." }, { property: "og:title", content: "Detalhes do setor | Inventário de TI" }, { property: "og:description", content: "Equipamentos, usuários, aplicativos e acessos protegidos do setor." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context, params }) =>
     Promise.all([
       context.queryClient.ensureQueryData(setorQuery(params.id)),

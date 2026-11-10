@@ -5,7 +5,7 @@ import { Cartao, Pill, Titulo, Vazio, selectCls } from "@/components/inventario"
 import { fmtData, manutencoesQuery, STATUS_MANUT } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/manutencoes")({
-  head: () => ({ meta: [{ title: "Manutenções | Inventário de TI" }] }),
+  head: () => ({ meta: [{ title: "Manutenções | Inventário de TI" }, { name: "description", content: "Acompanhamento de manutenções e custos dos equipamentos." }, { property: "og:title", content: "Manutenções | Inventário de TI" }, { property: "og:description", content: "Acompanhamento de manutenções e custos dos equipamentos." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(manutencoesQuery),
   component: Pagina,
 });
