@@ -3,6 +3,12 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const STATUS_EQUIP = ["Em uso", "Em estoque", "Em manutenção", "Descartado"] as const;
 export const STATUS_MANUT = ["Aberta", "Em andamento", "Concluída"] as const;
+export const acessosQuery = (setorId: string) => queryOptions({
+  queryKey: ["setor_acessos", setorId],
+  queryFn: async () => ok(await supabase.from("setor_acessos")
+    .select("id, hostname, usuario, gerente_adm, anydesk, email, ultima_alteracao")
+    .eq("setor_id", setorId).order("hostname")),
+});
 export const TIPOS_MANUT = ["Corretiva interna", "Corretiva externa", "Preventiva", "Upgrade"] as const;
 
 function ok<T>(r: { data: T | null; error: { message: string } | null }): T {

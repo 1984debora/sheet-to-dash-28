@@ -1,4 +1,8 @@
 # Roadmap
+- [x] Subgrupo Estoque dentro de TI
+- [x] Termo de responsabilidade em PDF na entrega e no equipamento
+- [x] Cadastro de acessos das lojas com senhas protegidas
+- [ ] Conferir entrega e cadastro de acessos com sessão ativa — aguarda login na prévia
 - [x] Conexão/IP de impressora e segunda tela no cadastro
 - [x] Manutenção: corretiva interna e externa
 - [x] Análise de riscos do setor com IA

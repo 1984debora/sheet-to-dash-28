@@ -9,7 +9,7 @@ import { Cartao, Titulo } from "@/components/inventario";
 import { equipamentosQuery, localizacoesQuery, setoresQuery } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/setores/")({
-  head: () => ({ meta: [{ title: "Setores e locais | Inventário de TI" }] }),
+  head: () => ({ meta: [{ title: "Setores e locais | Inventário de TI" }, { name: "description", content: "Cadastro de setores e localizações do inventário de TI." }, { property: "og:title", content: "Setores e locais | Inventário de TI" }, { property: "og:description", content: "Cadastro de setores e localizações do inventário de TI." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context }) =>
     Promise.all([
       context.queryClient.ensureQueryData(setoresQuery),

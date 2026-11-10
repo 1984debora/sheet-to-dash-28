@@ -14,9 +14,14 @@ import { EquipamentoForm } from "@/components/equipamento-form";
 import { useServerFn } from "@tanstack/react-start";
 import { analisarRiscosSetor } from "@/lib/riscos.functions";
 import { gerarRelatorioSetor } from "@/lib/relatorio-setor";
+import { SetorAcessos } from "@/components/setor-acessos";
+import { TermoDialog } from "@/components/termo-dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { EstoqueConteudo } from "./estoque";
+import { setorEhTI } from "@/lib/estoque-regras";
 
 export const Route = createFileRoute("/_authenticated/setores/$id")({
-  head: () => ({ meta: [{ title: "Detalhes do setor | Inventário de TI" }] }),
+  head: () => ({ meta: [{ title: "Detalhes do setor | Inventário de TI" }, { name: "description", content: "Equipamentos, usuários, aplicativos e acessos protegidos do setor." }, { property: "og:title", content: "Detalhes do setor | Inventário de TI" }, { property: "og:description", content: "Equipamentos, usuários, aplicativos e acessos protegidos do setor." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context, params }) =>
     Promise.all([
       context.queryClient.ensureQueryData(setorQuery(params.id)),
@@ -123,6 +128,7 @@ function Pagina() {
   const { data: locais = [] } = useQuery(localizacoesQuery);
   const localSetor = locais.find((l) => l.setor_id === id)?.id;
   const [novoEquip, setNovoEquip] = useState(false);
+  const [termoEquip, setTermoEquip] = useState<(typeof todos)[number] | null>(null);
   const [edit, setEdit] = useState<{ id: string; nome: string; email: string; celular: string } | null>(null);
   async function salvarUsuario() {
     if (!edit) return;
@@ -200,6 +206,11 @@ function Pagina() {
     <>
       <Link to="/setores" className="font-mono text-[11px] text-muted-ink hover:text-ink">← setores</Link>
       <Titulo titulo={setor.nome} sub={`${equips.length} equipamentos · ${usuarios.length} usuários · ${apps.length} aplicativos`} />
+      {termoEquip && <TermoDialog equip={termoEquip} setor={setor.nome} onClose={() => setTermoEquip(null)} />}
+      <Tabs defaultValue="setor">
+        {setorEhTI(setor.nome) && <TabsList className="mb-4"><TabsTrigger value="setor">Setor TI</TabsTrigger><TabsTrigger value="estoque">Estoque ({estoqueDisp.length})</TabsTrigger></TabsList>}
+        {setorEhTI(setor.nome) && <TabsContent value="estoque"><EstoqueConteudo localPadrao={localSetor} /></TabsContent>}
+        <TabsContent value="setor">
       <div className="mb-4 flex flex-wrap gap-2">
         <Button variant="outline" onClick={() => gerarRelatorioSetor(setor.nome, equips, usuarios, apps).catch((e) => toast.error(String(e)))}>Baixar relatório PDF</Button>
         <Button variant="outline" onClick={() => setNovoEquip(true)}>+ Equipamento neste setor</Button>
@@ -213,7 +224,8 @@ function Pagina() {
         </Cartao>
       )}
 
-      <Cartao className="mb-4 p-4">
+      <SetorAcessos setorId={id} />
+      <Cartao className="mb-4 overflow-x-auto p-4">
         <h2 className="mb-2 text-[14px] font-bold">Lista de equipamentos do setor</h2>
         {equips.length === 0 ? <Vazio texto="Nenhum equipamento neste setor." /> : (
           <table className="w-full text-[12.5px]">
@@ -237,6 +249,7 @@ function Pagina() {
                       </div>
                     ) : (
                       <div className="flex justify-end gap-2">
+                        <Button size="sm" variant="outline" onClick={() => setTermoEquip(e)}>Termo</Button>
                         <Button size="sm" variant="outline" onClick={() => setTroca({ id: e.id, novo: "" })}>Substituir</Button>
                         <Button size="sm" variant="outline" onClick={() => retirar(e)}>Retirar p/ estoque</Button>
                       </div>
@@ -395,6 +408,8 @@ function Pagina() {
           <p className="mt-2 text-[11px] text-muted-ink">Datas em vermelho: sem atualização há mais de 90 dias.</p>
         </Secao>
       </div>
+        </TabsContent>
+      </Tabs>
     </>
   );
 }

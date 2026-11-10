@@ -15,6 +15,8 @@ export const Route = createFileRoute("/auth")({
       { name: "description", content: "Acesso da equipe de TI à plataforma de equipamentos." },
       { property: "og:title", content: "Entrar no Inventário de TI" },
       { property: "og:description", content: "Acesso restrito à equipe de TI." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: AuthPage,

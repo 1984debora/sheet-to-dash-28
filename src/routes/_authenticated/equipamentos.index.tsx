@@ -7,7 +7,7 @@ import { EquipamentoForm } from "@/components/equipamento-form";
 import { equipamentosQuery, fmtData, localizacoesQuery, rotuloLocal, statusGarantia, STATUS_EQUIP } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/equipamentos/")({
-  head: () => ({ meta: [{ title: "Equipamentos | Inventário de TI" }] }),
+  head: () => ({ meta: [{ title: "Equipamentos | Inventário de TI" }, { name: "description", content: "Inventário e cadastro dos equipamentos da equipe de TI." }, { property: "og:title", content: "Equipamentos | Inventário de TI" }, { property: "og:description", content: "Inventário e cadastro dos equipamentos da equipe de TI." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context }) =>
     Promise.all([
       context.queryClient.ensureQueryData(equipamentosQuery),
