@@ -457,6 +457,77 @@ export type Database = {
         }
         Relationships: []
       }
+      suprimento_movimentos: {
+        Row: {
+          created_at: string
+          destino: string | null
+          id: string
+          quantidade: number
+          registrado_por: string | null
+          suprimento_id: string
+          tipo: string
+        }
+        Insert: {
+          created_at?: string
+          destino?: string | null
+          id?: string
+          quantidade: number
+          registrado_por?: string | null
+          suprimento_id: string
+          tipo: string
+        }
+        Update: {
+          created_at?: string
+          destino?: string | null
+          id?: string
+          quantidade?: number
+          registrado_por?: string | null
+          suprimento_id?: string
+          tipo?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "suprimento_movimentos_suprimento_id_fkey"
+            columns: ["suprimento_id"]
+            isOneToOne: false
+            referencedRelation: "suprimentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      suprimentos: {
+        Row: {
+          categoria: string
+          condicao: string
+          created_at: string
+          especificacao: string | null
+          id: string
+          minimo: number
+          nome: string
+          quantidade: number
+        }
+        Insert: {
+          categoria: string
+          condicao?: string
+          created_at?: string
+          especificacao?: string | null
+          id?: string
+          minimo?: number
+          nome: string
+          quantidade?: number
+        }
+        Update: {
+          categoria?: string
+          condicao?: string
+          created_at?: string
+          especificacao?: string | null
+          id?: string
+          minimo?: number
+          nome?: string
+          quantidade?: number
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
