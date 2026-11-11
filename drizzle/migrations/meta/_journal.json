@@ -43,6 +43,13 @@
       "when": 1794338288337,
       "tag": "0005_setor_acessos_protegidos",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794398337713,
+      "tag": "0006_suprimentos",
+      "breakpoints": true
     }
   ]
 }
