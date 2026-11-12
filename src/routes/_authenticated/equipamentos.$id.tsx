@@ -11,6 +11,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Campo, Cartao, Pill, Vazio, selectCls } from "@/components/inventario";
 import { EquipamentoForm } from "@/components/equipamento-form";
 import { TermoDialog } from "@/components/termo-dialog";
+import { TermoDevolucaoDialog } from "@/components/termo-devolucao-dialog";
 import {
   equipamentoQuery,
   fmtData,
@@ -41,6 +42,7 @@ function Detalhe() {
   const [mover, setMover] = useState(false);
   const [manut, setManut] = useState(false);
   const [termo, setTermo] = useState(false);
+  const [termoDevolucao, setTermoDevolucao] = useState(false);
   const qc = useQueryClient();
   const navigate = useNavigate();
   const g = statusGarantia(equip.garantia_ate);
@@ -82,6 +84,7 @@ function Detalhe() {
           <Button variant="outline" onClick={() => setManut(true)}>Registrar manutenção</Button>
           <Button variant="outline" onClick={() => setEditar(true)}>Editar</Button>
           <Button variant="outline" onClick={() => setTermo(true)}>Termo de responsabilidade</Button>
+          <Button variant="outline" onClick={() => setTermoDevolucao(true)}>Termo de devolução</Button>
           <Button variant="ghost" onClick={excluir}>Excluir</Button>
         </div>
       </div>
@@ -131,6 +134,7 @@ function Detalhe() {
 
       {editar && <EquipamentoForm aberto equip={equip} onClose={() => setEditar(false)} />}
       {termo && <TermoDialog equip={equip} setor={equip.localizacoes?.setores?.nome ?? ""} onClose={() => setTermo(false)} />}
+      {termoDevolucao && <TermoDevolucaoDialog equip={equip} setor={equip.localizacoes?.setores?.nome ?? ""} onClose={() => setTermoDevolucao(false)} />}
       {mover && <MovimentacaoDialog equip={equip} onClose={() => setMover(false)} />}
       {manut && <ManutencaoDialog equipId={equip.id} onClose={() => setManut(false)} />}
     </>
