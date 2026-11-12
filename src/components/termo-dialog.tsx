@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import type { Tables } from "@/integrations/supabase/types";
+import { ehMovel } from "@/components/equipamento-form";
 import { baixarTermo } from "@/lib/termo-responsabilidade";
 import { Campo } from "@/components/inventario";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 export function TermoDialog({ equip, setor = "", onClose }: { equip: Tables<"equipamentos">; setor?: string; onClose: () => void }) {
-  const [dados, setDados] = useState({ empresa: "", usuario: equip.usuario_responsavel ?? "", documento: "", setor, data: new Date().toLocaleDateString("en-CA"), acessorios: "", condicoes: "" });
+  const [dados, setDados] = useState({ empresa: "Óticas Gassi", usuario: equip.usuario_responsavel ?? "", documento: "", setor, data: new Date().toLocaleDateString("en-CA"), acessorios: ehMovel(equip.tipo) ? "Carregador bivolt, Cabo USB, Capa protetora, Película aplicada" : "", condicoes: "" });
   const [busy, setBusy] = useState(false);
   return <Dialog open onOpenChange={open => !open && onClose()}><DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl">
     <DialogHeader><DialogTitle>Termo de responsabilidade · {equip.patrimonio}</DialogTitle></DialogHeader>

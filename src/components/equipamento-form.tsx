@@ -19,6 +19,13 @@ const DISCO_TIPO = ["SSD NVMe", "SSD SATA", "HD Mecânico"];
 const DISCO_CAP = ["128 GB", "256 GB", "512 GB", "1 TB", "2 TB", "4 TB"];
 const SO = ["Windows 11 Pro", "Windows 11 Home", "Windows 10 Pro", "Windows Server", "Linux Ubuntu", "macOS"];
 
+export function ehMovel(tipo: string) {
+  return /celular|smartphone|tablet|iphone|ipad/i.test(tipo);
+}
+
+const RAM_MOVEL = ["3 GB", "4 GB", "6 GB", "8 GB", "12 GB", "16 GB"];
+const ARM_MOVEL = ["32 GB", "64 GB", "128 GB", "256 GB", "512 GB", "1 TB"];
+
 function ehComputador(tipo: string) {
   const t = tipo.toLowerCase();
   return TIPOS_COMPUTADOR.some((k) => t.includes(k));
@@ -69,6 +76,7 @@ export function EquipamentoForm({
   const hw = ehComputador(f.tipo);
   const imp = /impressora|multifuncional/i.test(f.tipo);
   const note = /notebook/i.test(f.tipo);
+  const mob = ehMovel(f.tipo);
   const n = (v: string) => v.trim() || null;
 
   async function salvar(e: React.FormEvent) {
@@ -88,10 +96,10 @@ export function EquipamentoForm({
       localizacao_id: f.localizacao_id || null,
       observacoes: n(f.observacoes),
       processador: hw ? n(f.processador) : null,
-      ram_capacidade: hw ? n(f.ram_capacidade) : null,
+      ram_capacidade: hw || mob ? n(f.ram_capacidade) : null,
       ram_tipo: hw ? n(f.ram_tipo) : null,
       armazenamento_tipo: hw ? n(f.armazenamento_tipo) : null,
-      armazenamento_capacidade: hw ? n(f.armazenamento_capacidade) : null,
+      armazenamento_capacidade: hw || mob ? n(f.armazenamento_capacidade) : null,
       sistema_operacional: hw ? n(f.sistema_operacional) : null,
       conexao: imp ? n(f.conexao) : null,
       endereco_ip: imp ? n(f.endereco_ip) : null,
@@ -119,7 +127,7 @@ export function EquipamentoForm({
         </DialogHeader>
         <form onSubmit={salvar} className="grid gap-3 sm:grid-cols-2">
           <Campo label="Patrimônio *"><Input value={f.patrimonio} onChange={set("patrimonio")} maxLength={50} /></Campo>
-          <Campo label="Nº de série"><Input value={f.numero_serie} onChange={set("numero_serie")} maxLength={100} /></Campo>
+          <Campo label={mob ? "IMEI / Nº de série" : "Nº de série"}><Input value={f.numero_serie} onChange={set("numero_serie")} maxLength={100} /></Campo>
           <Campo label="Tipo * (ex: Notebook, Desktop, Monitor)">
             <Input value={f.tipo} onChange={set("tipo")} maxLength={60} list="tipos-equip" />
             {lista("tipos-equip", ["Notebook", "Desktop", "Servidor", "Monitor", "Impressora", "Celular", "Tablet", "Switch", "Roteador"])}
@@ -172,6 +180,20 @@ export function EquipamentoForm({
                   {lista("so-lista", SO)}
                 </Campo>
               </div>
+            </fieldset>
+          )}
+
+          {mob && (
+            <fieldset className="grid gap-3 rounded-md border border-border p-3 sm:col-span-2 sm:grid-cols-2">
+              <legend className="px-1 font-mono text-[11px] uppercase tracking-wide text-muted-ink">Especificações do dispositivo móvel</legend>
+              <Campo label="Memória RAM">
+                <Input value={f.ram_capacidade} onChange={set("ram_capacidade")} maxLength={20} list="ram-movel" />
+                {lista("ram-movel", RAM_MOVEL)}
+              </Campo>
+              <Campo label="Armazenamento">
+                <Input value={f.armazenamento_capacidade} onChange={set("armazenamento_capacidade")} maxLength={20} list="arm-movel" />
+                {lista("arm-movel", ARM_MOVEL)}
+              </Campo>
             </fieldset>
           )}
 
