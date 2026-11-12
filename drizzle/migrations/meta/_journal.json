@@ -50,6 +50,13 @@
       "when": 1794398337713,
       "tag": "0006_suprimentos",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794492909364,
+      "tag": "0007_user_roles_admin",
+      "breakpoints": true
     }
   ]
 }
