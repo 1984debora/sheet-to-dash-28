@@ -15,4 +15,4 @@
 - Sector access credentials use owner-scoped RLS and authenticated server functions with AES-GCM encryption under a server-only key; never include credentials in reports, AI input, or list queries.
 - The TI sector embeds the same stock view as the global stock page; status remains the single source for availability and stock creation defaults to stock status.
 - Responsibility terms are generated client-side as downloadable PDFs with editable issuer and recipient details, not electronic signatures or persisted agreements.
-- Admin role table + /admin page (password reset, admin toggle) via server functions using has_role; never check admin client-side.
+- Admin features (team list, password reset, admin toggle) go through SECURITY DEFINER DB functions that check has_role; works locally without the service key. Never check admin client-side.
