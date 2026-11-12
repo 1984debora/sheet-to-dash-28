@@ -19,6 +19,7 @@ const NAV = [
   { to: "/movimentacoes", label: "Movimentações" },
   { to: "/manutencoes", label: "Manutenções" },
   { to: "/setores", label: "Setores e locais" },
+  { to: "/admin", label: "Administração" },
 ] as const;
 
 function Layout() {
