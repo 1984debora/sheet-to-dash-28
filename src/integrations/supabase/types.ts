@@ -551,6 +551,23 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_definir_admin: {
+        Args: { _admin: boolean; _user_id: string }
+        Returns: undefined
+      }
+      admin_listar_equipe: {
+        Args: never
+        Returns: {
+          admin: boolean
+          email: string
+          id: string
+          ultimo_acesso: string
+        }[]
+      }
+      admin_redefinir_senha: {
+        Args: { _senha: string; _user_id: string }
+        Returns: undefined
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
