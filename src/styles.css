@@ -67,6 +67,8 @@
   --color-soft: var(--soft);
   --color-line: var(--line);
   --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --font-logo: "Cinzel", Georgia, serif;
   --color-warn: var(--warn);
   --color-ok: var(--ok);
   --color-crit: var(--crit);
@@ -80,7 +82,7 @@
   --card-foreground: oklch(0.129 0.042 264.695);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.129 0.042 264.695);
-  --primary: oklch(0.208 0.042 265.755);
+  --primary: oklch(0.55 0.21 25);
   --primary-foreground: oklch(0.984 0.003 247.858);
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
@@ -92,7 +94,7 @@
   --destructive-foreground: oklch(0.984 0.003 247.858);
   --border: oklch(0.929 0.013 255.508);
   --input: oklch(0.929 0.013 255.508);
-  --ring: oklch(0.704 0.04 256.788);
+  --ring: oklch(0.55 0.21 25);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -155,12 +157,14 @@
 }
 
 :root {
-  --paper: hsl(42 30% 98%);
-  --ink: hsl(210 16% 14%);
+  --paper: hsl(0 20% 97%);
+  --ink: hsl(0 8% 16%);
   --muted-ink: hsl(210 12% 46%);
   --soft: hsl(210 12% 74%);
   --line: hsl(210 16% 14% / 0.08);
-  --brand: hsl(204 64% 36%);
+  --brand: hsl(356 78% 47%);
+  --brand-deep: hsl(356 72% 36%);
+  --gradient-brand: linear-gradient(90deg, hsl(356 72% 36%), hsl(356 78% 50%) 50%, hsl(356 72% 36%));
   --warn: hsl(38 92% 50%);
   --ok: hsl(152 48% 40%);
   --crit: hsl(356 72% 50%);
@@ -177,4 +181,8 @@
 
 @utility bar-grow {
   transition: width 720ms cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+@utility bg-faixa-gassi {
+  background-image: var(--gradient-brand);
 }
