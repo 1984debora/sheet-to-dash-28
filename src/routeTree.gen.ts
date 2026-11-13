@@ -17,6 +17,7 @@ import { Route as AuthenticatedEstoqueRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedManutencoesRouteImport } from './routes/_authenticated/manutencoes'
 import { Route as AuthenticatedMovimentacoesRouteImport } from './routes/_authenticated/movimentacoes'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
+import { Route as AuthenticatedSuprimentosRouteImport } from './routes/_authenticated/suprimentos'
 import { Route as AuthenticatedEquipamentosIndexRouteImport } from './routes/_authenticated/equipamentos.index'
 import { Route as AuthenticatedEquipamentosIdRouteImport } from './routes/_authenticated/equipamentos.$id'
 import { Route as AuthenticatedSetoresIndexRouteImport } from './routes/_authenticated/setores.index'
@@ -63,6 +64,12 @@ const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   path: '/painel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedSuprimentosRoute =
+  AuthenticatedSuprimentosRouteImport.update({
+    id: '/suprimentos',
+    path: '/suprimentos',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedEquipamentosIndexRoute =
   AuthenticatedEquipamentosIndexRouteImport.update({
     id: '/equipamentos/',
@@ -95,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/manutencoes': typeof AuthenticatedManutencoesRoute
   '/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/suprimentos': typeof AuthenticatedSuprimentosRoute
   '/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/equipamentos/': typeof AuthenticatedEquipamentosIndexRoute
@@ -108,6 +116,7 @@ export interface FileRoutesByTo {
   '/manutencoes': typeof AuthenticatedManutencoesRoute
   '/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/painel': typeof AuthenticatedPainelRoute
+  '/suprimentos': typeof AuthenticatedSuprimentosRoute
   '/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/equipamentos': typeof AuthenticatedEquipamentosIndexRoute
@@ -123,6 +132,7 @@ export interface FileRoutesById {
   '/_authenticated/manutencoes': typeof AuthenticatedManutencoesRoute
   '/_authenticated/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
+  '/_authenticated/suprimentos': typeof AuthenticatedSuprimentosRoute
   '/_authenticated/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/_authenticated/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/_authenticated/equipamentos/': typeof AuthenticatedEquipamentosIndexRoute
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/manutencoes'
     | '/movimentacoes'
     | '/painel'
+    | '/suprimentos'
     | '/equipamentos/$id'
     | '/setores/$id'
     | '/equipamentos/'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/manutencoes'
     | '/movimentacoes'
     | '/painel'
+    | '/suprimentos'
     | '/equipamentos/$id'
     | '/setores/$id'
     | '/equipamentos'
@@ -165,6 +177,7 @@ export interface FileRouteTypes {
     | '/_authenticated/manutencoes'
     | '/_authenticated/movimentacoes'
     | '/_authenticated/painel'
+    | '/_authenticated/suprimentos'
     | '/_authenticated/equipamentos/$id'
     | '/_authenticated/setores/$id'
     | '/_authenticated/equipamentos/'
@@ -235,6 +248,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPainelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/suprimentos': {
+      id: '/_authenticated/suprimentos'
+      path: '/suprimentos'
+      fullPath: '/suprimentos'
+      preLoaderRoute: typeof AuthenticatedSuprimentosRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/equipamentos/': {
       id: '/_authenticated/equipamentos/'
       path: '/equipamentos'
@@ -272,6 +292,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedManutencoesRoute: typeof AuthenticatedManutencoesRoute
   AuthenticatedMovimentacoesRoute: typeof AuthenticatedMovimentacoesRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
+  AuthenticatedSuprimentosRoute: typeof AuthenticatedSuprimentosRoute
   AuthenticatedEquipamentosIdRoute: typeof AuthenticatedEquipamentosIdRoute
   AuthenticatedSetoresIdRoute: typeof AuthenticatedSetoresIdRoute
   AuthenticatedEquipamentosIndexRoute: typeof AuthenticatedEquipamentosIndexRoute
@@ -284,6 +305,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedManutencoesRoute: AuthenticatedManutencoesRoute,
   AuthenticatedMovimentacoesRoute: AuthenticatedMovimentacoesRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
+  AuthenticatedSuprimentosRoute: AuthenticatedSuprimentosRoute,
   AuthenticatedEquipamentosIdRoute: AuthenticatedEquipamentosIdRoute,
   AuthenticatedSetoresIdRoute: AuthenticatedSetoresIdRoute,
   AuthenticatedEquipamentosIndexRoute: AuthenticatedEquipamentosIndexRoute,
