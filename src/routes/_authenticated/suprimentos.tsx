@@ -1,3 +1,4 @@
+import { usePapel } from "@/hooks/use-papel";
 import { createFileRoute } from "@tanstack/react-router";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -26,6 +27,7 @@ export function SuprimentosConteudo() {
   const qc = useQueryClient();
 
   const [novo, setNovo] = useState(false);
+  const { podeEditar } = usePapel();
   const [form, setForm] = useState({ nome: "", categoria: CATEGORIAS[0] as string, especificacao: "", quantidade: "0", minimo: "1" });
   const [mov, setMov] = useState<{ id: string; tipo: "Entrada" | "Saída"; quantidade: string; destino: string } | null>(null);
 
@@ -79,7 +81,7 @@ export function SuprimentosConteudo() {
       <Titulo
         titulo="Suprimentos"
         sub={`${itens.length} itens cadastrados · ${baixos.length} abaixo do mínimo`}
-        acao={<Button onClick={() => setNovo(true)}>+ Cadastrar suprimento</Button>}
+        acao={podeEditar && <Button onClick={() => setNovo(true)}>+ Cadastrar suprimento</Button>}
       />
 
       {novo && (

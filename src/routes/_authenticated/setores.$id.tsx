@@ -1,3 +1,4 @@
+import { usePapel } from "@/hooks/use-papel";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState, type ReactNode } from "react";
@@ -196,9 +197,10 @@ function Pagina() {
       setAnalisando(false);
     }
   }
+  const { podeEditar, ehAdmin } = usePapel();
   const th = "px-2 py-1.5 text-left font-mono text-[10px] uppercase text-muted-ink";
   const td = "px-2 py-1.5";
-  const x = (fn: () => void) => (
+  const x = (fn: () => void) => !ehAdmin ? null : (
     <button onClick={fn} className="text-[11px] text-muted-ink hover:text-crit">×</button>
   );
 
@@ -213,7 +215,7 @@ function Pagina() {
         <TabsContent value="setor">
       <div className="mb-4 flex flex-wrap gap-2">
         <Button variant="outline" onClick={() => gerarRelatorioSetor(setor.nome, equips, usuarios, apps).catch((e) => toast.error(String(e)))}>Baixar relatório PDF</Button>
-        <Button variant="outline" onClick={() => setNovoEquip(true)}>+ Equipamento neste setor</Button>
+        {podeEditar && <Button variant="outline" onClick={() => setNovoEquip(true)}>+ Equipamento neste setor</Button>}
         <Button onClick={analisar} disabled={analisando}>{analisando ? "Analisando…" : "Analisar riscos com IA"}</Button>
       </div>
       {novoEquip && <EquipamentoForm aberto localPadrao={localSetor} onClose={() => setNovoEquip(false)} />}
