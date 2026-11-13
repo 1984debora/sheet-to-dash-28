@@ -135,6 +135,24 @@ export function statusGarantia(garantiaAte: string | null, hoje = new Date()) {
   return dias <= 30 ? "vencendo" : "vigente";
 }
 
+export const suprimentosQuery = queryOptions({
+  queryKey: ["suprimentos"],
+  queryFn: async () =>
+    ok(await supabase.from("suprimentos").select("*").order("nome")),
+});
+
+export const suprimentoMovimentosQuery = queryOptions({
+  queryKey: ["suprimento_movimentos"],
+  queryFn: async () =>
+    ok(
+      await supabase
+        .from("suprimento_movimentos")
+        .select("*, suprimentos(id, nome, categoria)")
+        .order("created_at", { ascending: false })
+        .limit(200),
+    ),
+});
+
 export const estoqueMovimentosQuery = queryOptions({
   queryKey: ["estoque_movimentos"],
   queryFn: async () =>
