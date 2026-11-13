@@ -435,6 +435,7 @@ export type Database = {
       }
       setores: {
         Row: {
+          categoria: string
           created_at: string
           id: string
           nome: string
@@ -442,6 +443,7 @@ export type Database = {
           usa_scanner: boolean
         }
         Insert: {
+          categoria?: string
           created_at?: string
           id?: string
           nome: string
@@ -449,6 +451,7 @@ export type Database = {
           usa_scanner?: boolean
         }
         Update: {
+          categoria?: string
           created_at?: string
           id?: string
           nome?: string
@@ -528,6 +531,50 @@ export type Database = {
         }
         Relationships: []
       }
+      termos: {
+        Row: {
+          assinado_em: string | null
+          assinatura: string | null
+          created_at: string
+          criado_por: string | null
+          dados: Json
+          equipamento_id: string
+          id: string
+          status: string
+          token: string
+        }
+        Insert: {
+          assinado_em?: string | null
+          assinatura?: string | null
+          created_at?: string
+          criado_por?: string | null
+          dados: Json
+          equipamento_id: string
+          id?: string
+          status?: string
+          token?: string
+        }
+        Update: {
+          assinado_em?: string | null
+          assinatura?: string | null
+          created_at?: string
+          criado_por?: string | null
+          dados?: Json
+          equipamento_id?: string
+          id?: string
+          status?: string
+          token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "termos_equipamento_id_fkey"
+            columns: ["equipamento_id"]
+            isOneToOne: false
+            referencedRelation: "equipamentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -555,18 +602,26 @@ export type Database = {
         Args: { _admin: boolean; _user_id: string }
         Returns: undefined
       }
+      admin_definir_papel: {
+        Args: { _papel: string; _user_id: string }
+        Returns: undefined
+      }
       admin_listar_equipe: {
         Args: never
         Returns: {
-          admin: boolean
           email: string
           id: string
+          papel: string
           ultimo_acesso: string
         }[]
       }
       admin_redefinir_senha: {
         Args: { _senha: string; _user_id: string }
         Returns: undefined
+      }
+      assinar_termo_publico: {
+        Args: { _assinatura: string; _token: string }
+        Returns: boolean
       }
       has_role: {
         Args: {
@@ -575,6 +630,9 @@ export type Database = {
         }
         Returns: boolean
       }
+      meu_papel: { Args: never; Returns: string }
+      pode_editar: { Args: never; Returns: boolean }
+      termo_publico: { Args: { _token: string }; Returns: Json }
     }
     Enums: {
       app_role: "admin" | "user" | "tecnico"
