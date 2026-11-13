@@ -1,3 +1,4 @@
+import { usePapel } from "@/hooks/use-papel";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -65,6 +66,7 @@ export function EstoqueConteudo({ localPadrao, semHistorico }: { localPadrao?: s
   ).sort((a, b) => b[1] - a[1]);
 
   const [novo, setNovo] = useState(false);
+  const { podeEditar } = usePapel();
   const [saida, setSaida] = useState<{ id: string; usuario: string; local: string } | null>(null);
   const [entradaId, setEntradaId] = useState("");
   const [termo, setTermo] = useState<{ equip: (typeof equips)[number]; setor: string } | null>(null);
@@ -104,7 +106,7 @@ export function EstoqueConteudo({ localPadrao, semHistorico }: { localPadrao?: s
       <Titulo
         titulo="Estoque da TI"
         sub={`${estoque.length} equipamentos disponíveis para entrega`}
-        acao={<Button onClick={() => setNovo(true)}>+ Cadastrar no estoque</Button>}
+        acao={podeEditar && <Button onClick={() => setNovo(true)}>+ Cadastrar no estoque</Button>}
       />
       {novo && <EquipamentoForm aberto statusPadrao="Em estoque" localPadrao={localPadrao} onClose={() => setNovo(false)} />}
       {termo && <TermoDialog equip={termo.equip} setor={termo.setor} onClose={() => setTermo(null)} />}

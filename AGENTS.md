@@ -16,3 +16,6 @@
 - The TI sector embeds the same stock view as the global stock page; status remains the single source for availability and stock creation defaults to stock status.
 - Responsibility terms are generated client-side as downloadable PDFs with editable issuer and recipient details, not electronic signatures or persisted agreements.
 - Admin features (team list, password reset, admin toggle) go through SECURITY DEFINER DB functions that check has_role; works locally without the service key. Never check admin client-side.
+- Permissions: roles admin/tecnico in user_roles (no role = read-only usuario); RLS on app tables allows SELECT to all, INSERT/UPDATE via pode_editar(), DELETE admin only. UI gating via usePapel is cosmetic.
+- User creation/deletion uses supabaseAdmin in admin.functions.ts after has_role check; public signup is disabled.
+- Remote term signing uses unguessable tokens on public.termos, read/signed only through SECURITY DEFINER functions granted to anon (/assinar/$token).

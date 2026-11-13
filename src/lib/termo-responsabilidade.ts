@@ -1,7 +1,8 @@
 import type { Tables } from "@/integrations/supabase/types";
 
 export type DadosTermo = { empresa: string; usuario: string; documento: string; setor: string; data: string; acessorios: string; condicoes: string };
-export async function baixarTermo(equip: Tables<"equipamentos">, dados: DadosTermo) {
+export type EquipTermo = Pick<Tables<"equipamentos">, "patrimonio" | "tipo" | "marca" | "modelo" | "numero_serie" | "processador" | "ram_capacidade" | "ram_tipo" | "armazenamento_capacidade" | "armazenamento_tipo">;
+export async function baixarTermo(equip: EquipTermo, dados: DadosTermo, assinatura?: { png: string; em: string }) {
   const { jsPDF } = await import("jspdf");
   const { default: autoTable } = await import("jspdf-autotable");
   const doc = new jsPDF();
@@ -28,6 +29,10 @@ export async function baixarTermo(equip: Tables<"equipamentos">, dados: DadosTer
   const lines = doc.splitTextToSize(clauses, 174);
   if (y + lines.length * 5 + 45 > 275) { doc.addPage(); y = 20; }
   doc.text(lines, 18, y); y += lines.length * 5 + 22;
+  if (assinatura) {
+    doc.addImage(assinatura.png, "PNG", 22, y - 20, 70, 18);
+    doc.setFontSize(8); doc.text(`Assinado eletronicamente em ${new Date(assinatura.em).toLocaleString("pt-BR")}`, 18, y + 12); doc.setFontSize(11);
+  }
   doc.line(18, y, 96, y); doc.line(114, y, 192, y);
   doc.text("Assinatura do colaborador", 18, y + 7); doc.text("Responsável da TI", 114, y + 7);
   doc.save(`termo-${equip.patrimonio.replace(/[^a-z0-9-]/gi, "_")}.pdf`);

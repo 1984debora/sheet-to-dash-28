@@ -1,3 +1,4 @@
+import { usePapel } from "@/hooks/use-papel";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
@@ -11,6 +12,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Campo, Cartao, Pill, Vazio, selectCls } from "@/components/inventario";
 import { EquipamentoForm } from "@/components/equipamento-form";
 import { TermoDialog } from "@/components/termo-dialog";
+import { TermosAssinatura } from "@/components/termos-assinatura";
+import { baixarEtiqueta } from "@/lib/etiqueta";
 import { TermoDevolucaoDialog } from "@/components/termo-devolucao-dialog";
 import {
   equipamentoQuery,
@@ -45,6 +48,7 @@ function Detalhe() {
   const [termoDevolucao, setTermoDevolucao] = useState(false);
   const qc = useQueryClient();
   const navigate = useNavigate();
+  const { podeEditar, ehAdmin } = usePapel();
   const g = statusGarantia(equip.garantia_ate);
 
   async function excluir() {
@@ -80,12 +84,15 @@ function Detalhe() {
         <h1 className="font-mono text-[24px] font-extrabold tracking-tight">{equip.patrimonio}</h1>
         <Pill texto={equip.status} />
         <div className="ml-auto flex flex-wrap gap-2">
+          {podeEditar && <>
           <Button onClick={() => setMover(true)}>Registrar movimentação</Button>
           <Button variant="outline" onClick={() => setManut(true)}>Registrar manutenção</Button>
           <Button variant="outline" onClick={() => setEditar(true)}>Editar</Button>
           <Button variant="outline" onClick={() => setTermo(true)}>Termo de responsabilidade</Button>
           <Button variant="outline" onClick={() => setTermoDevolucao(true)}>Termo de devolução</Button>
-          <Button variant="ghost" onClick={excluir}>Excluir</Button>
+          </>}
+          <Button variant="outline" onClick={() => baixarEtiqueta(equip).catch(() => toast.error("Não foi possível gerar a etiqueta"))}>Etiqueta QR</Button>
+          {ehAdmin && <Button variant="ghost" onClick={excluir}>Excluir</Button>}
         </div>
       </div>
 
@@ -100,6 +107,8 @@ function Detalhe() {
           <div className="bg-paper p-4 sm:col-span-2 lg:col-span-4 text-[12.5px] text-muted-ink">{equip.observacoes}</div>
         )}
       </Cartao>
+
+      <TermosAssinatura equipId={equip.id} />
 
       <Tabs defaultValue="mov" className="mt-6">
         <TabsList>

@@ -91,13 +91,7 @@ function AuthPage() {
         <Button variant="outline" className="mt-3 w-full" onClick={google}>
           Continuar com Google
         </Button>
-        <button
-          type="button"
-          onClick={() => setModo(modo === "entrar" ? "criar" : "entrar")}
-          className="mt-4 w-full text-center text-[12px] text-muted-ink hover:text-ink"
-        >
-          {modo === "entrar" ? "Não tem conta? Criar conta" : "Já tem conta? Entrar"}
-        </button>
+        <p className="mt-4 text-center text-[12px] text-muted-ink">Novos acessos são criados pelo administrador.</p>
       </div>
     </div>
   );

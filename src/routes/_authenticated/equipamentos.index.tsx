@@ -1,3 +1,4 @@
+import { usePapel } from "@/hooks/use-papel";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
@@ -19,6 +20,7 @@ export const Route = createFileRoute("/_authenticated/equipamentos/")({
 function Lista() {
   const { data: equips } = useSuspenseQuery(equipamentosQuery);
   const [novo, setNovo] = useState(false);
+  const { podeEditar } = usePapel();
   const [busca, setBusca] = useState("");
   const [status, setStatus] = useState("todos");
 
@@ -38,7 +40,7 @@ function Lista() {
       <Titulo
         titulo="Equipamentos"
         sub={`${equips.length} cadastrados`}
-        acao={<Button onClick={() => setNovo(true)}>+ Novo equipamento</Button>}
+        acao={podeEditar && <Button onClick={() => setNovo(true)}>+ Novo equipamento</Button>}
       />
       <Cartao className="overflow-hidden">
         <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">

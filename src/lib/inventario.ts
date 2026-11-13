@@ -2,6 +2,7 @@ import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 export const STATUS_EQUIP = ["Em uso", "Em estoque", "Em manutenção", "Descartado"] as const;
+export const CATEGORIAS_SETOR = ["Administrativo", "Lojas", "Franquias"] as const;
 export const STATUS_MANUT = ["Aberta", "Em andamento", "Concluída"] as const;
 export const acessosQuery = (setorId: string) => queryOptions({
   queryKey: ["setor_acessos", setorId],
@@ -29,7 +30,7 @@ export const localizacoesQuery = queryOptions({
 
 export const setoresQuery = queryOptions({
   queryKey: ["setores"],
-  queryFn: async () => ok(await supabase.from("setores").select("id, nome").order("nome")),
+  queryFn: async () => ok(await supabase.from("setores").select("id, nome, categoria").order("nome")),
 });
 
 export const setorQuery = (id: string) =>
