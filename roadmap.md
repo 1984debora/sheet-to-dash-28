@@ -10,3 +10,7 @@
 - [x] Editar usuários do setor
 - [x] Cadastrar equipamento pela página do setor
 - [x] Aba Estoque com entradas/saídas
+- [x] Permissões Admin / Técnico / Usuário + cadastro só pelo admin
+- [x] Etiqueta QR 40×17 mm (Brother PT-P700)
+- [x] Abas Administrativo / Lojas / Franquias nos setores
+- [x] Assinatura do termo na tela e por link
