@@ -49,7 +49,6 @@ function Detalhe() {
   const qc = useQueryClient();
   const navigate = useNavigate();
   const { podeEditar, ehAdmin } = usePapel();
-  const [etiqueta, setEtiqueta] = useState(false);
   const g = statusGarantia(equip.garantia_ate);
 
   async function excluir() {
