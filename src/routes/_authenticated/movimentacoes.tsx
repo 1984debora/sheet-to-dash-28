@@ -6,10 +6,10 @@ import { fmtData, movimentacoesQuery, rotuloLocal } from "@/lib/inventario";
 export const Route = createFileRoute("/_authenticated/movimentacoes")({
   head: () => ({ meta: [{ title: "Movimentações | Inventário de TI" }, { name: "description", content: "Histórico de transferências e responsáveis pelos equipamentos." }, { property: "og:title", content: "Movimentações | Inventário de TI" }, { property: "og:description", content: "Histórico de transferências e responsáveis pelos equipamentos." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
   loader: ({ context }) => context.queryClient.ensureQueryData(movimentacoesQuery),
-  component: Pagina,
+  component: MovimentacoesConteudo,
 });
 
-function Pagina() {
+export function MovimentacoesConteudo() {
   const { data: movs } = useSuspenseQuery(movimentacoesQuery);
   return (
     <>

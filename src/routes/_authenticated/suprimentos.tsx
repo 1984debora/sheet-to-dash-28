@@ -15,12 +15,12 @@ export const Route = createFileRoute("/_authenticated/suprimentos")({
       context.queryClient.ensureQueryData(suprimentosQuery),
       context.queryClient.ensureQueryData(suprimentoMovimentosQuery),
     ]),
-  component: Pagina,
+  component: SuprimentosConteudo,
 });
 
 const CATEGORIAS = ["Cabos", "Periféricos", "Impressão", "Rede", "Peças", "Outros"] as const;
 
-function Pagina() {
+export function SuprimentosConteudo() {
   const { data: itens } = useSuspenseQuery(suprimentosQuery);
   const { data: movs } = useSuspenseQuery(suprimentoMovimentosQuery);
   const qc = useQueryClient();
