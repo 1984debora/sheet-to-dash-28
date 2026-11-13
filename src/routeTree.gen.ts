@@ -18,6 +18,7 @@ import { Route as AuthenticatedManutencoesRouteImport } from './routes/_authenti
 import { Route as AuthenticatedMovimentacoesRouteImport } from './routes/_authenticated/movimentacoes'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedSuprimentosRouteImport } from './routes/_authenticated/suprimentos'
+import { Route as AssinarTokenRouteImport } from './routes/assinar.$token'
 import { Route as AuthenticatedEquipamentosIndexRouteImport } from './routes/_authenticated/equipamentos.index'
 import { Route as AuthenticatedEquipamentosIdRouteImport } from './routes/_authenticated/equipamentos.$id'
 import { Route as AuthenticatedSetoresIndexRouteImport } from './routes/_authenticated/setores.index'
@@ -70,6 +71,11 @@ const AuthenticatedSuprimentosRoute =
     path: '/suprimentos',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AssinarTokenRoute = AssinarTokenRouteImport.update({
+  id: '/assinar/$token',
+  path: '/assinar/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedEquipamentosIndexRoute =
   AuthenticatedEquipamentosIndexRouteImport.update({
     id: '/equipamentos/',
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/suprimentos': typeof AuthenticatedSuprimentosRoute
+  '/assinar/$token': typeof AssinarTokenRoute
   '/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/equipamentos/': typeof AuthenticatedEquipamentosIndexRoute
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/suprimentos': typeof AuthenticatedSuprimentosRoute
+  '/assinar/$token': typeof AssinarTokenRoute
   '/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/equipamentos': typeof AuthenticatedEquipamentosIndexRoute
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/_authenticated/movimentacoes': typeof AuthenticatedMovimentacoesRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/suprimentos': typeof AuthenticatedSuprimentosRoute
+  '/assinar/$token': typeof AssinarTokenRoute
   '/_authenticated/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/_authenticated/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/_authenticated/equipamentos/': typeof AuthenticatedEquipamentosIndexRoute
@@ -149,6 +158,7 @@ export interface FileRouteTypes {
     | '/movimentacoes'
     | '/painel'
     | '/suprimentos'
+    | '/assinar/$token'
     | '/equipamentos/$id'
     | '/setores/$id'
     | '/equipamentos/'
@@ -163,6 +173,7 @@ export interface FileRouteTypes {
     | '/movimentacoes'
     | '/painel'
     | '/suprimentos'
+    | '/assinar/$token'
     | '/equipamentos/$id'
     | '/setores/$id'
     | '/equipamentos'
@@ -178,6 +189,7 @@ export interface FileRouteTypes {
     | '/_authenticated/movimentacoes'
     | '/_authenticated/painel'
     | '/_authenticated/suprimentos'
+    | '/assinar/$token'
     | '/_authenticated/equipamentos/$id'
     | '/_authenticated/setores/$id'
     | '/_authenticated/equipamentos/'
@@ -188,6 +200,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  AssinarTokenRoute: typeof AssinarTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -255,6 +268,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSuprimentosRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/assinar/$token': {
+      id: '/assinar/$token'
+      path: '/assinar/$token'
+      fullPath: '/assinar/$token'
+      preLoaderRoute: typeof AssinarTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/equipamentos/': {
       id: '/_authenticated/equipamentos/'
       path: '/equipamentos'
@@ -319,6 +339,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  AssinarTokenRoute: AssinarTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

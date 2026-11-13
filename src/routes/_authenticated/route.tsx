@@ -1,5 +1,6 @@
 import { createFileRoute, Link, Outlet, redirect, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePapel } from "@/hooks/use-papel";
 import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_authenticated")({
@@ -25,6 +26,7 @@ function Layout() {
   const { user } = Route.useRouteContext();
   const qc = useQueryClient();
   const navigate = useNavigate();
+  const { ehAdmin, papel } = usePapel();
 
   async function sair() {
     await qc.cancelQueries();
@@ -45,14 +47,14 @@ function Layout() {
             <div className="ml-2 h-8 w-1 -skew-x-12 bg-brand" />
             <div className="text-[18px] font-extrabold italic tracking-tight text-ink">CONTROLE <span className="text-brand">TI</span></div>
             <div className="ml-auto flex items-center gap-3">
-              <span className="hidden text-[12px] font-medium text-muted-ink md:block">{user.email}</span>
+              <span className="hidden text-[12px] font-medium text-muted-ink md:block">{user.email} · {papel === "admin" ? "Administrador" : papel === "tecnico" ? "Técnico" : "Usuário"}</span>
             </div>
           </div>
         </div>
         <div className="bg-faixa-gassi">
           <div className="mx-auto flex max-w-[1440px] items-center gap-2 px-5 py-2">
             <nav className="flex gap-1.5 overflow-x-auto">
-              {NAV.map((n) => (
+              {NAV.filter((n) => n.to !== "/admin" || ehAdmin).map((n) => (
                 <Link
                   key={n.to}
                   to={n.to}
