@@ -60,8 +60,8 @@ export function SugestaoConta({ valor, onChange }: { valor: string; onChange: (i
         <p className="text-[12.5px] text-muted-ink">Nenhuma conta disponível. Cadastre uma nova.</p>
       ) : !sel ? (
         <div className="flex flex-wrap items-center gap-2 text-[12.5px]">
-          <span>Conta disponível: <b>{livres[0].email}</b></span>
-          <Button type="button" size="sm" onClick={() => onChange(livres[0].id)}>Usar esta conta</Button>
+          <span>Conta disponível: <b>{livres[0]!.email}</b></span>
+          <Button type="button" size="sm" onClick={() => onChange(livres[0]!.id)}>Usar esta conta</Button>
         </div>
       ) : (
         <>
