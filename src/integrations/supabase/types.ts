@@ -630,6 +630,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      membro_equipe: { Args: never; Returns: boolean }
       meu_papel: { Args: never; Returns: string }
       pode_editar: { Args: never; Returns: boolean }
       termo_publico: { Args: { _token: string }; Returns: Json }
