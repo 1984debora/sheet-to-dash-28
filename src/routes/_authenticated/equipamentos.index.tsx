@@ -4,6 +4,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Cartao, Pill, Titulo, Vazio, selectCls } from "@/components/inventario";
+import { ContasMoveisPainel } from "@/components/contas-moveis";
 import { EquipamentoForm } from "@/components/equipamento-form";
 import { equipamentosQuery, fmtData, localizacoesQuery, rotuloLocal, statusGarantia, STATUS_EQUIP } from "@/lib/inventario";
 
@@ -23,6 +24,7 @@ function Lista() {
   const { podeEditar } = usePapel();
   const [busca, setBusca] = useState("");
   const [status, setStatus] = useState("todos");
+  const [aba, setAba] = useState<"equip" | "contas">("equip");
 
   const filtrados = useMemo(() => {
     const q = busca.trim().toLowerCase();
@@ -42,6 +44,13 @@ function Lista() {
         sub={`${equips.length} cadastrados`}
         acao={podeEditar && <Button onClick={() => setNovo(true)}>+ Novo equipamento</Button>}
       />
+      {podeEditar && (
+        <div className="mb-3 flex gap-2">
+          <Button size="sm" variant={aba === "equip" ? "default" : "outline"} onClick={() => setAba("equip")}>Equipamentos</Button>
+          <Button size="sm" variant={aba === "contas" ? "default" : "outline"} onClick={() => setAba("contas")}>Contas de e-mail (celulares/tablets)</Button>
+        </div>
+      )}
+      {aba === "contas" && podeEditar ? <ContasMoveisPainel /> : (
       <Cartao className="overflow-hidden">
         <div className="flex flex-wrap items-center gap-3 border-b border-line px-4 py-3">
           <input
@@ -92,6 +101,7 @@ function Lista() {
           {filtrados.length === 0 && <Vazio texto="Nenhum equipamento encontrado." />}
         </div>
       </Cartao>
+      )}
       {novo && <EquipamentoForm aberto onClose={() => setNovo(false)} />}
     </>
   );

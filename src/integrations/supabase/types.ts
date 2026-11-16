@@ -14,6 +14,53 @@ export type Database = {
   }
   public: {
     Tables: {
+      contas_moveis: {
+        Row: {
+          created_at: string
+          email: string
+          email_recuperacao: string | null
+          equipamento_id: string | null
+          id: string
+          observacoes: string | null
+          pin: string | null
+          senha: string | null
+          telefone_2fa: string | null
+          vinculado_em: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          email_recuperacao?: string | null
+          equipamento_id?: string | null
+          id?: string
+          observacoes?: string | null
+          pin?: string | null
+          senha?: string | null
+          telefone_2fa?: string | null
+          vinculado_em?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          email_recuperacao?: string | null
+          equipamento_id?: string | null
+          id?: string
+          observacoes?: string | null
+          pin?: string | null
+          senha?: string | null
+          telefone_2fa?: string | null
+          vinculado_em?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "contas_moveis_equipamento_id_fkey"
+            columns: ["equipamento_id"]
+            isOneToOne: true
+            referencedRelation: "equipamentos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       equipamentos: {
         Row: {
           armazenamento_capacidade: string | null

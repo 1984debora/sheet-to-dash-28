@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Campo, selectCls } from "@/components/inventario";
+import { SugestaoConta, ContaDoAparelho, vincularConta } from "@/components/contas-moveis";
 import { localizacoesQuery, setoresQuery, rotuloLocal, STATUS_EQUIP } from "@/lib/inventario";
 
 type Equip = Tables<"equipamentos">;
@@ -69,6 +70,7 @@ export function EquipamentoForm({
   });
   const [segundaTela, setSegundaTela] = useState(equip?.segunda_tela ?? false);
   const [salvando, setSalvando] = useState(false);
+  const [contaId, setContaId] = useState("");
   const [novoLocal, setNovoLocal] = useState(false);
   const set = (k: keyof typeof f) => (e: { target: { value: string } }) =>
     setF((p) => ({ ...p, [k]: e.target.value }));
@@ -105,9 +107,13 @@ export function EquipamentoForm({
       endereco_ip: imp ? n(f.endereco_ip) : null,
       segunda_tela: note ? segundaTela : false,
     };
-    const { error } = equip
-      ? await supabase.from("equipamentos").update(payload).eq("id", equip.id)
-      : await supabase.from("equipamentos").insert(payload);
+    const { data: salvo, error } = equip
+      ? await supabase.from("equipamentos").update(payload).eq("id", equip.id).select("id").single()
+      : await supabase.from("equipamentos").insert(payload).select("id").single();
+    if (!error && salvo && mob && contaId) {
+      const ok = await vincularConta(contaId, salvo.id);
+      if (!ok) toast.error("A conta escolhida já foi usada em outro aparelho. Escolha outra na edição.");
+    }
     setSalvando(false);
     if (error) { toast.error(error.message.includes("duplicate") ? "Patrimônio já cadastrado" : error.message); return; }
     toast.success(equip ? "Equipamento atualizado" : "Equipamento cadastrado");
@@ -196,6 +202,9 @@ export function EquipamentoForm({
               </Campo>
             </fieldset>
           )}
+
+          {mob && equip && <ContaDoAparelho equipamentoId={equip.id} />}
+          {mob && <SugestaoConta valor={contaId} onChange={setContaId} />}
 
           {imp && (
             <fieldset className="grid gap-3 rounded-md border border-border p-3 sm:col-span-2 sm:grid-cols-2">
