@@ -78,6 +78,13 @@
       "when": 1794575238624,
       "tag": "0010_permissoes_setores_termos",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1794829373217,
+      "tag": "0011_restrict_team_read",
+      "breakpoints": true
     }
   ]
 }
