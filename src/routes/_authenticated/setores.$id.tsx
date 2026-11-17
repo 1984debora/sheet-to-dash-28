@@ -15,6 +15,7 @@ import { EquipamentoForm } from "@/components/equipamento-form";
 import { useServerFn } from "@tanstack/react-start";
 import { analisarRiscosSetor } from "@/lib/riscos.functions";
 import { gerarRelatorioSetor } from "@/lib/relatorio-setor";
+// ✅ Correto:
 import { SetorAcessos } from "@/components/setor-acessos";
 import { TermoDialog } from "@/components/termo-dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -37,7 +38,12 @@ const usuarioSchema = z.object({
   nome: z.string().trim().min(1, "Informe o nome").max(100),
   email: z.union([z.literal(""), z.string().trim().email("E-mail inválido").max(255)]),
   celular: z.string().trim().max(30),
+  computador: z.string().trim().max(100).optional(),
+  senha: z.string().trim().max(100).optional(),
+  anydesk: z.string().trim().max(50).optional(),
+  senha_anydesk: z.string().trim().max(100).optional(),
 });
+
 
 function Secao({ titulo, children, acao }: { titulo: string; children: ReactNode; acao?: ReactNode }) {
   return (
@@ -82,19 +88,29 @@ function Pagina() {
     atualizar();
   }
 
-  // Usuários
-  const [u, setU] = useState({ nome: "", email: "", celular: "" });
+    // Usuários
+  const [u, setU] = useState({ nome: "", email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
+  const [mostrarSenhas, setMostrarSenhas] = useState<Record<string, boolean>>({});
+
   async function addUsuario(e: React.FormEvent) {
     e.preventDefault();
     const r = usuarioSchema.safeParse(u);
     if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Dados inválidos"); return; }
     const { error } = await supabase.from("setor_usuarios").insert({
-      setor_id: id, nome: r.data.nome, email: r.data.email || null, celular: r.data.celular || null,
-    });
+      setor_id: id,
+      nome: r.data.nome,
+      email: r.data.email || null,
+      celular: r.data.celular || null,
+      computador: r.data.computador || null,
+      senha: r.data.senha || null,
+      anydesk: r.data.anydesk || null,
+      senha_anydesk: r.data.senha_anydesk || null,
+    } as any);
     if (error) { toast.error(error.message); return; }
-    setU({ nome: "", email: "", celular: "" });
+    setU({ nome: "", email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
     atualizar();
   }
+
 
   // Aplicativos
   const [a, setA] = useState({ nome: "", versao: "", fornecedor: "", ultima_atualizacao: "" });
@@ -129,19 +145,28 @@ function Pagina() {
   const { data: locais = [] } = useQuery(localizacoesQuery);
   const localSetor = locais.find((l) => l.setor_id === id)?.id;
   const [novoEquip, setNovoEquip] = useState(false);
+  const [novaImp, setNovaImp] = useState(false);
   const [termoEquip, setTermoEquip] = useState<(typeof todos)[number] | null>(null);
-  const [edit, setEdit] = useState<{ id: string; nome: string; email: string; celular: string } | null>(null);
+
+    const [edit, setEdit] = useState<{ id: string; nome: string; email: string; celular: string; computador: string; senha: string; anydesk: string; senha_anydesk: string } | null>(null);
   async function salvarUsuario() {
     if (!edit) return;
     const r = usuarioSchema.safeParse(edit);
     if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Dados inválidos"); return; }
     const { error } = await supabase.from("setor_usuarios").update({
-      nome: r.data.nome, email: r.data.email || null, celular: r.data.celular || null,
-    }).eq("id", edit.id);
+      nome: r.data.nome,
+      email: r.data.email || null,
+      celular: r.data.celular || null,
+      computador: r.data.computador || null,
+      senha: r.data.senha || null,
+      anydesk: r.data.anydesk || null,
+      senha_anydesk: r.data.senha_anydesk || null,
+    } as any).eq("id", edit.id);
     if (error) { toast.error(error.message); return; }
     setEdit(null);
     atualizar();
   }
+
 
   const estoqueDisp = todos.filter((e) => e.status === "Em estoque");
   const [troca, setTroca] = useState<{ id: string; novo: string } | null>(null);
@@ -225,6 +250,14 @@ function Pagina() {
           <div className="whitespace-pre-wrap text-[12.5px] leading-relaxed">{analise}</div>
         </Cartao>
       )}
+      {novaImp && (
+        <EquipamentoForm
+          aberto
+          tipoPadrao="Impressora"
+          localPadrao={localSetor}
+          onClose={() => setNovaImp(false)}
+        />
+      )}
 
       <SetorAcessos setorId={id} />
       <Cartao className="mb-4 overflow-x-auto p-4">
@@ -283,64 +316,121 @@ function Pagina() {
             </div>
           )}
         </Secao>
-
-        <Secao titulo="Recursos do setor">
-          <div className="space-y-3 text-[12.5px]">
-            <label className="flex items-center gap-2">
-              <input type="checkbox" checked={setor.usa_scanner} onChange={(e) => salvarSetor({ usa_scanner: e.target.checked })} />
-              Usa escâner de mesa {scanners.length > 0 && <span className="text-muted-ink">({scanners.length} cadastrado(s))</span>}
-            </label>
-            <div>
-              <p className="mb-1 font-mono text-[10px] uppercase text-muted-ink">Notebooks com segunda tela</p>
-              {notebooks.length === 0 ? <span className="text-muted-ink">Nenhum notebook no setor.</span> : (
-                <p><b>{notebooks.filter((n) => n.segunda_tela).length}</b> de {notebooks.length} notebooks
-                  {notebooks.filter((n) => n.segunda_tela).length > 0 && (
-                    <span className="text-muted-ink"> — {notebooks.filter((n) => n.segunda_tela).map((n) => n.patrimonio).join(", ")}</span>
-                  )}
-                </p>
-              )}
-              <p className="mt-1 text-[11px] text-muted-ink">Marque "Usa segunda tela" no cadastro de cada notebook.</p>
-            </div>
-            <Campo label="Observações do setor">
-              <Textarea value={obs} onChange={(e) => setObs(e.target.value)} maxLength={1000} onBlur={() => obs !== (setor.observacoes ?? "") && salvarSetor({ observacoes: obs.trim() || null })} />
-            </Campo>
-          </div>
-        </Secao>
-
         <Secao titulo={`Usuários do setor (${usuarios.length})`}>
-          <form onSubmit={addUsuario} className="mb-3 grid gap-2 sm:grid-cols-[1fr_1fr_140px_auto]">
-            <Input placeholder="Nome" value={u.nome} onChange={(e) => setU({ ...u, nome: e.target.value })} maxLength={100} />
-            <Input placeholder="E-mail" type="email" value={u.email} onChange={(e) => setU({ ...u, email: e.target.value })} maxLength={255} />
-            <Input placeholder="Celular corporativo" value={u.celular} onChange={(e) => setU({ ...u, celular: e.target.value })} maxLength={30} />
-            <Button type="submit">Adicionar</Button>
-          </form>
+                    {podeEditar && (
+            <form onSubmit={addUsuario} autoComplete="off" className="mb-4 grid gap-2 sm:grid-cols-3 lg:grid-cols-4 border-b border-line pb-4">
+              <Input placeholder="Nome *" value={u.nome} onChange={(e) => setU({ ...u, nome: e.target.value })} maxLength={100} required />
+              <Input placeholder="E-mail" type="email" autoComplete="off" value={u.email} onChange={(e) => setU({ ...u, email: e.target.value })} maxLength={255} />
+              <Input placeholder="Celular corporativo" value={u.celular} onChange={(e) => setU({ ...u, celular: e.target.value })} maxLength={30} />
+              <Input placeholder="Computador / Hostname" value={u.computador} onChange={(e) => setU({ ...u, computador: e.target.value })} maxLength={100} />
+              <Input placeholder="Senha do Windows" type="password" autoComplete="new-password" value={u.senha} onChange={(e) => setU({ ...u, senha: e.target.value })} maxLength={100} />
+              <Input placeholder="ID AnyDesk" value={u.anydesk} onChange={(e) => setU({ ...u, anydesk: e.target.value })} maxLength={50} />
+              <Input placeholder="Senha AnyDesk" type="password" autoComplete="new-password" value={u.senha_anydesk} onChange={(e) => setU({ ...u, senha_anydesk: e.target.value })} maxLength={100} />
+              <Button type="submit" className="w-full">+ Adicionar Usuário</Button>
+            </form>
+          )}
           {usuarios.length === 0 ? <Vazio texto="Nenhum usuário cadastrado." /> : (
-            <table className="w-full text-[12.5px]">
-              <thead><tr><th className={th}>Nome</th><th className={th}>E-mail</th><th className={th}>Celular</th><th /></tr></thead>
-              <tbody className="divide-y divide-line">
-                {usuarios.map((x2) => (
-                  edit?.id === x2.id ? (
-                    <tr key={x2.id}>
-                      <td className={td}><Input value={edit.nome} onChange={(e) => setEdit({ ...edit, nome: e.target.value })} maxLength={100} /></td>
-                      <td className={td}><Input value={edit.email} onChange={(e) => setEdit({ ...edit, email: e.target.value })} maxLength={255} /></td>
-                      <td className={td}><Input value={edit.celular} onChange={(e) => setEdit({ ...edit, celular: e.target.value })} maxLength={30} /></td>
-                      <td className={`${td} whitespace-nowrap`}>
-                        <button onClick={salvarUsuario} className="text-[11px] text-brand hover:underline">salvar</button>{" "}
-                        <button onClick={() => setEdit(null)} className="text-[11px] text-muted-ink">cancelar</button>
-                      </td>
-                    </tr>
-                  ) : (
-                  <tr key={x2.id}><td className={td}>{x2.nome}</td><td className={td}>{x2.email ?? "—"}</td><td className={td}>{x2.celular ?? "—"}</td><td className={`${td} whitespace-nowrap`}>
-                    <button onClick={() => setEdit({ id: x2.id, nome: x2.nome, email: x2.email ?? "", celular: x2.celular ?? "" })} className="mr-2 text-[11px] text-brand hover:underline">editar</button>
-                    {x(() => remover("setor_usuarios", x2.id))}</td></tr>
-                  )
-                ))}
-              </tbody>
-            </table>
+            <div className="overflow-x-auto">
+              <table className="w-full text-[12px]">
+                <thead>
+                  <tr>
+                    <th className={th}>Nome</th>
+                    <th className={th}>Contato</th>
+                    <th className={th}>Computador</th>
+                    <th className={th}>Senha Windows</th>
+                    <th className={th}>AnyDesk</th>
+                    <th className={th}>Senha AnyDesk</th>
+                    <th />
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line">
+                  {usuarios.map((x2: any) => (
+                    edit?.id === x2.id ? (
+                      <tr key={x2.id}>
+                        <td className={td}><Input value={edit.nome} onChange={(e) => setEdit({ ...edit, nome: e.target.value })} maxLength={100} className="h-7 text-xs" /></td>
+                        <td className={td}>
+                          <div className="grid gap-1">
+                            <Input placeholder="E-mail" value={edit.email} onChange={(e) => setEdit({ ...edit, email: e.target.value })} className="h-7 text-xs" />
+                            <Input placeholder="Celular" value={edit.celular} onChange={(e) => setEdit({ ...edit, celular: e.target.value })} className="h-7 text-xs" />
+                          </div>
+                        </td>
+                        <td className={td}><Input value={edit.computador} onChange={(e) => setEdit({ ...edit, computador: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit.senha} onChange={(e) => setEdit({ ...edit, senha: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit.anydesk} onChange={(e) => setEdit({ ...edit, anydesk: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit.senha_anydesk} onChange={(e) => setEdit({ ...edit, senha_anydesk: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={`${td} whitespace-nowrap`}>
+                          <button onClick={salvarUsuario} className="text-[11px] text-brand font-semibold hover:underline">salvar</button>{" "}
+                          <button onClick={() => setEdit(null)} className="text-[11px] text-muted-ink">cancelar</button>
+                        </td>
+                      </tr>
+                    ) : (
+                      <tr key={x2.id}>
+                        <td className={td}><span className="font-semibold">{x2.nome}</span></td>
+                        <td className={td}>
+                          <div>{x2.email ?? "—"}</div>
+                          {x2.celular && <div className="text-[11px] text-muted-ink">{x2.celular}</div>}
+                        </td>
+                        <td className={`${td} font-mono`}>{x2.computador || "—"}</td>
+                        <td className={td}>
+                          {x2.senha ? (
+                            <span
+                              className="cursor-pointer font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]"
+                              title="Clique para ver/ocultar"
+                              onClick={() => setMostrarSenhas(p => ({ ...p, [`s_${x2.id}`]: !p[`s_${x2.id}`] }))}
+                            >
+                              {mostrarSenhas[`s_${x2.id}`] ? x2.senha : "••••••••"}
+                            </span>
+                          ) : "—"}
+                        </td>
+                        <td className={`${td} font-mono`}>{x2.anydesk || "—"}</td>
+                        <td className={td}>
+                          {x2.senha_anydesk ? (
+                            <span
+                              className="cursor-pointer font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]"
+                              title="Clique para ver/ocultar"
+                              onClick={() => setMostrarSenhas(p => ({ ...p, [`a_${x2.id}`]: !p[`a_${x2.id}`] }))}
+                            >
+                              {mostrarSenhas[`a_${x2.id}`] ? x2.senha_anydesk : "••••••••"}
+                            </span>
+                          ) : "—"}
+                        </td>
+                        <td className={`${td} whitespace-nowrap`}>
+                          <button
+                            onClick={() => setEdit({
+                              id: x2.id,
+                              nome: x2.nome,
+                              email: x2.email ?? "",
+                              celular: x2.celular ?? "",
+                              computador: x2.computador ?? "",
+                              senha: x2.senha ?? "",
+                              anydesk: x2.anydesk ?? "",
+                              senha_anydesk: x2.senha_anydesk ?? ""
+                            })}
+                            className="mr-2 text-[11px] text-brand hover:underline"
+                          >
+                            editar
+                          </button>
+                          {x(() => remover("setor_usuarios", x2.id))}
+                        </td>
+                      </tr>
+                    )
+                  ))}
+                </tbody>
+              </table>
+            </div>
           )}
         </Secao>
-
-        <Secao titulo={`Impressoras (${impressoras.length})`}>
+        
+        <Secao
+           titulo={`Impressoras (${impressoras.length})`}
+           acao={
+             podeEditar && (
+              <Button size="sm" variant="outline" onClick={() => setNovaImp(true)}>
+                 + Nova impressora
+              </Button>
+             )
+            }
+          >
           {impressoras.length === 0 ? <Vazio texto="Nenhuma impressora. Cadastre um equipamento do tipo Impressora neste setor." /> : (
             <table className="w-full text-[12.5px]">
               <thead><tr><th className={th}>Patrimônio</th><th className={th}>Marca / Modelo</th><th className={th}>Conexão</th><th className={th}>IP</th></tr></thead>
@@ -374,7 +464,6 @@ function Pagina() {
             </table>
           )}
         </Secao>
-
         <Secao titulo={`Aplicativos utilizados (${apps.length})`}>
           <form onSubmit={addApp} className="mb-3 grid gap-2 sm:grid-cols-2">
             <Input placeholder="Aplicativo (ex: Office 365)" value={a.nome} onChange={(e) => setA({ ...a, nome: e.target.value })} maxLength={100} />

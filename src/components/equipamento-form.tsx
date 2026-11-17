@@ -18,7 +18,7 @@ const RAM_CAP = ["4 GB", "8 GB", "16 GB", "32 GB", "64 GB", "128 GB"];
 const RAM_TIPO = ["DDR3", "DDR4", "DDR5", "LPDDR4", "LPDDR5"];
 const DISCO_TIPO = ["SSD NVMe", "SSD SATA", "HD Mecânico"];
 const DISCO_CAP = ["128 GB", "256 GB", "512 GB", "1 TB", "2 TB", "4 TB"];
-const SO = ["Windows 11 Pro", "Windows 11 Home", "Windows 10 Pro", "Windows Server", "Linux Ubuntu", "macOS"];
+const SO = ["Windows 11 Pro", "Windows 11 Home","Windows 10 Home", "Windows Server", "Linux Ubuntu", "macOS"];
 
 export function ehMovel(tipo: string) {
   return /celular|smartphone|tablet|iphone|ipad/i.test(tipo);
@@ -38,19 +38,22 @@ export function EquipamentoForm({
   equip,
   localPadrao,
   statusPadrao = "Em uso",
+  tipoPadrao,
 }: {
   aberto: boolean;
   onClose: () => void;
   equip?: Equip;
   localPadrao?: string | undefined;
   statusPadrao?: string;
+  tipoPadrao?: string;
 }) {
+
   const qc = useQueryClient();
   const { data: locais = [] } = useQuery(localizacoesQuery);
   const [f, setF] = useState({
     patrimonio: equip?.patrimonio ?? "",
     numero_serie: equip?.numero_serie ?? "",
-    tipo: equip?.tipo ?? "",
+    tipo: equip?.tipo ?? tipoPadrao ?? "",
     marca: equip?.marca ?? "",
     modelo: equip?.modelo ?? "",
     usuario_responsavel: equip?.usuario_responsavel ?? "",
@@ -67,6 +70,8 @@ export function EquipamentoForm({
     sistema_operacional: equip?.sistema_operacional ?? "",
     conexao: equip?.conexao ?? "",
     endereco_ip: equip?.endereco_ip ?? "",
+    segunda_tela_patrimonio: (equip as any)?.segunda_tela_patrimonio ?? "", 
+    segunda_tela_serie: (equip as any)?.segunda_tela_serie ?? "",
   });
   const [segundaTela, setSegundaTela] = useState(equip?.segunda_tela ?? false);
   const [salvando, setSalvando] = useState(false);
@@ -106,6 +111,8 @@ export function EquipamentoForm({
       conexao: imp ? n(f.conexao) : null,
       endereco_ip: imp ? n(f.endereco_ip) : null,
       segunda_tela: note ? segundaTela : false,
+      segunda_tela_patrimonio: note && segundaTela ? n(f.segunda_tela_patrimonio) : null,
+      segunda_tela_serie: note && segundaTela ? n(f.segunda_tela_serie) : null,
     };
     const { data: salvo, error } = equip
       ? await supabase.from("equipamentos").update(payload).eq("id", equip.id).select("id").single()
@@ -133,11 +140,11 @@ export function EquipamentoForm({
         </DialogHeader>
         <form onSubmit={salvar} className="grid gap-3 sm:grid-cols-2">
           <Campo label="Patrimônio *"><Input value={f.patrimonio} onChange={set("patrimonio")} maxLength={50} /></Campo>
-          <Campo label={mob ? "IMEI / Nº de série" : "Nº de série"}><Input value={f.numero_serie} onChange={set("numero_serie")} maxLength={100} /></Campo>
           <Campo label="Tipo * (ex: Notebook, Desktop, Monitor)">
             <Input value={f.tipo} onChange={set("tipo")} maxLength={60} list="tipos-equip" />
             {lista("tipos-equip", ["Notebook", "Desktop", "Servidor", "Monitor", "Impressora", "Celular", "Tablet", "iPad", "iPhone", "Switch", "Roteador"])}
           </Campo>
+          <Campo label={mob ? "IMEI / Nº de série" : "Nº de série"}><Input value={f.numero_serie} onChange={set("numero_serie")} maxLength={100} /></Campo>
           <Campo label="Marca"><Input value={f.marca} onChange={set("marca")} maxLength={60} /></Campo>
           <Campo label="Modelo"><Input value={f.modelo} onChange={set("modelo")} maxLength={100} /></Campo>
           <Campo label="Usuário responsável"><Input value={f.usuario_responsavel} onChange={set("usuario_responsavel")} maxLength={100} /></Campo>
@@ -220,11 +227,39 @@ export function EquipamentoForm({
           )}
 
           {note && (
-            <label className="flex items-center gap-2 text-[12.5px] sm:col-span-2">
-              <input type="checkbox" checked={segundaTela} onChange={(e) => setSegundaTela(e.target.checked)} />
-              Usa segunda tela
-            </label>
-          )}
+  <div className="grid gap-2 sm:col-span-2 rounded-md border border-line p-3 bg-card/40">
+    <label className="flex items-center gap-2 text-[12.5px] font-medium cursor-pointer">
+      <input
+        type="checkbox"
+        checked={segundaTela}
+        onChange={(e) => setSegundaTela(e.target.checked)}
+      />
+      Usa segunda tela (Monitor adicional)
+    </label>
+
+    {segundaTela && (
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-line">
+        <Campo label="Patrimônio da 2ª tela">
+          <Input
+            value={f.segunda_tela_patrimonio}
+            onChange={set("segunda_tela_patrimonio" as any)}
+            placeholder="Ex: 24510"
+            maxLength={50}
+          />
+        </Campo>
+        <Campo label="Nº de Série da 2ª tela">
+          <Input
+            value={f.segunda_tela_serie}
+            onChange={set("segunda_tela_serie" as any)}
+            placeholder="Ex: CN49200XZ"
+            maxLength={100}
+          />
+        </Campo>
+      </div>
+    )}
+  </div>
+)}
+
 
           <div className="sm:col-span-2">
             <Campo label="Observações"><Textarea value={f.observacoes} onChange={set("observacoes")} maxLength={1000} /></Campo>

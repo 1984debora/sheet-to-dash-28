@@ -195,7 +195,7 @@ export function ContaDoAparelho({ equipamentoId }: { equipamentoId: string }) {
                 disabled={salvando || !motivo.trim()}
                 onClick={handleDesvincular}
               >
-                {salvando ? "Desvinculando..." : "Confirmar desvinculação"}
+               {salvando ? "Desvinculando..." : "Confirmar desvinculação"}  
               </Button>
             </div>
           </div>
