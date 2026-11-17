@@ -49,7 +49,7 @@ export type DadosTermoDevolucao = {
   observacoes: string;
 };
 
-export async function baixarTermoDevolucao(equip: Tables<"equipamentos">, dados: DadosTermoDevolucao) {
+export async function baixarTermoDevolucao(equip: EquipTermo, dados: DadosTermoDevolucao, assinatura?: { png: string; em: string }) {
   const { jsPDF } = await import("jspdf");
   const { default: autoTable } = await import("jspdf-autotable");
   const doc = new jsPDF();
@@ -110,6 +110,10 @@ export async function baixarTermoDevolucao(equip: Tables<"equipamentos">, dados:
   }
   doc.text(lines, 18, y);
   y += lines.length * 5 + 22;
+  if (assinatura) {
+    doc.addImage(assinatura.png, "PNG", 22, y - 20, 70, 18);
+    doc.setFontSize(8); doc.text(`Assinado eletronicamente em ${new Date(assinatura.em).toLocaleString("pt-BR")}`, 18, y + 12); doc.setFontSize(11);
+  }
 
   doc.line(18, y, 96, y);
   doc.line(114, y, 192, y);
