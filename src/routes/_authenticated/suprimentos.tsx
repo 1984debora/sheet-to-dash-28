@@ -1,13 +1,13 @@
 import { usePapel } from "@/hooks/use-papel";
 import { createFileRoute } from "@tanstack/react-router";
-import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Cartao, Campo, Titulo, Vazio, selectCls } from "@/components/inventario";
-import { suprimentosQuery, suprimentoMovimentosQuery } from "@/lib/inventario";
+import { equipamentosQuery, suprimentosQuery, suprimentoMovimentosQuery } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/suprimentos")({
   head: () => ({ meta: [{ title: "Suprimentos | Inventário de TI" }, { name: "description", content: "Controle de suprimentos de TI: quantidades, mínimos, entradas e saídas." }, { property: "og:title", content: "Suprimentos | Inventário de TI" }, { property: "og:description", content: "Controle de suprimentos de TI: quantidades, mínimos, entradas e saídas." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
@@ -20,16 +20,18 @@ export const Route = createFileRoute("/_authenticated/suprimentos")({
 });
 
 const CATEGORIAS = ["Cabos", "Periféricos", "Impressão", "Rede", "Peças", "Outros"] as const;
+const COM_PATRIMONIO = ["Periféricos", "Peças", "Cabos"];
 
 export function SuprimentosConteudo() {
   const { data: itens } = useSuspenseQuery(suprimentosQuery);
   const { data: movs } = useSuspenseQuery(suprimentoMovimentosQuery);
   const qc = useQueryClient();
+  const { data: equips = [] } = useQuery(equipamentosQuery);
 
   const [novo, setNovo] = useState(false);
   const { podeEditar } = usePapel();
   const [form, setForm] = useState({ nome: "", categoria: CATEGORIAS[0] as string, especificacao: "", quantidade: "0", minimo: "1" });
-  const [mov, setMov] = useState<{ id: string; tipo: "Entrada" | "Saída"; quantidade: string; destino: string } | null>(null);
+  const [mov, setMov] = useState<{ id: string; tipo: "Entrada" | "Saída"; quantidade: string; destino: string; patrimonio: string } | null>(null);
 
   const baixos = itens.filter((i) => i.quantidade <= i.minimo);
 
@@ -58,16 +60,20 @@ export function SuprimentosConteudo() {
     if (mov.tipo === "Saída" && qtd > item.quantidade) { toast.error("Quantidade maior que o disponível"); return; }
     if (mov.tipo === "Saída" && !mov.destino.trim()) { toast.error("Informe o destino da saída"); return; }
 
-    const novaQtd = mov.tipo === "Entrada" ? item.quantidade + qtd : item.quantidade - qtd;
+    let equipamento_id: string | null = null;
+    if (mov.tipo === "Saída" && mov.patrimonio.trim()) {
+      const eq = equips.find((e) => e.patrimonio.toLowerCase() === mov.patrimonio.trim().toLowerCase());
+      if (!eq) { toast.error("Patrimônio não encontrado"); return; }
+      equipamento_id = eq.id;
+    }
     const { error: errMov } = await supabase.from("suprimento_movimentos").insert({
       suprimento_id: mov.id,
       tipo: mov.tipo,
       quantidade: qtd,
       destino: mov.tipo === "Saída" ? mov.destino.trim().slice(0, 100) : null,
+      equipamento_id,
     });
     if (errMov) { toast.error(errMov.message); return; }
-    const { error: errUpd } = await supabase.from("suprimentos").update({ quantidade: novaQtd }).eq("id", mov.id);
-    if (errUpd) { toast.error(errUpd.message); return; }
     toast.success(`${mov.tipo} registrada`);
     setMov(null);
     qc.invalidateQueries();
@@ -159,11 +165,16 @@ export function SuprimentosConteudo() {
                             <Input value={mov.destino} onChange={(e) => setMov({ ...mov, destino: e.target.value })} maxLength={100} />
                           </Campo>
                         )}
+                        {mov.tipo === "Saída" && COM_PATRIMONIO.includes(i.categoria) && (
+                          <Campo label="Patrimônio (opcional)">
+                            <Input list="patrimonios-sup" value={mov.patrimonio} onChange={(e) => setMov({ ...mov, patrimonio: e.target.value })} maxLength={50} placeholder="ex: 20450" />
+                          </Campo>
+                        )}
                         <Button size="sm" onClick={confirmarMov}>Confirmar</Button>
                         <Button size="sm" variant="ghost" onClick={() => setMov(null)}>Cancelar</Button>
                       </div>
                     ) : (
-                      <Button size="sm" variant="outline" onClick={() => setMov({ id: i.id, tipo: "Saída", quantidade: "1", destino: "" })}>Movimentar</Button>
+                      <Button size="sm" variant="outline" onClick={() => setMov({ id: i.id, tipo: "Saída", quantidade: "1", destino: "", patrimonio: "" })}>Movimentar</Button>
                     )}
                   </td>
                 </tr>
@@ -173,11 +184,12 @@ export function SuprimentosConteudo() {
         )}
       </Cartao>
 
+      <datalist id="patrimonios-sup">{equips.map((e) => <option key={e.id} value={e.patrimonio}>{[e.tipo, e.modelo].filter(Boolean).join(" ")}</option>)}</datalist>
       <Cartao>
         <h2 className="px-4 pt-4 text-[14px] font-bold">Histórico de movimentações</h2>
         {movs.length === 0 ? <Vazio texto="Nenhuma movimentação ainda." /> : (
           <table className="w-full text-[12.5px]">
-            <thead><tr><th className={th}>Data</th><th className={th}>Tipo</th><th className={th}>Item</th><th className={th}>Quantidade</th><th className={th}>Destino</th></tr></thead>
+            <thead><tr><th className={th}>Data</th><th className={th}>Tipo</th><th className={th}>Item</th><th className={th}>Quantidade</th><th className={th}>Destino</th><th className={th}>Patrimônio</th></tr></thead>
             <tbody className="divide-y divide-line">
               {movs.map((m) => (
                 <tr key={m.id}>
@@ -186,6 +198,7 @@ export function SuprimentosConteudo() {
                   <td className={td}>{m.suprimentos?.nome ?? "—"}</td>
                   <td className={td}>{m.quantidade}</td>
                   <td className={td}>{m.destino ?? "—"}</td>
+                  <td className={`${td} font-mono`}>{m.equipamentos?.patrimonio ?? "—"}</td>
                 </tr>
               ))}
             </tbody>

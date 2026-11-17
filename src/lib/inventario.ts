@@ -148,7 +148,7 @@ export const suprimentoMovimentosQuery = queryOptions({
     ok(
       await supabase
         .from("suprimento_movimentos")
-        .select("*, suprimentos(id, nome, categoria)")
+        .select("*, suprimentos(id, nome, categoria), equipamentos(id, patrimonio)")
         .order("created_at", { ascending: false })
         .limit(200),
     ),

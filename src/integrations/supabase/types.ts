@@ -511,6 +511,7 @@ export type Database = {
         Row: {
           created_at: string
           destino: string | null
+          equipamento_id: string | null
           id: string
           quantidade: number
           registrado_por: string | null
@@ -520,6 +521,7 @@ export type Database = {
         Insert: {
           created_at?: string
           destino?: string | null
+          equipamento_id?: string | null
           id?: string
           quantidade: number
           registrado_por?: string | null
@@ -529,6 +531,7 @@ export type Database = {
         Update: {
           created_at?: string
           destino?: string | null
+          equipamento_id?: string | null
           id?: string
           quantidade?: number
           registrado_por?: string | null
@@ -536,6 +539,13 @@ export type Database = {
           tipo?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "suprimento_movimentos_equipamento_id_fkey"
+            columns: ["equipamento_id"]
+            isOneToOne: false
+            referencedRelation: "equipamentos"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "suprimento_movimentos_suprimento_id_fkey"
             columns: ["suprimento_id"]
@@ -588,6 +598,7 @@ export type Database = {
           equipamento_id: string
           id: string
           status: string
+          tipo: string
           token: string
         }
         Insert: {
@@ -599,6 +610,7 @@ export type Database = {
           equipamento_id: string
           id?: string
           status?: string
+          tipo?: string
           token?: string
         }
         Update: {
@@ -610,6 +622,7 @@ export type Database = {
           equipamento_id?: string
           id?: string
           status?: string
+          tipo?: string
           token?: string
         }
         Relationships: [

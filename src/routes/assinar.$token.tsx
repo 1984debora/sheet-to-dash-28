@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { AssinaturaPad } from "@/components/assinatura-pad";
-import type { DadosTermo } from "@/lib/termo-responsabilidade";
+import type { DadosTermo, DadosTermoDevolucao } from "@/lib/termo-responsabilidade";
 
 export const Route = createFileRoute("/assinar/$token")({
   ssr: false,
@@ -19,7 +19,7 @@ export const Route = createFileRoute("/assinar/$token")({
   component: Assinar,
 });
 
-type Termo = { dados: DadosTermo; status: string; assinado_em: string | null; equip: { patrimonio: string; tipo: string; marca: string | null; modelo: string | null; numero_serie: string | null } };
+type Termo = { tipo?: string; dados: DadosTermo & Partial<DadosTermoDevolucao>; status: string; assinado_em: string | null; equip: { patrimonio: string; tipo: string; marca: string | null; modelo: string | null; numero_serie: string | null } };
 
 function Assinar() {
   const { token } = Route.useParams();
@@ -41,6 +41,7 @@ function Assinar() {
   }
 
   const t = q.data;
+  const dev = t?.tipo === "Devolução";
   return (
     <div className="min-h-screen bg-paper px-4 py-8 font-sans text-ink">
       <div className="mx-auto max-w-lg rounded-xl bg-card p-5 ring-1 ring-line">
@@ -52,17 +53,22 @@ function Assinar() {
         {!q.isLoading && !t && <p className="text-sm">Link inválido ou expirado.</p>}
         {t && (feito || t.status === "Assinado") && <p className="text-center text-[15px] font-semibold">Termo assinado com sucesso. Obrigado, {t.dados.usuario}!</p>}
         {t && !feito && t.status !== "Assinado" && <>
-          <h1 className="text-[16px] font-bold">Termo de responsabilidade</h1>
+          <h1 className="text-[16px] font-bold">{dev ? "Termo de devolução" : "Termo de responsabilidade"}</h1>
           <dl className="mt-3 grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-[13px]">
             <dt className="text-muted-ink">Colaborador</dt><dd>{t.dados.usuario}</dd>
             <dt className="text-muted-ink">Patrimônio</dt><dd>{t.equip.patrimonio}</dd>
             <dt className="text-muted-ink">Equipamento</dt><dd>{[t.equip.tipo, t.equip.marca, t.equip.modelo].filter(Boolean).join(" · ")}</dd>
             <dt className="text-muted-ink">Nº de série</dt><dd>{t.equip.numero_serie || "—"}</dd>
-            <dt className="text-muted-ink">Acessórios</dt><dd>{t.dados.acessorios || "—"}</dd>
-            <dt className="text-muted-ink">Entrega</dt><dd>{t.dados.data.split("-").reverse().join("/")}</dd>
+            {dev ? <>
+              <dt className="text-muted-ink">Motivo</dt><dd>{t.dados.motivo || "—"}</dd>
+              <dt className="text-muted-ink">Acessórios devolvidos</dt><dd>{t.dados.acessoriosDevolvidos || "Nenhum"}</dd>
+              <dt className="text-muted-ink">Estado</dt><dd>{t.dados.estadoGeral || "—"}</dd>
+              {t.dados.observacoes && <><dt className="text-muted-ink">Observações</dt><dd>{t.dados.observacoes}</dd></>}
+            </> : <><dt className="text-muted-ink">Acessórios</dt><dd>{t.dados.acessorios || "—"}</dd></>}
+            <dt className="text-muted-ink">{dev ? "Devolução" : "Entrega"}</dt><dd>{t.dados.data.split("-").reverse().join("/")}</dd>
           </dl>
-          <p className="mt-4 text-[12.5px] leading-relaxed text-muted-ink">Declaro que recebi o equipamento e os acessórios acima identificados. Comprometo-me a zelar pela conservação, utilizar conforme as políticas da empresa, proteger os dados e comunicar à TI qualquer defeito, perda ou incidente de segurança, e a devolvê-lo quando solicitado ou ao encerrar o vínculo com a empresa.</p>
-          <div className="mt-4"><AssinaturaPad busy={busy} onConfirmar={assinar} rotulo="Confirmar recebimento" /></div>
+          <p className="mt-4 text-[12.5px] leading-relaxed text-muted-ink">{dev ? "Declaro que devolvi à equipe de TI o equipamento e os acessórios acima identificados, no estado descrito, encerrando minha responsabilidade de custódia sobre o bem." : <>Declaro que recebi o equipamento e os acessórios acima identificados. Comprometo-me a zelar pela conservação, utilizar conforme as políticas da empresa, proteger os dados e comunicar à TI qualquer defeito, perda ou incidente de segurança, e a devolvê-lo quando solicitado ou ao encerrar o vínculo com a empresa.</>}</p>
+          <div className="mt-4"><AssinaturaPad busy={busy} onConfirmar={assinar} rotulo={dev ? "Confirmar devolução" : "Confirmar recebimento"} /></div>
           {erro && <p className="mt-2 text-[12px] text-crit">{erro}</p>}
         </>}
       </div>
