@@ -14,3 +14,6 @@
 - [x] Etiqueta QR 40×17 mm (Brother PT-P700)
 - [x] Abas Administrativo / Lojas / Franquias nos setores
 - [x] Assinatura do termo na tela e por link
+- [x] Termo de devolução com assinatura na tela e link
+- [x] Saída de suprimento ligada a patrimônio
+- [x] Upgrade de RAM/SSD atualiza o cadastro
