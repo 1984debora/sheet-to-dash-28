@@ -302,7 +302,7 @@ function ManutencaoDialog({ equip, onClose }: { equip: { id: string; ram_capacid
     });
     if (error) { toast.error(error.message); return; }
     if (mudancas.length) {
-      const novo = Object.fromEntries(mudancas.map((k) => [k, up[k].trim().slice(0, 50) || null]));
+      const novo: Partial<Record<keyof typeof rotulos, string | null>> = Object.fromEntries(mudancas.map((k) => [k, up[k].trim().slice(0, 50) || null]));
       const r = await supabase.from("equipamentos").update(novo).eq("id", equipId);
       if (r.error) { toast.error(`Manutenção salva, mas o cadastro não foi atualizado: ${r.error.message}`); }
     }
