@@ -35,14 +35,16 @@ function Pagina() {
     <Tabs defaultValue="estoque">
       <TabsList className="mb-4 h-auto gap-1 bg-card p-1 border border-line">
         <TabsTrigger value="estoque" className={gatilho}>Estoque</TabsTrigger>
-        <TabsTrigger value="historico" className={gatilho}>Histórico</TabsTrigger>
         <TabsTrigger value="suprimentos" className={gatilho}>Suprimentos</TabsTrigger>
         <TabsTrigger value="movimentacoes" className={gatilho}>Movimentações</TabsTrigger>
+        <TabsTrigger value="historico" className={gatilho}>Histórico</TabsTrigger>
+        
       </TabsList>
       <TabsContent value="estoque"><EstoqueConteudo semHistorico /></TabsContent>
-      <TabsContent value="historico"><HistoricoEstoque /></TabsContent>
       <TabsContent value="suprimentos"><SuprimentosConteudo /></TabsContent>
       <TabsContent value="movimentacoes"><MovimentacoesConteudo /></TabsContent>
+      <TabsContent value="historico"><HistoricoEstoque /></TabsContent>
+      
     </Tabs>
   );
 }

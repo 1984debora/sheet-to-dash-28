@@ -7,6 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Campo, Cartao, Vazio, selectCls } from "@/components/inventario";
+import { Textarea } from "@/components/ui/textarea";
+import { usePapel } from "@/hooks/use-papel";
+
 
 export const contasMoveisQuery = {
   queryKey: ["contas_moveis"],
@@ -85,16 +88,123 @@ export function SugestaoConta({ valor, onChange }: { valor: string; onChange: (i
 
 /** Conta já vinculada ao aparelho (página do equipamento / edição). */
 export function ContaDoAparelho({ equipamentoId }: { equipamentoId: string }) {
+  const qc = useQueryClient();
+  const { ehAdmin } = usePapel(); // Verifica se o usuário atual é Administrador
   const { data: contas = [] } = useQuery(contasMoveisQuery);
+  const [modalAberto, setModalAberto] = useState(false);
+  const [motivo, setMotivo] = useState("");
+  const [salvando, setSalvando] = useState(false);
+
   const c = contas.find((x) => x.equipamento_id === equipamentoId);
   if (!c) return null;
+
+  async function handleDesvincular() {
+    if (!motivo.trim()) {
+      toast.error("Informe a justificativa da desvinculação");
+      return;
+    }
+
+    setSalvando(true);
+    try {
+      const dataHoje = new Date().toLocaleDateString("pt-BR");
+      const novaObs = [
+        c.observacoes,
+        `[${dataHoje} - Desvinculada de ${c.equipamentos?.patrimonio ?? "aparelho"} por Admin: ${motivo.trim()}]`,
+      ]
+        .filter(Boolean)
+        .join("\n");
+
+      // 1. Libera a conta no banco e grava a justificativa nas observações
+      const { error: erroConta } = await supabase
+        .from("contas_moveis")
+        .update({
+          equipamento_id: null,
+          vinculado_em: null,
+          observacoes: novaObs,
+        })
+        .eq("id", c.id);
+
+      if (erroConta) throw erroConta;
+
+      // 2. Cria um registro no histórico de movimentações do equipamento
+      await supabase.from("movimentacoes").insert({
+        equipamento_id: equipamentoId,
+        data: new Date().toISOString().slice(0, 10),
+        motivo: `Desvinculação de conta Google (${c.email}) - Justificativa: ${motivo.trim()}`,
+      });
+
+      // 3. Atualiza os dados na tela
+      await qc.invalidateQueries({ queryKey: ["contas_moveis"] });
+      await qc.invalidateQueries();
+
+      toast.success("Conta desvinculada com sucesso!");
+      setModalAberto(false);
+      setMotivo("");
+    } catch (err: any) {
+      toast.error(err.message || "Erro ao desvincular conta");
+    } finally {
+      setSalvando(false);
+    }
+  }
+
   return (
-    <div className="grid gap-1 rounded-md border border-border p-3 sm:col-span-2">
-      <div className="text-[12.5px]">Conta vinculada: <b>{c.email}</b></div>
+    <div className="grid gap-2 rounded-md border border-border p-3 sm:col-span-2">
+      <div className="flex items-center justify-between">
+        <div className="text-[12.5px]">Conta vinculada: <b>{c.email}</b></div>
+        {/* Botão visível exclusivamente para perfil Admin */}
+        {ehAdmin && (
+          <Button
+            type="button"
+            variant="destructive"
+            size="sm"
+            className="h-7 text-xs"
+            onClick={() => setModalAberto(true)}
+          >
+            Desvincular conta
+          </Button>
+        )}
+      </div>
       <Dados c={c} />
+
+      {/* Janela de Justificativa */}
+      <Dialog open={modalAberto} onOpenChange={setModalAberto}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Desvincular Conta Google</DialogTitle>
+          </DialogHeader>
+          <div className="grid gap-3 pt-2">
+            <p className="text-xs text-muted-foreground">
+              Você está desvinculando <b>{c.email}</b>. A conta voltará a ficar disponível para novos aparelhos.
+            </p>
+            <div className="grid gap-1">
+              <label className="text-xs font-medium">Justificativa / Motivo *</label>
+              <Textarea
+                placeholder="Ex: Aparelho resetado de fábrica / Troca de colaborador / Manutenção..."
+                value={motivo}
+                onChange={(e) => setMotivo(e.target.value)}
+                rows={3}
+              />
+            </div>
+            <div className="flex justify-end gap-2 pt-2">
+              <Button type="button" variant="outline" onClick={() => setModalAberto(false)}>
+                Cancelar
+              </Button>
+              <Button
+                type="button"
+                variant="destructive"
+                disabled={salvando || !motivo.trim()}
+                onClick={handleDesvincular}
+              >
+                {salvando ? "Desvinculando..." : "Confirmar desvinculação"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
+
 
 function ContaDialog({ aberto, onClose, onCriada, conta }: { aberto: boolean; onClose: () => void; onCriada?: (id: string) => void; conta?: Conta }) {
   const qc = useQueryClient();

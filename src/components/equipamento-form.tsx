@@ -136,7 +136,7 @@ export function EquipamentoForm({
           <Campo label={mob ? "IMEI / Nº de série" : "Nº de série"}><Input value={f.numero_serie} onChange={set("numero_serie")} maxLength={100} /></Campo>
           <Campo label="Tipo * (ex: Notebook, Desktop, Monitor)">
             <Input value={f.tipo} onChange={set("tipo")} maxLength={60} list="tipos-equip" />
-            {lista("tipos-equip", ["Notebook", "Desktop", "Servidor", "Monitor", "Impressora", "Celular", "Tablet", "Switch", "Roteador"])}
+            {lista("tipos-equip", ["Notebook", "Desktop", "Servidor", "Monitor", "Impressora", "Celular", "Tablet", "iPad", "iPhone", "Switch", "Roteador"])}
           </Campo>
           <Campo label="Marca"><Input value={f.marca} onChange={set("marca")} maxLength={60} /></Campo>
           <Campo label="Modelo"><Input value={f.modelo} onChange={set("modelo")} maxLength={100} /></Campo>

@@ -19,6 +19,7 @@ import { Route as AuthenticatedMovimentacoesRouteImport } from './routes/_authen
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedSuprimentosRouteImport } from './routes/_authenticated/suprimentos'
 import { Route as AssinarTokenRouteImport } from './routes/assinar.$token'
+import { Route as ConsultaIdRouteImport } from './routes/consulta.$id'
 import { Route as AuthenticatedEquipamentosIndexRouteImport } from './routes/_authenticated/equipamentos.index'
 import { Route as AuthenticatedEquipamentosIdRouteImport } from './routes/_authenticated/equipamentos.$id'
 import { Route as AuthenticatedSetoresIndexRouteImport } from './routes/_authenticated/setores.index'
@@ -76,6 +77,11 @@ const AssinarTokenRoute = AssinarTokenRouteImport.update({
   path: '/assinar/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConsultaIdRoute = ConsultaIdRouteImport.update({
+  id: '/consulta/$id',
+  path: '/consulta/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedEquipamentosIndexRoute =
   AuthenticatedEquipamentosIndexRouteImport.update({
     id: '/equipamentos/',
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/painel': typeof AuthenticatedPainelRoute
   '/suprimentos': typeof AuthenticatedSuprimentosRoute
   '/assinar/$token': typeof AssinarTokenRoute
+  '/consulta/$id': typeof ConsultaIdRoute
   '/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/equipamentos/': typeof AuthenticatedEquipamentosIndexRoute
@@ -125,6 +132,7 @@ export interface FileRoutesByTo {
   '/painel': typeof AuthenticatedPainelRoute
   '/suprimentos': typeof AuthenticatedSuprimentosRoute
   '/assinar/$token': typeof AssinarTokenRoute
+  '/consulta/$id': typeof ConsultaIdRoute
   '/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/equipamentos': typeof AuthenticatedEquipamentosIndexRoute
@@ -142,6 +150,7 @@ export interface FileRoutesById {
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/suprimentos': typeof AuthenticatedSuprimentosRoute
   '/assinar/$token': typeof AssinarTokenRoute
+  '/consulta/$id': typeof ConsultaIdRoute
   '/_authenticated/equipamentos/$id': typeof AuthenticatedEquipamentosIdRoute
   '/_authenticated/setores/$id': typeof AuthenticatedSetoresIdRoute
   '/_authenticated/equipamentos/': typeof AuthenticatedEquipamentosIndexRoute
@@ -159,6 +168,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/suprimentos'
     | '/assinar/$token'
+    | '/consulta/$id'
     | '/equipamentos/$id'
     | '/setores/$id'
     | '/equipamentos/'
@@ -174,6 +184,7 @@ export interface FileRouteTypes {
     | '/painel'
     | '/suprimentos'
     | '/assinar/$token'
+    | '/consulta/$id'
     | '/equipamentos/$id'
     | '/setores/$id'
     | '/equipamentos'
@@ -190,6 +201,7 @@ export interface FileRouteTypes {
     | '/_authenticated/painel'
     | '/_authenticated/suprimentos'
     | '/assinar/$token'
+    | '/consulta/$id'
     | '/_authenticated/equipamentos/$id'
     | '/_authenticated/setores/$id'
     | '/_authenticated/equipamentos/'
@@ -201,6 +213,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   AssinarTokenRoute: typeof AssinarTokenRoute
+  ConsultaIdRoute: typeof ConsultaIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -275,6 +288,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AssinarTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/consulta/$id': {
+      id: '/consulta/$id'
+      path: '/consulta/$id'
+      fullPath: '/consulta/$id'
+      preLoaderRoute: typeof ConsultaIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/equipamentos/': {
       id: '/_authenticated/equipamentos/'
       path: '/equipamentos'
@@ -340,6 +360,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   AssinarTokenRoute: AssinarTokenRoute,
+  ConsultaIdRoute: ConsultaIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
