@@ -145,7 +145,7 @@ function Detalhe() {
       {termo && <TermoDialog equip={equip} setor={equip.localizacoes?.setores?.nome ?? ""} onClose={() => setTermo(false)} />}
       {termoDevolucao && <TermoDevolucaoDialog equip={equip} setor={equip.localizacoes?.setores?.nome ?? ""} onClose={() => setTermoDevolucao(false)} />}
       {mover && <MovimentacaoDialog equip={equip} onClose={() => setMover(false)} />}
-      {manut && <ManutencaoDialog equipId={equip.id} onClose={() => setManut(false)} />}
+      {manut && <ManutencaoDialog equip={equip} onClose={() => setManut(false)} />}
     </>
   );
 }
@@ -274,7 +274,9 @@ function MovimentacaoDialog({
   );
 }
 
-function ManutencaoDialog({ equipId, onClose }: { equipId: string; onClose: () => void }) {
+function ManutencaoDialog({ equip, onClose }: { equip: { id: string; ram_capacidade: string | null; ram_tipo: string | null; armazenamento_capacidade: string | null; armazenamento_tipo: string | null }; onClose: () => void }) {
+  const equipId = equip.id;
+  const [up, setUp] = useState({ ram_capacidade: equip.ram_capacidade ?? "", ram_tipo: equip.ram_tipo ?? "", armazenamento_capacidade: equip.armazenamento_capacidade ?? "", armazenamento_tipo: equip.armazenamento_tipo ?? "" });
   const qc = useQueryClient();
   const [f, setF] = useState({ data: hoje(), tipo: "Corretiva interna", descricao: "", tecnico: "", custo: "", status: "Aberta" });
   const [marcar, setMarcar] = useState(true);
@@ -285,17 +287,26 @@ function ManutencaoDialog({ equipId, onClose }: { equipId: string; onClose: () =
     if (!f.descricao.trim()) { toast.error("Descreva a manutenção"); return; }
     const custo = f.custo ? Number(f.custo.replace(",", ".")) : null;
     if (custo != null && (Number.isNaN(custo) || custo < 0)) { toast.error("Custo inválido"); return; }
+    const ehUpgrade = f.tipo === "Upgrade";
+    const rotulos = { ram_capacidade: "RAM", ram_tipo: "Tipo de RAM", armazenamento_capacidade: "Armazenamento", armazenamento_tipo: "Tipo de armazenamento" } as const;
+    const mudancas = ehUpgrade ? (Object.keys(rotulos) as (keyof typeof rotulos)[]).filter((k) => up[k].trim() !== (equip[k] ?? "")) : [];
+    const resumo = mudancas.map((k) => `${rotulos[k]}: ${equip[k] || "—"} → ${up[k].trim() || "—"}`).join("; ");
     const { error } = await supabase.from("manutencoes").insert({
       equipamento_id: equipId,
       data: f.data,
       tipo: f.tipo,
-      descricao: f.descricao.trim().slice(0, 1000),
+      descricao: (f.descricao.trim() + (resumo ? ` [Upgrade realizado: ${resumo}]` : "")).slice(0, 1000),
       tecnico: f.tecnico.trim().slice(0, 100) || null,
       custo,
       status: f.status,
     });
     if (error) { toast.error(error.message); return; }
-    if (marcar && f.status !== "Concluída") {
+    if (mudancas.length) {
+      const novo = Object.fromEntries(mudancas.map((k) => [k, up[k].trim().slice(0, 50) || null]));
+      const r = await supabase.from("equipamentos").update(novo).eq("id", equipId);
+      if (r.error) { toast.error(`Manutenção salva, mas o cadastro não foi atualizado: ${r.error.message}`); }
+    }
+    if (marcar && f.tipo !== "Upgrade" && f.status !== "Concluída") {
       await supabase.from("equipamentos").update({ status: "Em manutenção" }).eq("id", equipId);
     }
     toast.success("Manutenção registrada");
@@ -313,6 +324,17 @@ function ManutencaoDialog({ equipId, onClose }: { equipId: string; onClose: () =
             <select className={selectCls} value={f.tipo} onChange={set("tipo")}>{TIPOS_MANUT.map((t) => <option key={t}>{t}</option>)}</select>
           </Campo>
           <div className="sm:col-span-2"><Campo label="Descrição *"><Textarea value={f.descricao} onChange={set("descricao")} maxLength={1000} /></Campo></div>
+          {f.tipo === "Upgrade" && <div className="grid gap-3 rounded-md border border-line p-3 sm:col-span-2 sm:grid-cols-2">
+            <p className="text-[12px] text-muted-ink sm:col-span-2">Informe a nova configuração. O cadastro do equipamento será atualizado e o antes/depois fica no histórico.</p>
+            <Campo label={`Memória RAM (atual: ${equip.ram_capacidade || "—"})`}><Input list="ram-up" value={up.ram_capacidade} onChange={(e) => setUp({ ...up, ram_capacidade: e.target.value })} maxLength={50} /></Campo>
+            <Campo label={`Tipo de RAM (atual: ${equip.ram_tipo || "—"})`}><Input list="ramtipo-up" value={up.ram_tipo} onChange={(e) => setUp({ ...up, ram_tipo: e.target.value })} maxLength={50} /></Campo>
+            <Campo label={`Armazenamento (atual: ${equip.armazenamento_capacidade || "—"})`}><Input list="arm-up" value={up.armazenamento_capacidade} onChange={(e) => setUp({ ...up, armazenamento_capacidade: e.target.value })} maxLength={50} /></Campo>
+            <Campo label={`Tipo (atual: ${equip.armazenamento_tipo || "—"})`}><Input list="armtipo-up" value={up.armazenamento_tipo} onChange={(e) => setUp({ ...up, armazenamento_tipo: e.target.value })} maxLength={50} /></Campo>
+            <datalist id="ram-up">{["4 GB", "8 GB", "16 GB", "32 GB", "64 GB"].map((v) => <option key={v} value={v} />)}</datalist>
+            <datalist id="ramtipo-up">{["DDR3", "DDR4", "DDR5"].map((v) => <option key={v} value={v} />)}</datalist>
+            <datalist id="arm-up">{["120 GB", "240 GB", "256 GB", "480 GB", "512 GB", "1 TB", "2 TB"].map((v) => <option key={v} value={v} />)}</datalist>
+            <datalist id="armtipo-up">{["HD", "SSD SATA", "SSD NVMe"].map((v) => <option key={v} value={v} />)}</datalist>
+          </div>}
           <Campo label="Técnico / empresa"><Input value={f.tecnico} onChange={set("tecnico")} maxLength={100} /></Campo>
           <Campo label="Custo (R$)"><Input inputMode="decimal" value={f.custo} onChange={set("custo")} /></Campo>
           <Campo label="Status">
