@@ -99,6 +99,13 @@
       "when": 1794916084778,
       "tag": "0013_termo_devolucao_suprimento_patrimonio",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1795001334603,
+      "tag": "0014_segunda_tela_e_acessos_usuarios",
+      "breakpoints": true
     }
   ]
 }

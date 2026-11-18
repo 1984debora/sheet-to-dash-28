@@ -81,6 +81,8 @@ export type Database = {
           ram_capacidade: string | null
           ram_tipo: string | null
           segunda_tela: boolean
+          segunda_tela_patrimonio: string | null
+          segunda_tela_serie: string | null
           sistema_operacional: string | null
           status: string
           tipo: string
@@ -106,6 +108,8 @@ export type Database = {
           ram_capacidade?: string | null
           ram_tipo?: string | null
           segunda_tela?: boolean
+          segunda_tela_patrimonio?: string | null
+          segunda_tela_serie?: string | null
           sistema_operacional?: string | null
           status?: string
           tipo: string
@@ -131,6 +135,8 @@ export type Database = {
           ram_capacidade?: string | null
           ram_tipo?: string | null
           segunda_tela?: boolean
+          segunda_tela_patrimonio?: string | null
+          segunda_tela_serie?: string | null
           sistema_operacional?: string | null
           status?: string
           tipo?: string
@@ -447,27 +453,39 @@ export type Database = {
       }
       setor_usuarios: {
         Row: {
+          anydesk: string | null
           celular: string | null
+          computador: string | null
           created_at: string
           email: string | null
           id: string
           nome: string
+          senha: string | null
+          senha_anydesk: string | null
           setor_id: string
         }
         Insert: {
+          anydesk?: string | null
           celular?: string | null
+          computador?: string | null
           created_at?: string
           email?: string | null
           id?: string
           nome: string
+          senha?: string | null
+          senha_anydesk?: string | null
           setor_id: string
         }
         Update: {
+          anydesk?: string | null
           celular?: string | null
+          computador?: string | null
           created_at?: string
           email?: string | null
           id?: string
           nome?: string
+          senha?: string | null
+          senha_anydesk?: string | null
           setor_id?: string
         }
         Relationships: [
