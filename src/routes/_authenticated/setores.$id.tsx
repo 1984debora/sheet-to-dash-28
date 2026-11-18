@@ -347,17 +347,17 @@ function Pagina() {
                   {usuarios.map((x2: any) => (
                     edit?.id === x2.id ? (
                       <tr key={x2.id}>
-                        <td className={td}><Input value={edit.nome} onChange={(e) => setEdit({ ...edit, nome: e.target.value })} maxLength={100} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit!.nome} onChange={(e) => setEdit({ ...edit!, nome: e.target.value })} maxLength={100} className="h-7 text-xs" /></td>
                         <td className={td}>
                           <div className="grid gap-1">
-                            <Input placeholder="E-mail" value={edit.email} onChange={(e) => setEdit({ ...edit, email: e.target.value })} className="h-7 text-xs" />
-                            <Input placeholder="Celular" value={edit.celular} onChange={(e) => setEdit({ ...edit, celular: e.target.value })} className="h-7 text-xs" />
+                            <Input placeholder="E-mail" value={edit!.email} onChange={(e) => setEdit({ ...edit!, email: e.target.value })} className="h-7 text-xs" />
+                            <Input placeholder="Celular" value={edit!.celular} onChange={(e) => setEdit({ ...edit!, celular: e.target.value })} className="h-7 text-xs" />
                           </div>
                         </td>
-                        <td className={td}><Input value={edit.computador} onChange={(e) => setEdit({ ...edit, computador: e.target.value })} className="h-7 text-xs" /></td>
-                        <td className={td}><Input value={edit.senha} onChange={(e) => setEdit({ ...edit, senha: e.target.value })} className="h-7 text-xs" /></td>
-                        <td className={td}><Input value={edit.anydesk} onChange={(e) => setEdit({ ...edit, anydesk: e.target.value })} className="h-7 text-xs" /></td>
-                        <td className={td}><Input value={edit.senha_anydesk} onChange={(e) => setEdit({ ...edit, senha_anydesk: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit!.computador} onChange={(e) => setEdit({ ...edit!, computador: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit!.senha} onChange={(e) => setEdit({ ...edit!, senha: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit!.anydesk} onChange={(e) => setEdit({ ...edit!, anydesk: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit!.senha_anydesk} onChange={(e) => setEdit({ ...edit!, senha_anydesk: e.target.value })} className="h-7 text-xs" /></td>
                         <td className={`${td} whitespace-nowrap`}>
                           <button onClick={salvarUsuario} className="text-[11px] text-brand font-semibold hover:underline">salvar</button>{" "}
                           <button onClick={() => setEdit(null)} className="text-[11px] text-muted-ink">cancelar</button>

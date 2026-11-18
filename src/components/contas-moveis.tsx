@@ -99,6 +99,7 @@ export function ContaDoAparelho({ equipamentoId }: { equipamentoId: string }) {
   if (!c) return null;
 
   async function handleDesvincular() {
+    if (!c) return;
     if (!motivo.trim()) {
       toast.error("Informe a justificativa da desvinculação");
       return;
