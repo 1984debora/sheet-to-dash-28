@@ -145,13 +145,21 @@ export const suprimentosQuery = queryOptions({
 export const suprimentoMovimentosQuery = queryOptions({
   queryKey: ["suprimento_movimentos"],
   queryFn: async () =>
-    ok(
-      await supabase
-        .from("suprimento_movimentos")
-        .select("*, suprimentos(id, nome, categoria), equipamentos(id, patrimonio)")
-        .order("created_at", { ascending: false })
-        .limit(200),
-    ),
+{
+    const r = await supabase
+      .from("suprimento_movimentos")
+      .select("*, suprimentos(id, nome, categoria), equipamentos(id, patrimonio)")
+      .order("created_at", { ascending: false })
+      .limit(200);
+    if (!r.error) return r.data ?? [];
+    // Banco sem a ligação com equipamentos: carrega sem ela para a página não quebrar.
+    const r2 = await supabase
+      .from("suprimento_movimentos")
+      .select("*, suprimentos(id, nome, categoria)")
+      .order("created_at", { ascending: false })
+      .limit(200);
+    return (ok(r2) ?? []).map((m) => ({ ...m, equipamentos: null as { id: string; patrimonio: string } | null }));
+  },
 });
 
 export const estoqueMovimentosQuery = queryOptions({
