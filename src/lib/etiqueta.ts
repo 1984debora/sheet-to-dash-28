@@ -18,3 +18,38 @@ export async function baixarEtiqueta(equip: Pick<Tables<"equipamentos">, "id" | 
   doc.text(equip.patrimonio, 17.5, 13.5);
   doc.save(`etiqueta-${equip.patrimonio.replace(/[^a-z0-9-]/gi, "_")}.pdf`);
 }
+/** Gera um único PDF contendo múltiplas etiquetas (uma por página de 40x17mm) */
+export async function baixarEtiquetasLote(equips: Array<Pick<Tables<"equipamentos">, "id" | "patrimonio">>) {
+  if (equips.length === 0) return;
+  const [{ jsPDF }, QR] = await Promise.all([import("jspdf"), import("qrcode")]);
+  
+  // Cria o PDF no formato 40mm x 17mm em modo paisagem
+  const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: [40, 17] });
+
+  for (let i = 0; i < equips.length; i++) {
+    const equip = equips[i];
+    if (i > 0) {
+      doc.addPage([40, 17], "landscape");
+    }
+
+    const url = `${window.location.origin}/equipamentos/${equip.id}`;
+    const qr = await QR.toDataURL(url, { margin: 0, errorCorrectionLevel: "M", width: 400 });
+
+    doc.addImage(qr, "PNG", 1.5, 1.5, 14, 14);
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(8);
+    doc.text("ÓTICAS GASSI", 17.5, 5.5);
+
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(4.5);
+    doc.text("PATRIMÔNIO TI", 17.5, 8);
+
+    doc.setFont("helvetica", "bold");
+    let size = 11;
+    doc.setFontSize(size);
+    while (doc.getTextWidth(equip.patrimonio) > 21.5 && size > 6) doc.setFontSize(--size);
+    doc.text(equip.patrimonio, 17.5, 13.5);
+  }
+
+  doc.save(`etiquetas-lote-${equips.length}-itens.pdf`);
+}
