@@ -28,7 +28,7 @@ function Pagina() {
   const qc = useQueryClient();
   const [novoSetor, setNovoSetor] = useState("");
   const [novoLocal, setNovoLocal] = useState<Record<string, string>>({});
-  const [aba, setAba] = useState<string>("Lojas");
+  const [aba, setAba] = useState<string>("Administrativo");
   const { podeEditar, ehAdmin } = usePapel();
   const visiveis = aba === "Todos" ? setores : setores.filter((s) => s.categoria === aba);
 
