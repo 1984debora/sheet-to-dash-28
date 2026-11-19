@@ -7,6 +7,7 @@ import { ehMovel } from "@/components/equipamento-form";
 import { AssinaturaPad } from "@/components/assinatura-pad";
 import { baixarTermoDevolucao, type DadosTermoDevolucao } from "@/lib/termo-responsabilidade";
 import { Campo } from "@/components/inventario";
+import { setorEhTI } from "@/lib/estoque-regras";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -20,6 +21,17 @@ export function TermoDevolucaoDialog({ equip, setor = "", onClose }: { equip: Ta
     acessoriosDevolvidos: ehMovel(equip.tipo) ? "Carregador bivolt, Cabo USB, Capa protetora" : "", observacoes: "",
   });
   const [busy, setBusy] = useState(false);
+  const [voltarEstoque, setVoltarEstoque] = useState(true);
+  async function devolverAoEstoque() {
+    if (!voltarEstoque || equip.status === "Em estoque") return;
+    const { data: locais } = await supabase.from("localizacoes").select("id, setores(nome)");
+    const ti = (locais ?? []).find((l) => setorEhTI(l.setores?.nome ?? ""));
+    const { error } = await supabase.from("equipamentos").update({ status: "Em estoque", usuario_responsavel: null, ...(ti ? { localizacao_id: ti.id } : {}) }).eq("id", equip.id);
+    if (error) throw new Error(error.message);
+    if (ti && ti.id !== equip.localizacao_id) await supabase.from("movimentacoes").insert({ equipamento_id: equip.id, origem_localizacao_id: equip.localizacao_id, destino_localizacao_id: ti.id, usuario_anterior: equip.usuario_responsavel, motivo: `Devolução: ${f.motivo}`.slice(0, 200) });
+    qc.invalidateQueries();
+    toast.success("Equipamento desvinculado e devolvido ao estoque do TI");
+  }
   const [modo, setModo] = useState<"form" | "assinar" | "link">("form");
   const [link, setLink] = useState("");
   const formRef = useRef<HTMLFormElement>(null);
@@ -38,6 +50,7 @@ export function TermoDevolucaoDialog({ equip, setor = "", onClose }: { equip: Ta
     try {
       const em = new Date().toISOString();
       await salvar({ status: "Assinado", assinatura: png, assinado_em: em });
+      await devolverAoEstoque();
       await baixarTermoDevolucao(equip, f, { png, em });
       toast.success("Termo de devolução assinado e salvo na ficha");
       onClose();
@@ -46,7 +59,7 @@ export function TermoDevolucaoDialog({ equip, setor = "", onClose }: { equip: Ta
   async function gerarLink() {
     if (!valido()) return;
     setBusy(true);
-    try { const token = await salvar({ status: "Pendente" }); setLink(`${window.location.origin}/assinar/${token}`); setModo("link"); }
+    try { const token = await salvar({ status: "Pendente" }); await devolverAoEstoque(); setLink(`${window.location.origin}/assinar/${token}`); setModo("link"); }
     catch (e) { toast.error(e instanceof Error ? e.message : "Erro ao gerar link"); } finally { setBusy(false); }
   }
 
@@ -64,7 +77,7 @@ export function TermoDevolucaoDialog({ equip, setor = "", onClose }: { equip: Ta
             <Button variant="outline" onClick={onClose}>Fechar</Button>
           </div>
         </div>}
-        <form ref={formRef} className={modo === "form" ? "grid gap-3 sm:grid-cols-2" : "hidden"} onSubmit={async (e) => { e.preventDefault(); setBusy(true); try { await baixarTermoDevolucao(equip, f); toast.success("Termo de devolução baixado"); } catch { toast.error("Não foi possível gerar o termo"); } finally { setBusy(false); } }}>
+        <form ref={formRef} className={modo === "form" ? "grid gap-3 sm:grid-cols-2" : "hidden"} onSubmit={async (e) => { e.preventDefault(); setBusy(true); try { await devolverAoEstoque(); await baixarTermoDevolucao(equip, f); toast.success("Termo de devolução baixado"); } catch { toast.error("Não foi possível gerar o termo"); } finally { setBusy(false); } }}>
           <Campo label="Empresa *"><Input required maxLength={150} value={f.empresa} onChange={set("empresa")} /></Campo>
           <Campo label="Colaborador *"><Input required maxLength={150} value={f.usuario} onChange={set("usuario")} /></Campo>
           <Campo label="Documento / matrícula"><Input maxLength={150} value={f.documento} onChange={set("documento")} /></Campo>
@@ -74,6 +87,7 @@ export function TermoDevolucaoDialog({ equip, setor = "", onClose }: { equip: Ta
           <div className="sm:col-span-2"><Campo label="Acessórios devolvidos"><Input maxLength={500} value={f.acessoriosDevolvidos} onChange={set("acessoriosDevolvidos")} /></Campo></div>
           <div className="sm:col-span-2"><Campo label="Estado do equipamento"><Input maxLength={300} value={f.estadoGeral} onChange={set("estadoGeral")} /></Campo></div>
           <div className="sm:col-span-2"><Campo label="Observações / avarias"><Textarea maxLength={1000} value={f.observacoes} onChange={set("observacoes")} /></Campo></div>
+          {equip.status !== "Em estoque" && <label className="flex items-center gap-2 text-[13px] sm:col-span-2"><input type="checkbox" checked={voltarEstoque} onChange={(e) => setVoltarEstoque(e.target.checked)} /> Desvincular do colaborador e devolver ao estoque do TI</label>}
           <div className="flex flex-wrap justify-end gap-2 sm:col-span-2">
             <Button type="button" variant="outline" onClick={onClose}>Fechar</Button>
             <Button type="submit" variant="outline" disabled={busy}>Baixar PDF para imprimir</Button>
