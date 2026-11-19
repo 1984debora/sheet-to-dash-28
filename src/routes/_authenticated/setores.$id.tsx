@@ -63,7 +63,7 @@ function Pagina() {
   const { data: todos } = useSuspenseQuery(equipamentosQuery);
   const qc = useQueryClient();
   const { setor, usuarios, apps } = data;
-  const equips = todos.filter((e) => e.localizacoes?.setores?.nome === setor.nome);
+  const equips = todos.filter((e) => e.localizacoes?.setores?.nome === setor.nome && !(setorEhTI(setor.nome) && e.status === "Em estoque"));
   const impressoras = equips.filter((e) => tem(e.tipo, "impressora") || tem(e.tipo, "multifuncional"));
   const celulares = equips.filter((e) => tem(e.tipo, "celular") || tem(e.tipo, "smartphone"));
   const notebooks = equips.filter((e) => tem(e.tipo, "notebook"));
@@ -235,7 +235,7 @@ function Pagina() {
       <Titulo titulo={setor.nome} sub={`${equips.length} equipamentos · ${usuarios.length} usuários · ${apps.length} aplicativos`} />
       {termoEquip && <TermoDialog equip={termoEquip} setor={setor.nome} onClose={() => setTermoEquip(null)} />}
       <Tabs defaultValue="setor">
-        {setorEhTI(setor.nome) && <TabsList className="mb-4"><TabsTrigger value="setor">Setor TI</TabsTrigger><TabsTrigger value="estoque">Estoque ({estoqueDisp.length})</TabsTrigger></TabsList>}
+        {setorEhTI(setor.nome) && <TabsList className="mb-4"><TabsTrigger value="setor">Sala principal ({equips.length})</TabsTrigger><TabsTrigger value="estoque">Estoque do TI ({estoqueDisp.length})</TabsTrigger></TabsList>}
         {setorEhTI(setor.nome) && <TabsContent value="estoque"><EstoqueConteudo localPadrao={localSetor} /></TabsContent>}
         <TabsContent value="setor">
       <div className="mb-4 flex flex-wrap gap-2">

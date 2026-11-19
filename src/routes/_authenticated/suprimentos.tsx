@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Cartao, Campo, Titulo, Vazio, selectCls } from "@/components/inventario";
-import { equipamentosQuery, suprimentosQuery, suprimentoMovimentosQuery } from "@/lib/inventario";
+import { setoresQuery, equipamentosQuery, suprimentosQuery, suprimentoMovimentosQuery } from "@/lib/inventario";
 
 export const Route = createFileRoute("/_authenticated/suprimentos")({
   head: () => ({ meta: [{ title: "Suprimentos | Inventário de TI" }, { name: "description", content: "Controle de suprimentos de TI: quantidades, mínimos, entradas e saídas." }, { property: "og:title", content: "Suprimentos | Inventário de TI" }, { property: "og:description", content: "Controle de suprimentos de TI: quantidades, mínimos, entradas e saídas." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }] }),
@@ -20,13 +20,13 @@ export const Route = createFileRoute("/_authenticated/suprimentos")({
 });
 
 const CATEGORIAS = ["Cabos", "Periféricos", "Impressão", "Rede", "Peças", "Outros"] as const;
-const COM_PATRIMONIO = ["Periféricos", "Peças", "Cabos"];
 
 export function SuprimentosConteudo() {
   const { data: itens } = useSuspenseQuery(suprimentosQuery);
   const { data: movs } = useSuspenseQuery(suprimentoMovimentosQuery);
   const qc = useQueryClient();
   const { data: equips = [] } = useQuery(equipamentosQuery);
+  const { data: setores = [] } = useQuery(setoresQuery);
 
   const [novo, setNovo] = useState(false);
   const { podeEditar } = usePapel();
@@ -161,11 +161,11 @@ export function SuprimentosConteudo() {
                           <Input type="number" min={1} value={mov.quantidade} onChange={(e) => setMov({ ...mov, quantidade: e.target.value })} />
                         </Campo>
                         {mov.tipo === "Saída" && (
-                          <Campo label="Destino">
-                            <Input value={mov.destino} onChange={(e) => setMov({ ...mov, destino: e.target.value })} maxLength={100} />
+                          <Campo label="Setor / destino">
+                            <Input list="setores-sup" placeholder="Setor ou loja" value={mov.destino} onChange={(e) => setMov({ ...mov, destino: e.target.value })} maxLength={100} />
                           </Campo>
                         )}
-                        {mov.tipo === "Saída" && COM_PATRIMONIO.includes(i.categoria) && (
+                        {mov.tipo === "Saída" && (
                           <Campo label="Patrimônio (opcional)">
                             <Input list="patrimonios-sup" value={mov.patrimonio} onChange={(e) => setMov({ ...mov, patrimonio: e.target.value })} maxLength={50} placeholder="ex: 20450" />
                           </Campo>
@@ -184,12 +184,13 @@ export function SuprimentosConteudo() {
         )}
       </Cartao>
 
+      <datalist id="setores-sup">{setores.map((s) => <option key={s.id} value={s.nome} />)}</datalist>
       <datalist id="patrimonios-sup">{equips.map((e) => <option key={e.id} value={e.patrimonio}>{[e.tipo, e.modelo].filter(Boolean).join(" ")}</option>)}</datalist>
       <Cartao>
         <h2 className="px-4 pt-4 text-[14px] font-bold">Histórico de movimentações</h2>
         {movs.length === 0 ? <Vazio texto="Nenhuma movimentação ainda." /> : (
           <table className="w-full text-[12.5px]">
-            <thead><tr><th className={th}>Data</th><th className={th}>Tipo</th><th className={th}>Item</th><th className={th}>Quantidade</th><th className={th}>Destino</th><th className={th}>Patrimônio</th></tr></thead>
+            <thead><tr><th className={th}>Data</th><th className={th}>Tipo</th><th className={th}>Item</th><th className={th}>Quantidade</th><th className={th}>Setor / destino</th><th className={th}>Patrimônio</th></tr></thead>
             <tbody className="divide-y divide-line">
               {movs.map((m) => (
                 <tr key={m.id}>
