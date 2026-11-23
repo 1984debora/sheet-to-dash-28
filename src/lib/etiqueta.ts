@@ -3,7 +3,7 @@ import type { Tables } from "@/integrations/supabase/types";
 /** Patrimony label sized for the Brother PT-P700 tape: 40 mm wide × 17 mm tall. */
 export async function baixarEtiqueta(equip: Pick<Tables<"equipamentos">, "id" | "patrimonio">) {
   const [{ jsPDF }, QR] = await Promise.all([import("jspdf"), import("qrcode")]);
-  const url = `${window.location.origin}/equipamentos/${equip.id}`;
+  const url = `${window.location.origin}/consulta/${equip.id}`;
   const qr = await QR.toDataURL(url, { margin: 0, errorCorrectionLevel: "M", width: 400 });
   const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: [40, 17] });
   doc.addImage(qr, "PNG", 1.5, 1.5, 14, 14);
@@ -31,8 +31,7 @@ export async function baixarEtiquetasLote(equips: Array<Pick<Tables<"equipamento
     if (i > 0) {
       doc.addPage([40, 17], "landscape");
     }
-
-    const url = `${window.location.origin}/equipamentos/${equip.id}`;
+    const url = `${window.location.origin}/consulta/${equip.id}`;
     const qr = await QR.toDataURL(url, { margin: 0, errorCorrectionLevel: "M", width: 400 });
 
     doc.addImage(qr, "PNG", 1.5, 1.5, 14, 14);
