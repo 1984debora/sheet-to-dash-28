@@ -88,8 +88,9 @@ function Pagina() {
   }
 
     // Usuários
-  const [u, setU] = useState({ nome: "", email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
+  const [u, setU] = useState({ nome: "", email: "", senha_email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
   const [mostrarSenhas, setMostrarSenhas] = useState<Record<string, boolean>>({});
+
 
   async function addUsuario(e: React.FormEvent) {
     e.preventDefault();
@@ -106,7 +107,7 @@ function Pagina() {
       senha_anydesk: r.data.senha_anydesk || null,
     } as any);
     if (error) { toast.error(error.message); return; }
-    setU({ nome: "", email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
+    setU({ nome: "", email: "",senha_email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
     atualizar();
   }
 
@@ -142,16 +143,16 @@ function Pagina() {
   }
 
   const { data: locais = [] } = useQuery(localizacoesQuery);
-  const localSetor = locais.find((l) => l.setor_id === id)?.id;
-  const [novoEquip, setNovoEquip] = useState(false);
-  const [novaImp, setNovaImp] = useState(false);
-  const [termoEquip, setTermoEquip] = useState<(typeof todos)[number] | null>(null);
+    const localSetor = locais.find((l) => l.setor_id === id)?.id;
+    const [novoEquip, setNovoEquip] = useState(false);
+    const [novaImp, setNovaImp] = useState(false);
+    const [termoEquip, setTermoEquip] = useState<(typeof todos)[number] | null>(null);
+    const [edit, setEdit] = useState<{ id: string; nome: string; email: string; senha_email: string; celular: string; computador: string;  senha: string; anydesk: string; senha_anydesk: string } | null>(null);
 
-    const [edit, setEdit] = useState<{ id: string; nome: string; email: string; celular: string; computador: string; senha: string; anydesk: string; senha_anydesk: string } | null>(null);
-  async function salvarUsuario() {
-    if (!edit) return;
+      async function salvarUsuario() {
+      if (!edit) return;
     const r = usuarioSchema.safeParse(edit);
-    if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Dados inválidos"); return; }
+      if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Dados inválidos"); return; }
     const { error } = await supabase.from("setor_usuarios").update({
       nome: r.data.nome,
       email: r.data.email || null,
@@ -165,11 +166,8 @@ function Pagina() {
     setEdit(null);
     atualizar();
   }
-
-
   const estoqueDisp = todos.filter((e) => e.status === "Em estoque");
   const [troca, setTroca] = useState<{ id: string; novo: string } | null>(null);
-
   async function retirar(e: (typeof equips)[number]) {
     if (!confirm(`Retirar ${e.patrimonio} do setor e devolver ao estoque?`)) return;
     const { error } = await supabase.from("equipamentos")
