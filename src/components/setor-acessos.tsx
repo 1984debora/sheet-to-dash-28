@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
@@ -29,7 +30,20 @@ export function SetorAcessos({ setorId }: { setorId: string }) {
     </div></td></tr>)}</tbody></table></div>}
     {form && <Dialog open onOpenChange={o => !o && setForm(null)}><DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-xl"><DialogHeader><DialogTitle>{form.id ? "Editar acesso" : "Novo acesso da loja"}</DialogTitle></DialogHeader>
       <form className="grid gap-3 sm:grid-cols-2" onSubmit={async e => { e.preventDefault(); setBusy(true); try { await save({ data: { ...form, setorId } }); setForm(null); qc.invalidateQueries({ queryKey: ["setor_acessos", setorId] }); toast.success("Acesso salvo com senhas protegidas"); } catch { toast.error("Não foi possível salvar. Confira os dados e tente novamente."); } finally { setBusy(false); } }}>
-        {([["hostname", "Hostname *"], ["usuario", "Usuário"], ["senha", "Senha do usuário"], ["gerente_adm", "Gerente/Adm"], ["anydesk", "AnyDesk"], ["senha_anydesk", "Senha AnyDesk"], ["email", "E-mail"], ["senha_email", "Senha do e-mail"]] as const).map(([key, label]) => <Campo key={key} label={label}><Input required={key === "hostname"} type={key.startsWith("senha") ? "password" : key === "email" ? "email" : "text"} autoComplete="off" maxLength={key.startsWith("senha") ? 500 : 100} placeholder={form.id && key.startsWith("senha") ? "Manter senha atual" : ""} value={form[key]} onChange={e => setForm({ ...form, [key]: e.target.value })} /></Campo>)}
+        {([["hostname", "Hostname *"], ["usuario", "Usuário"], ["senha", "Senha do usuário"], ["gerente_adm", "Gerente/Adm"], ["anydesk", "AnyDesk"], ["senha_anydesk", "Senha AnyDesk"], ["email", "E-mail"], ["senha_email", "Senha do e-mail"]] as const).map(([key, label]) => (
+          <Campo key={key} label={label}>
+            <Input
+            name={`acesso_${key}`}
+            required={key === "hostname"}
+            type={key.startsWith("senha") ? "password" : "text"}
+            autoComplete={key.startsWith("senha") ? "new-password" : "one-time-code"}
+            maxLength={key.startsWith("senha") ? 500 : 100}
+            placeholder={form.id && key.startsWith("senha") ? "Manter senha atual" : ""}
+            value={form[key]}
+            onChange={e => setForm({ ...form, [key]: e.target.value })}
+            />
+          </Campo>
+        ))}
         <div className="flex justify-end gap-2 sm:col-span-2"><Button type="button" variant="outline" onClick={() => setForm(null)}>Cancelar</Button><Button disabled={busy} type="submit">Salvar acesso</Button></div>
       </form>
     </DialogContent></Dialog>}
