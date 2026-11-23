@@ -39,6 +39,7 @@ const usuarioSchema = z.object({
   email: z.union([z.literal(""), z.string().trim().email("E-mail inválido").max(255)]),
   celular: z.string().trim().max(30),
   computador: z.string().trim().max(100).optional(),
+  senha_email: z.string().trim().max(100).optional(),
   senha: z.string().trim().max(100).optional(),
   anydesk: z.string().trim().max(50).optional(),
   senha_anydesk: z.string().trim().max(100).optional(),
@@ -89,9 +90,9 @@ function Pagina() {
   }
 
     // Usuários
-  const [u, setU] = useState({ nome: "", email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
+  const [u, setU] = useState({ nome: "", email: "", celular: "", computador: "", senha_email: "", senha: "", anydesk: "", senha_anydesk: "" });
   const [mostrarSenhas, setMostrarSenhas] = useState<Record<string, boolean>>({});
-
+  
   async function addUsuario(e: React.FormEvent) {
     e.preventDefault();
     const r = usuarioSchema.safeParse(u);
@@ -102,12 +103,13 @@ function Pagina() {
       email: r.data.email || null,
       celular: r.data.celular || null,
       computador: r.data.computador || null,
+      senha_email: r.data.senha_email || null,
       senha: r.data.senha || null,
       anydesk: r.data.anydesk || null,
       senha_anydesk: r.data.senha_anydesk || null,
     } as any);
     if (error) { toast.error(error.message); return; }
-    setU({ nome: "", email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
+    setU({ nome: "", email: "", celular: "", computador: "", senha_email: "", senha: "", anydesk: "", senha_anydesk: "" });
     atualizar();
   }
 
@@ -148,7 +150,7 @@ function Pagina() {
   const [novaImp, setNovaImp] = useState(false);
   const [termoEquip, setTermoEquip] = useState<(typeof todos)[number] | null>(null);
 
-    const [edit, setEdit] = useState<{ id: string; nome: string; email: string; celular: string; computador: string; senha: string; anydesk: string; senha_anydesk: string } | null>(null);
+    const [edit, setEdit] = useState<{ id: string; nome: string; email: string; celular: string; computador: string; senha_email: string; senha: string; anydesk: string; senha_anydesk: string } | null>(null);
   async function salvarUsuario() {
     if (!edit) return;
     const r = usuarioSchema.safeParse(edit);
@@ -158,6 +160,7 @@ function Pagina() {
       email: r.data.email || null,
       celular: r.data.celular || null,
       computador: r.data.computador || null,
+      senha_email: r.data.senha_email || null,
       senha: r.data.senha || null,
       anydesk: r.data.anydesk || null,
       senha_anydesk: r.data.senha_anydesk || null,
@@ -323,6 +326,7 @@ function Pagina() {
               <Input placeholder="E-mail" type="email" autoComplete="off" value={u.email} onChange={(e) => setU({ ...u, email: e.target.value })} maxLength={255} />
               <Input placeholder="Celular corporativo" value={u.celular} onChange={(e) => setU({ ...u, celular: e.target.value })} maxLength={30} />
               <Input placeholder="Computador / Hostname" value={u.computador} onChange={(e) => setU({ ...u, computador: e.target.value })} maxLength={100} />
+              <Input placeholder="Senha do e-mail" type="password" autoComplete="new-password" value={u.senha_email} onChange={(e) => setU({ ...u, senha_email: e.target.value })} maxLength={100} />
               <Input placeholder="Senha do Windows" type="password" autoComplete="new-password" value={u.senha} onChange={(e) => setU({ ...u, senha: e.target.value })} maxLength={100} />
               <Input placeholder="ID AnyDesk" value={u.anydesk} onChange={(e) => setU({ ...u, anydesk: e.target.value })} maxLength={50} />
               <Input placeholder="Senha AnyDesk" type="password" autoComplete="new-password" value={u.senha_anydesk} onChange={(e) => setU({ ...u, senha_anydesk: e.target.value })} maxLength={100} />
@@ -337,6 +341,7 @@ function Pagina() {
                     <th className={th}>Nome</th>
                     <th className={th}>Contato</th>
                     <th className={th}>Computador</th>
+                    <th className={th}>Senha E-mail</th>
                     <th className={th}>Senha Windows</th>
                     <th className={th}>AnyDesk</th>
                     <th className={th}>Senha AnyDesk</th>
@@ -355,6 +360,7 @@ function Pagina() {
                           </div>
                         </td>
                         <td className={td}><Input value={edit!.computador} onChange={(e) => setEdit({ ...edit!, computador: e.target.value })} className="h-7 text-xs" /></td>
+                        <td className={td}><Input value={edit!.senha_email} onChange={(e) => setEdit({ ...edit!, senha_email: e.target.value })} className="h-7 text-xs" /></td>
                         <td className={td}><Input value={edit!.senha} onChange={(e) => setEdit({ ...edit!, senha: e.target.value })} className="h-7 text-xs" /></td>
                         <td className={td}><Input value={edit!.anydesk} onChange={(e) => setEdit({ ...edit!, anydesk: e.target.value })} className="h-7 text-xs" /></td>
                         <td className={td}><Input value={edit!.senha_anydesk} onChange={(e) => setEdit({ ...edit!, senha_anydesk: e.target.value })} className="h-7 text-xs" /></td>
@@ -372,6 +378,18 @@ function Pagina() {
                         </td>
                         <td className={`${td} font-mono`}>{x2.computador || "—"}</td>
                         <td className={td}>
+
+                          {x2.senha_email ? (
+                              <span
+                                className="cursor-pointer font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]"
+                                title="Clique para ver/ocultar"
+                                onClick={() => setMostrarSenhas(p => ({ ...p, [`se_${x2.id}`]: !p[`se_${x2.id}`] }))}
+                              >
+                                {mostrarSenhas[`se_${x2.id}`] ? x2.senha_email : "••••••••"}
+                              </span>
+                            ) : "—"}  
+
+
                           {x2.senha ? (
                             <span
                               className="cursor-pointer font-mono bg-muted px-1.5 py-0.5 rounded text-[11px]"
@@ -402,6 +420,7 @@ function Pagina() {
                               email: x2.email ?? "",
                               celular: x2.celular ?? "",
                               computador: x2.computador ?? "",
+                              senha_email: x2.computador ?? "",
                               senha: x2.senha ?? "",
                               anydesk: x2.anydesk ?? "",
                               senha_anydesk: x2.senha_anydesk ?? ""
