@@ -156,6 +156,7 @@ function Pagina() {
     const { error } = await supabase.from("setor_usuarios").update({
       nome: r.data.nome,
       email: r.data.email || null,
+      senha_email: r.data.senha_email || null,
       celular: r.data.celular || null,
       computador: r.data.computador || null,
       senha: r.data.senha || null,
