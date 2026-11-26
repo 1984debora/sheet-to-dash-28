@@ -38,6 +38,7 @@ const usuarioSchema = z.object({
   email: z.union([z.literal(""), z.string().trim().email("E-mail inválido").max(255)]),
   celular: z.string().trim().max(30),
   computador: z.string().trim().max(100).optional(),
+  senha_email: z.string().trim().max(100).optional(), // <-- adicione esta linha
   senha: z.string().trim().max(100).optional(),
   anydesk: z.string().trim().max(50).optional(),
   senha_anydesk: z.string().trim().max(100).optional(),
@@ -95,22 +96,24 @@ function Pagina() {
   async function addUsuario(e: React.FormEvent) {
     e.preventDefault();
     const r = usuarioSchema.safeParse(u);
-    if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Dados inválidos"); return; }
-    const { error } = await supabase.from("setor_usuarios").insert({
-      setor_id: id,
-      nome: r.data.nome,
-      email: r.data.email || null,
-      celular: r.data.celular || null,
-      computador: r.data.computador || null,
-      senha: r.data.senha || null,
-      anydesk: r.data.anydesk || null,
-      senha_anydesk: r.data.senha_anydesk || null,
-    } as any);
+      if (!r.success) { toast.error(r.error.issues[0]?.message ?? "Dados inválidos"); return; }
+      const { error } = await supabase.from("setor_usuarios").insert({
+        setor_id: id,
+        nome: r.data.nome,
+        email: r.data.email || null,
+        senha_email: r.data.senha_email || null, // <-- Faltando aqui
+        celular: r.data.celular || null,
+        computador: r.data.computador || null,
+        senha: r.data.senha || null,
+        anydesk: r.data.anydesk || null,
+        senha_anydesk: r.data.senha_anydesk || null,
+      } as any);
+
+
     if (error) { toast.error(error.message); return; }
     setU({ nome: "", email: "",senha_email: "", celular: "", computador: "", senha: "", anydesk: "", senha_anydesk: "" });
     atualizar();
   }
-
 
   // Aplicativos
   const [a, setA] = useState({ nome: "", versao: "", fornecedor: "", ultima_atualizacao: "" });
@@ -156,13 +159,14 @@ function Pagina() {
     const { error } = await supabase.from("setor_usuarios").update({
       nome: r.data.nome,
       email: r.data.email || null,
-      senha_email: r.data.senha_email || null,
       celular: r.data.celular || null,
       computador: r.data.computador || null,
+      senha_email: r.data.senha_email || null, // 👈 Certifique-se de que esta linha está aqui!
       senha: r.data.senha || null,
       anydesk: r.data.anydesk || null,
       senha_anydesk: r.data.senha_anydesk || null,
     } as any).eq("id", edit.id);
+
     if (error) { toast.error(error.message); return; }
     setEdit(null);
     atualizar();
