@@ -1,7 +1,7 @@
 import { queryOptions } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-export const STATUS_EQUIP = ["Em uso", "Em estoque", "Em manutenção", "Descartado"] as const;
+export const STATUS_EQUIP = ["Em uso", "Em estoque", "Em manutenção", "Enviado ao patrimônio", "Descartado",] as const;
 export const CATEGORIAS_SETOR = ["Administrativo", "Lojas", "Franquias"] as const;
 export const STATUS_MANUT = ["Aberta", "Em andamento", "Concluída"] as const;
 export const acessosQuery = (setorId: string) => queryOptions({
@@ -96,7 +96,7 @@ export const manutencoesQuery = queryOptions({
     ok(
       await supabase
         .from("manutencoes")
-        .select("*, equipamentos(id, patrimonio, tipo, modelo)")
+        .select("*, equipamentos(id, patrimonio, tipo, modelo, status)")
         .order("data", { ascending: false }),
     ),
 });

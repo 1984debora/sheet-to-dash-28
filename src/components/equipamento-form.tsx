@@ -18,7 +18,7 @@ const RAM_CAP = ["4 GB", "8 GB", "16 GB", "32 GB", "64 GB", "128 GB"];
 const RAM_TIPO = ["DDR3", "DDR4", "DDR5", "LPDDR4", "LPDDR5"];
 const DISCO_TIPO = ["SSD NVMe", "SSD SATA", "HD Mecânico"];
 const DISCO_CAP = ["128 GB", "256 GB", "512 GB", "1 TB", "2 TB", "4 TB"];
-const SO = ["Windows 11 Pro", "Windows 11 Home","Windows 10 Home", "Windows Server", "Linux Ubuntu", "macOS"];
+const SO = ["Windows 11 Pro", "Windows 11 Home", "Windows 10 Home", "Windows Server", "Linux Ubuntu", "macOS"];
 
 export function ehMovel(tipo: string) {
   return /celular|smartphone|tablet|iphone|ipad/i.test(tipo);
@@ -47,7 +47,6 @@ export function EquipamentoForm({
   statusPadrao?: string;
   tipoPadrao?: string;
 }) {
-
   const qc = useQueryClient();
   const { data: locais = [] } = useQuery(localizacoesQuery);
   const [f, setF] = useState({
@@ -70,15 +69,56 @@ export function EquipamentoForm({
     sistema_operacional: equip?.sistema_operacional ?? "",
     conexao: equip?.conexao ?? "",
     endereco_ip: equip?.endereco_ip ?? "",
-    segunda_tela_patrimonio: (equip as any)?.segunda_tela_patrimonio ?? "", 
+    segunda_tela_patrimonio: (equip as any)?.segunda_tela_patrimonio ?? "",
     segunda_tela_serie: (equip as any)?.segunda_tela_serie ?? "",
   });
   const [segundaTela, setSegundaTela] = useState(equip?.segunda_tela ?? false);
   const [salvando, setSalvando] = useState(false);
   const [contaId, setContaId] = useState("");
   const [novoLocal, setNovoLocal] = useState(false);
-  const set = (k: keyof typeof f) => (e: { target: { value: string } }) =>
+
+    const set = (k: keyof typeof f) => (e: { target: { value: string } }) =>
     setF((p) => ({ ...p, [k]: e.target.value }));
+
+  // Preenchimento automático ao mudar o status
+  const aoMudarStatus = (novoStatus: string) => {
+    setF((p) => {
+      let novoLocal = p.localizacao_id;
+      let novoUsuario = p.usuario_responsavel;
+
+      if (novoStatus === "Em estoque") {
+        // Busca subsetor 'Estoque' de TI ou qualquer local do setor TI
+        const localEstoqueTI =
+          locais.find(
+            (l) =>
+              /ti|inform[aá]tica/i.test(l.setores?.nome ?? "") &&
+              /estoque/i.test(l.nome)
+          ) ??
+          locais.find((l) => /ti|inform[aá]tica/i.test(l.setores?.nome ?? ""));
+
+        if (localEstoqueTI) novoLocal = localEstoqueTI.id;
+        novoUsuario = ""; // Limpa usuário responsável
+      } else if (novoStatus === "Enviado ao patrimônio") {
+        // Busca 'Patrimonio - Sacomã' ou setor Suprimentos/Patrimônio
+        const localPatrimonio = locais.find(
+          (l) =>
+            (/patrim[oô]nio/i.test(l.nome) && /suprimento/i.test(l.setores?.nome ?? "")) ||
+            /patrim[oô]nio/i.test(l.nome) ||
+            /patrim[oô]nio/i.test(l.setores?.nome ?? "")
+        );
+
+        if (localPatrimonio) novoLocal = localPatrimonio.id;
+        novoUsuario = ""; // Limpa usuário responsável
+      }
+
+      return {
+        ...p,
+        status: novoStatus,
+        localizacao_id: novoLocal,
+        usuario_responsavel: novoUsuario,
+      };
+    });
+  };
 
   const hw = ehComputador(f.tipo);
   const imp = /impressora|multifuncional/i.test(f.tipo);
@@ -87,8 +127,12 @@ export function EquipamentoForm({
   const n = (v: string) => v.trim() || null;
 
   async function salvar(e: React.FormEvent) {
+
     e.preventDefault();
-    if (!f.patrimonio.trim() || !f.tipo.trim()) { toast.error("Informe patrimônio e tipo"); return; }
+    if (!f.patrimonio.trim() || !f.tipo.trim()) {
+      toast.error("Informe patrimônio e tipo");
+      return;
+    }
     setSalvando(true);
     const payload = {
       ...f,
@@ -114,15 +158,59 @@ export function EquipamentoForm({
       segunda_tela_patrimonio: note && segundaTela ? n(f.segunda_tela_patrimonio) : null,
       segunda_tela_serie: note && segundaTela ? n(f.segunda_tela_serie) : null,
     };
+
     const { data: salvo, error } = equip
       ? await supabase.from("equipamentos").update(payload).eq("id", equip.id).select("id").single()
       : await supabase.from("equipamentos").insert(payload).select("id").single();
+
     if (!error && salvo && mob && contaId) {
       const ok = await vincularConta(contaId, salvo.id);
       if (!ok) toast.error("A conta escolhida já foi usada em outro aparelho. Escolha outra na edição.");
     }
+
+    // Registro automático no histórico de Movimentações
+    if (!error && salvo) {
+      const houveMudanca =
+        equip &&
+        (equip.localizacao_id !== payload.localizacao_id ||
+          equip.usuario_responsavel !== payload.usuario_responsavel ||
+          equip.status !== payload.status);
+
+      if (houveMudanca) {
+        const motivoMov =
+          payload.status === "Enviado ao patrimônio"
+            ? "Enviado ao patrimônio"
+            : payload.status === "Em estoque"
+            ? "Devolvido ao estoque do TI"
+            : `Alteração de status (${payload.status})`;
+
+        await supabase.from("movimentacoes").insert({
+          equipamento_id: equip.id,
+          origem_localizacao_id: equip.localizacao_id,
+          destino_localizacao_id: payload.localizacao_id,
+          usuario_anterior: equip.usuario_responsavel,
+          usuario_novo: payload.usuario_responsavel,
+          motivo: motivoMov.slice(0, 500),
+          data: new Date().toISOString().slice(0, 10),
+        });
+      } else if (!equip && payload.status === "Enviado ao patrimônio") {
+        await supabase.from("movimentacoes").insert({
+          equipamento_id: salvo.id,
+          origem_localizacao_id: null,
+          destino_localizacao_id: payload.localizacao_id,
+          usuario_anterior: null,
+          usuario_novo: null,
+          motivo: "Cadastro inicial - Enviado ao patrimônio",
+          data: new Date().toISOString().slice(0, 10),
+        });
+      }
+    }
+
     setSalvando(false);
-    if (error) { toast.error(error.message.includes("duplicate") ? "Patrimônio já cadastrado" : error.message); return; }
+    if (error) {
+      toast.error(error.message.includes("duplicate") ? "Patrimônio já cadastrado" : error.message);
+      return;
+    }
     toast.success(equip ? "Equipamento atualizado" : "Equipamento cadastrado");
     qc.invalidateQueries();
     onClose();
@@ -150,11 +238,13 @@ export function EquipamentoForm({
           <Campo label="Usuário responsável"><Input value={f.usuario_responsavel} onChange={set("usuario_responsavel")} maxLength={100} /></Campo>
           <Campo label="Data de compra"><Input type="date" value={f.data_compra} onChange={set("data_compra")} /></Campo>
           <Campo label="Garantia até"><Input type="date" value={f.garantia_ate} onChange={set("garantia_ate")} /></Campo>
+          
           <Campo label="Status">
-            <select className={selectCls} value={f.status} onChange={set("status")}>
+            <select className={selectCls} value={f.status} onChange={(e) => aoMudarStatus(e.target.value)}>
               {STATUS_EQUIP.map((s) => <option key={s}>{s}</option>)}
             </select>
           </Campo>
+
           <Campo label="Setor · Localização">
             <div className="flex gap-2">
               <select className={selectCls} value={f.localizacao_id} onChange={set("localizacao_id")}>
@@ -227,39 +317,38 @@ export function EquipamentoForm({
           )}
 
           {note && (
-  <div className="grid gap-2 sm:col-span-2 rounded-md border border-line p-3 bg-card/40">
-    <label className="flex items-center gap-2 text-[12.5px] font-medium cursor-pointer">
-      <input
-        type="checkbox"
-        checked={segundaTela}
-        onChange={(e) => setSegundaTela(e.target.checked)}
-      />
-      Usa segunda tela (Monitor adicional)
-    </label>
+            <div className="grid gap-2 sm:col-span-2 rounded-md border border-line p-3 bg-card/40">
+              <label className="flex items-center gap-2 text-[12.5px] font-medium cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={segundaTela}
+                  onChange={(e) => setSegundaTela(e.target.checked)}
+                />
+                Usa segunda tela (Monitor adicional)
+              </label>
 
-    {segundaTela && (
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-line">
-        <Campo label="Patrimônio da 2ª tela">
-          <Input
-            value={f.segunda_tela_patrimonio}
-            onChange={set("segunda_tela_patrimonio" as any)}
-            placeholder="Ex: 24510"
-            maxLength={50}
-          />
-        </Campo>
-        <Campo label="Nº de Série da 2ª tela">
-          <Input
-            value={f.segunda_tela_serie}
-            onChange={set("segunda_tela_serie" as any)}
-            placeholder="Ex: CN49200XZ"
-            maxLength={100}
-          />
-        </Campo>
-      </div>
-    )}
-  </div>
-)}
-
+              {segundaTela && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-line">
+                  <Campo label="Patrimônio da 2ª tela">
+                    <Input
+                      value={f.segunda_tela_patrimonio}
+                      onChange={set("segunda_tela_patrimonio" as any)}
+                      placeholder="Ex: 24510"
+                      maxLength={50}
+                    />
+                  </Campo>
+                  <Campo label="Nº de Série da 2ª tela">
+                    <Input
+                      value={f.segunda_tela_serie}
+                      onChange={set("segunda_tela_serie" as any)}
+                      placeholder="Ex: CN49200XZ"
+                      maxLength={100}
+                    />
+                  </Campo>
+                </div>
+              )}
+            </div>
+          )}
 
           <div className="sm:col-span-2">
             <Campo label="Observações"><Textarea value={f.observacoes} onChange={set("observacoes")} maxLength={1000} /></Campo>
